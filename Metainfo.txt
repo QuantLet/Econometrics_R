@@ -1,0 +1,11 @@
+Name of Quantlet: 'Adjusted-range-based-SN'
+
+Published in: 'Adjusted-range-based-SN'
+
+Description: 'Simulation and empirical study code for Hong et al. (2024)'
+
+Keywords: 'Self-normalization, structural break, change-point, KS test'
+
+Author: 'Jiajing Sun'
+
+Submitted: '17 April 2025'
