@@ -8,3 +8,10 @@ plot(AirPassengers, main = "Monthly Airline Passengers (1949-1960)",
 ap_spectrum <- spectrum(AirPassengers, spans = c(3, 3), detrend = TRUE)
 plot(ap_spectrum, main = "Spectral Density of Air Passengers Data",
      xlab = "Frequency", ylab = "Spectral Density")
+
+# Find the frequency corresponding to the highest spectral density
+max_density_index <- which.max(ap_spectrum$spec)
+highest_frequency <- ap_spectrum$freq[max_density_index]
+
+# Print the highest frequency
+print(paste("The highest frequency is:", highest_frequency))
