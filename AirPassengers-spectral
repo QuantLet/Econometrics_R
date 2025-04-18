@@ -1,0 +1,10 @@
+# Load and plot the data
+data("AirPassengers")
+par(mfrow = c(2, 1))
+plot(AirPassengers, main = "Monthly Airline Passengers (1949-1960)",
+     ylab = "Number of passengers", xlab = "Time")
+
+# Spectral analysis with smoothing and detrending
+ap_spectrum <- spectrum(AirPassengers, spans = c(3, 3), detrend = TRUE)
+plot(ap_spectrum, main = "Spectral Density of Air Passengers Data",
+     xlab = "Frequency", ylab = "Spectral Density")
