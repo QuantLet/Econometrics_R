@@ -1,0 +1,60 @@
+# Clear environment
+rm(list = ls())
+
+# Set random seed for reproducibility
+set.seed(123)
+
+# Set working directory
+folder <- c("/Users/R_scripts")
+setwd(folder)
+
+# Load required package
+library(readxl)
+
+# Read Excel file without assuming column names
+aa <- read_excel("AA_daily20120103.xlsx", col_names = FALSE)
+
+# Define TSRV function
+TSRV <- function(priceX, K, m, n) {
+  # Compute log prices
+  lprice <- log(priceX)
+  
+  # Initialize a vector to store realized volatility from each subsample
+  RV_sub <- numeric(K)
+  
+  # Compute RV for each subsample
+  for (j in 1:K) {
+    # Generate subsample of log prices
+    sub_sample <- lprice[seq(j, by = K, length.out = m + 1)]
+    
+    # Compute returns (log price differences)
+    returns <- diff(sub_sample)
+    
+    # Compute realized volatility for the subsample
+    RV_sub[j] <- sum(returns^2)
+  }
+  
+  # Compute full-sample realized volatility
+  returns_full <- diff(lprice)
+  RV_n <- sum(returns_full^2)
+  
+  # Compute TSRV estimator
+  TSRV_estimate <- (1 / K) * sum(RV_sub) - (m / n) * RV_n
+  
+  return(TSRV_estimate)
+}
+
+# Extract price data from column 5
+priceX <- aa$...5  # Make sure this is indeed the price column in your file
+
+# Set parameters
+K <- 5            # Number of subsamples
+m <- 100          # Number of observations per subsample
+n <- length(priceX)  # Total number of observations
+
+# Compute TSRV estimate
+TSRV_estimate <- TSRV(priceX, K, m, n)
+
+# Print the result
+TSRV_estimate
+         
