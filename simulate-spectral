@@ -1,0 +1,10 @@
+# Define the time sequence for the data
+t <- seq(0, 100, by = 0.1)
+
+# Generate time series data
+x <- cos(2 * pi * t / 10) + 0.75 * sin(2 * pi * t / 5)
+
+# Plotting the time series and its spectrum
+par(mfrow = c(2, 1))
+plot(t, x, type = 'l', main = "Time Series Data")
+spectrum(x, main = "Spectrum of Time Series")
