@@ -1,10 +1,10 @@
-Name of Quantlet: 'Adjusted-range-based-SN'
+Name of Quantlet: 'Econometrics with R'
 
-Published in: 'Adjusted-range-based-SN'
+Published in: 'Econometrics_R'
 
-Description: 'Simulation and empirical study code for Hong et al. (2024)'
+Description: 'R codes Econometrics with R by Yongmiao Hong, Oliver Linton and Jiajing Sun'
 
-Keywords: 'Self-normalization, structural break, change-point, KS test'
+Keywords: 'Econometrics, Time Series Analysis, R'
 
 Author: 'Jiajing Sun'
 
