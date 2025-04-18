@@ -1,0 +1,30 @@
+# Uniform Kernel
+func_uniform <- function(x) {
+  y <- numeric(length(x))               # Initialize output vector
+  idx <- abs(x) <= 1                    # Identify values within [-1, 1]
+  y[idx] <- 1/2                         # Assign 1/2 to values inside the support
+  return(y)
+}
+
+# Gaussian Kernel
+func_gaussian <- function(x) {
+  y <- (1 / sqrt(2 * pi)) * exp(-0.5 * x^2)  # Evaluate the standard normal density
+  return(y)
+}
+
+# Epanechnikov Kernel
+func_epanechnikov <- function(x) {
+  y <- numeric(length(x))              # Initialize output vector
+  idx <- abs(x) <= 1                   # Identify values within [-1, 1]
+  y[idx] <- (3 / 4) * (1 - x[idx]^2)   # Apply Epanechnikov formula
+  return(y)
+}
+
+# Quartic Kernel (also known as Biweight Kernel)
+func_quartic <- function(x) {
+  y <- numeric(length(x))               # Initialize output vector
+  idx <- abs(x) <= 1                    # Identify values within [-1, 1]
+  y[idx] <- (15 / 16) * (1 - x[idx]^2)^2  # Apply quartic kernel formula
+  return(y)
+}
+        
