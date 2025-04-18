@@ -1,0 +1,54 @@
+# RKX Estimator Function
+RKX <- function(priceX, slowFreq, fastFreq) {
+  # Compute log-prices
+  logPrice <- log(priceX)
+  
+  # Determine number of subsamples for slow and fast frequencies
+  binSlow <- floor(nrow(logPrice) / slowFreq)
+  binFast <- floor(nrow(logPrice) / fastFreq)
+  
+  # Compute realized variance using slow frequency
+  rvSlowMatrix <- matrix(0, nrow = slowFreq, ncol = ncol(logPrice))
+  for (j in 1:slowFreq) {
+    indices <- seq(j + nrow(logPrice) %% slowFreq, length.out = binSlow, by = slowFreq)
+    subLog <- logPrice[indices, , drop = FALSE]
+    rvSlowMatrix[j, ] <- colSums(diff(subLog)^2)
+  }
+  rvSlow <- colMeans(rvSlowMatrix)
+  
+  # Compute realized variance using fast frequency
+  rvFastMatrix <- matrix(0, nrow = fastFreq, ncol = ncol(logPrice))
+  for (j in 1:fastFreq) {
+    indices <- seq(j + nrow(logPrice) %% fastFreq, length.out = binFast, by = fastFreq)
+    subLog <- logPrice[indices, , drop = FALSE]
+    rvFastMatrix[j, ] <- colSums(diff(subLog)^2)
+  }
+  rvFast <- colMeans(rvFastMatrix)
+  
+  # Estimate the noise variance
+  noiseVariance <- rvFast / ((binFast - 1) * 2)
+  
+  # Determine the optimal bandwidth
+  h <- round(mean(3.51 * (noiseVariance / rvSlow)^0.4 * (nrow(logPrice) - 1)^0.6))
+  
+  # Compute return matrix
+  returns <- diff(logPrice)
+  
+  # Initialize RKX estimator with the raw realized covariance
+  rkx <- t(returns) %*% returns
+  
+  # Add lagged autocovariances using the Parzen kernel
+  for (hh in 1:h) {
+    x <- (hh - 1) / h
+    if (x <= 0.5) {
+      k <- 1 - 6 * x^2 + 6 * x^3
+    } else {
+      k <- 2 * (1 - x)^3
+    }
+    laggedCov1 <- t(returns[(hh + 1):nrow(returns), , drop = FALSE]) %*% returns[1:(nrow(returns) - hh), , drop = FALSE]
+    laggedCov2 <- t(returns[1:(nrow(returns) - hh), , drop = FALSE]) %*% returns[(hh + 1):nrow(returns), , drop = FALSE]
+    rkx <- rkx + k * (laggedCov1 + laggedCov2)
+  }
+  
+  # Return the annualized RKX estimator
+  return(rkx * 252)
