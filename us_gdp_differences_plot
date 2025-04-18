@@ -1,0 +1,35 @@
+# Load the WDI package
+		library(WDI)  
+		
+		# Download GDP data
+		gdp_data <- WDI(indicator = "NY.GDP.PCAP.KD", country = "US", start = 1960, 
+		end = 2020)
+		
+		# Calculate the first difference of GDP
+		gdp_data$GDP_Diff <- c(NA, diff(gdp_data$NY.GDP.PCAP.KD))
+		
+		# Calculate the logarithmic difference of GDP
+		gdp_data$GDP_Log_Diff <- c(NA, diff(log(gdp_data$NY.GDP.PCAP.KD)))
+		
+		# Remove the first NA row
+		gdp_data <- gdp_data[-1,]
+		
+		# Load the relevant packages for plotting
+		library(ggplot2)
+		library(gridExtra)
+		
+		# Create the plots
+		p1 <- ggplot(gdp_data, aes(x = year, y = NY.GDP.PCAP.KD)) +
+		geom_line(color = 'blue') +
+		labs(title = "Original GDP per Capita (US)", x = "Year", y = "")
+		
+		p2 <- ggplot(gdp_data, aes(x = year, y = GDP_Diff)) +
+		geom_line(color = 'red') +
+		labs(title = "First Difference of GDP per Capita (US)", x = "Year", y = "")
+		
+		p3 <- ggplot(gdp_data, aes(x = year, y = GDP_Log_Diff)) +
+		geom_line(color = 'green') +
+		labs(title = "Logarithmic Difference of GDP per Capita (US)", x = "Year", y = "")
+		
+		# Arrange the plots vertically
+		grid.arrange(p1, p2, p3, ncol = 1)
