@@ -24,3 +24,8 @@
 			ggplot(data, aes(x = unemploy, y = psavert)) +
 			geom_point() +
 			geom_smooth(method = "lm", col = "blue")
+ # Perform ANOVA on the regression model
+			anova_result <- anova(model)
+			
+			# Print the results
+			print(anova_result)
