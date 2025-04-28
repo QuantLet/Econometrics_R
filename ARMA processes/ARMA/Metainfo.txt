@@ -1,0 +1,16 @@
+###################################################################################################
+# Name of Quantlet: 'Econometrics with R'
+# 
+# Published in: 'Econometrics_R'
+# 
+# Description: 'R codes for Econometrics with R by Yongmiao Hong, Oliver Linton, and Jiajing Sun.
+# This R script reads Shanghai SSE index data, plots the time series, computes and plots 
+# log returns, splits data into training and testing sets, fits an ARIMA model, and visualizes 
+# both forecasted and actual log returns.'
+# 
+# Keywords: 'Econometrics, Time Series Analysis, R, ARIMA, Forecasting, Log Returns, SSE Index'
+# 
+# Author: 'Jiajing Sun'
+# 
+# Submitted: '17 April 2025'
+###################################################################################################

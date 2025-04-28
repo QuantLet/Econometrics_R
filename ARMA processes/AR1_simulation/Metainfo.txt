@@ -1,0 +1,15 @@
+################################################################################
+# Name of Quantlet: Econometrics_with_R
+#
+# Published in: Econometrics_R
+#
+# Description: 
+# Simulates an AR(1) time series process, plots the time series, 
+# and generates ACF and PACF plots using R.
+#
+# Keywords: Econometrics, Time Series Analysis, AR(1) Process, Simulation, R
+#
+# Author: Jiajing Sun
+#
+# Submitted: 28 April 2025
+################################################################################
