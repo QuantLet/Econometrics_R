@@ -1,0 +1,87 @@
+# Clear all variables
+rm(list = ls())
+
+# Set working directory
+folder <- "Z:/Financial Econometrics/R_Code"
+setwd(folder)
+
+# Load required libraries
+library(rmgarch)  # Multivariate GARCH modeling
+library(ggplot2)  # For plotting
+library(imputeTS) # For interpolation (needed for na_interpolation)
+
+# Define a function to compute log returns and interpolate missing values
+price2return <- function(p) {
+  N <- length(p)
+  return_series <- (log(p[2:N]) - log(p[1:(N - 1)])) * 100
+  return_series <- na_interpolation(return_series)  # Interpolate missing values
+  return(return_series)
+}
+
+# Load the data and remove weekend entries (weekend rows have NA)
+temp.dat <- read.csv("stock_indices.csv")
+dat <- temp.dat[setdiff(1:nrow(temp.dat), 
+which(temp.dat$weekdays == "Saturday" |
+temp.dat$weekdays == "Sunday")), ]
+
+# Extract columns
+Dow_Jones <- dat$Dow_Jones_Index_Industrial_Average
+SP <- dat$S.P.TSX_Composite_Index
+
+# Compute return series
+Dow_Jones.return <- price2return(Dow_Jones)
+SP.return <- price2return(SP)
+
+# Combine return series
+return_series <- cbind(Dow_Jones.return, SP.return)
+
+# Fit ARIMA models and extract residuals
+arima_dj <- auto.arima(Dow_Jones.return)
+arima_sp <- auto.arima(SP.return)
+residuals_dj <- residuals(arima_dj)
+residuals_sp <- residuals(arima_sp)
+
+# Prepare input for DCC-GARCH
+ut <- cbind(residuals_dj, residuals_sp)
+
+# Specify univariate GARCH(1,1) model
+garch11.spec <- ugarchspec(
+  mean.model = list(armaOrder = c(0, 0), include.mean = FALSE),
+  variance.model = list(garchOrder = c(1, 1), model = "sGARCH"),
+  distribution.model = "norm"
+)
+
+# Specify DCC-GARCH(1,1) model
+dcc.garch11.spec <- dccspec(
+  uspec = multispec(replicate(2, garch11.spec)),
+  dccOrder = c(1, 1),
+  distribution = "mvnorm"
+)
+
+# Fit the DCC-GARCH model
+dcc.fit <- dccfit(dcc.garch11.spec, data = ut)
+print(dcc.fit)
+
+# Extract conditional correlation matrices
+dynamic_correlation <- rcor(dcc.fit)
+
+# Extract the off-diagonal (1,2) dynamic correlation series
+off_diagonal_correlation <- dynamic_correlation[2, 1, ]
+
+# Create a data frame for plotting
+dynamic_corr_df <- data.frame(
+  time = as.Date(dimnames(dynamic_correlation)[[3]]),
+  correlation = off_diagonal_correlation
+)
+
+# Plot the dynamic conditional correlation
+ggplot(dynamic_corr_df, aes(x = time, y = correlation)) +
+  geom_line(color = 'blue') +
+  labs(
+    title = "Dynamic Conditional Correlation (Off-Diagonal)",
+    x = "Time",
+    y = "Correlation"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+    

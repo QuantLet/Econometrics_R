@@ -1,0 +1,53 @@
+# Clear workspace
+rm(list = ls())
+
+# Set the working directory
+folder <- c("/Users/R_scripts")
+setwd(folder)
+
+# Load required libraries
+library(readxl) # for reading Excel files
+library(forecast) # for time series analysis
+library(vars) # for VAR model analysis
+library(mgarchBEKK) # for BEKK-GARCH model
+
+# Read data
+dat <- read_excel("CSI300_stock_index_and_futures_closing_prices.xlsx")
+
+# Remove missing values
+dat <- na.omit(dat)
+
+# Extract data
+date <- dat$Date
+LnS <- log(dat$CSI300_Stock_Index_Close_Price)
+LnF <- log(dat$CSI300_Index_Futures_Current_Month_Close_Price)
+
+# Length of the data
+n <- length(LnS)
+
+# Calculate returns
+date.ret <- date[-1]
+RS <- LnS[-1] - LnS[-n]
+RF <- LnF[-1] - LnF[-n]
+
+# Create time series data frames
+RS.tSeries <- data.frame(time = date.ret, RS)
+RF.tSeries <- data.frame(time = date.ret, RF)
+
+# Combine returns into one matrix for VAR analysis
+dat.var <- cbind(RF, RS)
+
+# Perform VAR model selection
+VARselect(dat.var, lag.max = 12, type = "const")
+
+# Fit a VAR model
+var.2c <- VAR(dat.var, p = 3, type = "const")
+
+# Extract residuals (white noise) from the VAR model
+ut <- na.omit(resid(var.2c))
+
+# Fit a BEKK-GARCH model
+estimated <- BEKK(ut)
+
+# Diagnose the BEKK-GARCH model
+diagnoseBEKK(estimated)

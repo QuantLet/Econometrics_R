@@ -1,0 +1,40 @@
+#This R script visualizes and compares the probability density functions (PDFs) of three Student's t-distributions with different degrees of freedom 
+# (df = 5, 10, and 20) alongside the standard normal distribution (N(0,1)) using the ggplot2 package. 
+
+
+library(ggplot2)
+
+# Define the sequence of x values
+x <- seq(-4, 4, length.out = 100)
+
+# Create a data frame with the densities
+data <- data.frame(
+  x = x,
+  t_5 = dt(x, df = 5),
+  t_10 = dt(x, df = 10),
+  t_20 = dt(x, df = 20),
+  normal = dnorm(x)
+)
+
+# Create the plot with LaTeX expressions for t labels
+p <- ggplot(data, aes(x = x)) + 
+  geom_line(aes(y = t_5, colour = "t[5]")) +
+  geom_line(aes(y = t_10, colour = "t[10]")) +
+  geom_line(aes(y = t_20, colour = "t[20]")) +
+  geom_line(aes(y = normal, colour = "N(0,1)")) +
+  labs(title = "Probability Densities", x = "Value", y = "Density") +
+  scale_colour_manual(
+    name = "Distribution", 
+    values = c("t[5]" = "blue", "t[10]" = "green", "t[20]" = "red", "N(0,1)" = "black"),
+    labels = c(expression(t[5]), expression(t[10]), expression(t[20]), "N(0,1)"),
+    breaks = c("t[5]", "t[10]", "t[20]", "N(0,1)")
+  ) +
+  theme_minimal() +
+  theme(legend.title = element_text(size = 12), 
+        legend.text = element_text(size = 10))
+
+# Display the plot
+print(p)
+
+# Save the plot
+ggsave(filename = "probability_densities.png", plot = p, width = 8, height = 6, dpi = 300)

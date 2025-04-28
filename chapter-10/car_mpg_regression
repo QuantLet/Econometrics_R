@@ -1,0 +1,13 @@
+# Load the mtcars dataset
+			data(mtcars)
+			
+			# Perform regression
+			model <- lm(mpg ~ wt, data=mtcars)
+			
+			# Print the regression model summary
+			summary(model)
+			
+			# Plot the data and regression line
+			ggplot(mtcars, aes(x=wt, y=mpg)) + 
+			geom_point() +
+			geom_smooth(method="lm", se=FALSE, color="blue")

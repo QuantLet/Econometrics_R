@@ -1,0 +1,54 @@
+# Uniform Kernel
+func_uniform <- function(x) {
+  y <- numeric(length(x))               # Initialize output vector
+  idx <- abs(x) <= 1                    # Identify values within [-1, 1]
+  y[idx] <- 1/2                         # Assign 1/2 to values inside the support
+  return(y)
+}
+
+# Gaussian Kernel
+func_gaussian <- function(x) {
+  y <- (1 / sqrt(2 * pi)) * exp(-0.5 * x^2)  # Evaluate the standard normal density
+  return(y)
+}
+
+# Epanechnikov Kernel
+func_epanechnikov <- function(x) {
+  y <- numeric(length(x))              # Initialize output vector
+  idx <- abs(x) <= 1                   # Identify values within [-1, 1]
+  y[idx] <- (3 / 4) * (1 - x[idx]^2)   # Apply Epanechnikov formula
+  return(y)
+}
+
+# Quartic Kernel (also known as Biweight Kernel)
+func_quartic <- function(x) {
+  y <- numeric(length(x))               # Initialize output vector
+  idx <- abs(x) <= 1                    # Identify values within [-1, 1]
+  y[idx] <- (15 / 16) * (1 - x[idx]^2)^2  # Apply quartic kernel formula
+  return(y)
+}
+
+
+library(ggplot2)
+library(dplyr)
+
+# Generate a sequence of x values
+x_vals <- seq(-3, 3, by = 0.01)
+
+# Create a data frame for each kernel function
+df_uniform <- data.frame(x = x_vals, y = func_uniform(x_vals), kernel = "Uniform")
+df_gaussian <- data.frame(x = x_vals, y = func_gaussian(x_vals), kernel = "Gaussian")
+df_epanechnikov <- data.frame(x = x_vals, y = func_epanechnikov(x_vals),
+                              kernel = "Epanechnikov")
+df_quartic <- data.frame(x = x_vals, y = func_quartic(x_vals), kernel = "Quartic")
+
+# Combine all data frames into a single data frame
+df_kernels <- bind_rows(df_uniform, df_gaussian, df_epanechnikov, df_quartic)
+
+# Plot using ggplot2
+ggplot(df_kernels, aes(x = x, y = y, color = kernel)) +
+  geom_line(size = 1.2) +
+  labs(title = "Kernel Functions", x = "x", y = "Density") +
+  scale_color_manual(values = c("blue", "red", "green", "purple")) +
+  theme_minimal() +
+  theme(legend.title = element_blank())

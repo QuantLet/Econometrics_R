@@ -1,0 +1,33 @@
+# PAVX Estimator Function
+PAVX <- function(priceX, theta) {
+  # Compute log prices
+  logPrice <- log(priceX)
+  
+  # Set up estimation parameters
+  delta_n <- 1 / nrow(logPrice)                 # Time increment
+  K_n <- round(theta / sqrt(delta_n) / 2) * 2   # Window size (even integer)
+
+  # Constant terms based on Jacod et al. (2009)
+  psi1 <- 1
+  psi2 <- 1 / 12
+  psi_K <- (1 + 2 / K_n^2) / 12
+  
+  # Initialize covariance matrix
+  Z <- matrix(0, ncol = ncol(logPrice), nrow = ncol(logPrice))
+  
+  # Compute the Z matrix from pre-averaged returns
+  for (j in 1:(nrow(logPrice) - K_n + 1)) {
+    # Pre-averaged return
+    r <- (1 / K_n) * colSums(logPrice[(j + K_n / 2):(j + K_n - 1), ] - 
+                              logPrice[j:(j + K_n / 2 - 1), ])
+    Z <- Z + r %*% t(r)
+  }
+  
+  # Estimate the pre-averaging covariance matrix
+  CX <- sqrt(delta_n) / (theta * psi2) * Z - 
+        psi1 * delta_n / (2 * theta^2 * psi2) * 
+        t(diff(logPrice)) %*% diff(logPrice)
+  
+  # Annualize the estimate
+  return(CX * 252)
+}
