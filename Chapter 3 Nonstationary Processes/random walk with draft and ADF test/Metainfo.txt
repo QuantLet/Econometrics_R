@@ -1,0 +1,20 @@
+################################################################################################Name of Quantlet: Econometrics_with_R_mtcars_regression
+
+Published in: Econometrics_R
+
+Description: 
+This R script simulates a random walk process with a constant drift term and generates 
+a corresponding time series plot. The script also performs the Augmented Dickey-Fuller (ADF) 
+unit root test with drift, selecting the lag order based on the Akaike Information Criterion (AIC). 
+Both the plot of the random walk and the ADF test results are produced, with the figure 
+saved as a PNG file in the working directory.
+
+Keywords: 
+Random Walk, Drift, Simulation, Time Series, Unit Root Test, ADF Test, Stationarity, Visualization, R
+
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################
