@@ -1,0 +1,21 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script generates simulated nonlinear data (y = sin(x) + noise), fits both a 
+linear regression model and a nonparametric LOESS model, and compares their performance 
+through fitted value plots and residual analysis. 
+The script creates three plots — fitted values, residuals from the linear model, 
+and residuals from the LOESS model — and arranges them into a single panel. 
+The combined plot is saved as a PNG file.
+
+Keywords: 
+Linear Regression, LOESS, Nonparametric Regression, Residual Analysis, Model Comparison, 
+Data Simulation, ggplot2, ggpubr, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

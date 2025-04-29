@@ -1,0 +1,20 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script investigates the cointegration relationship among the DAX and SMI indices from the 
+EuStockMarkets dataset. It performs linear regressions between the indices, plots the residuals,
+and applies the Augmented Dickey-Fuller (ADF) unit root test to the regression residuals. 
+Additionally, it conducts the Johansen cointegration tests (both Eigenvalue and Trace tests) 
+to formally assess the number of cointegration relationships. Scatter plots and residual plots 
+are generated and saved as PNG files in the working directory.
+
+Keywords: 
+Cointegration, EuStockMarkets, Linear Regression, Residuals, ADF Test, Johansen Test, Time Series Analysis, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

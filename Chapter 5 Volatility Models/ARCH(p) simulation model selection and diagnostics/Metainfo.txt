@@ -1,0 +1,19 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script simulates an ARCH(p) process, fits ARCH models of different orders, and selects 
+the best model using AIC and BIC criteria. After identifying the optimal lag order, the script 
+fits the final ARCH model, displays the model summary, and conducts diagnostic checking using 
+the Ljung-Box test on standardized residuals. The simulated ARCH(p) series is visualized and 
+saved as a PNG file in the working directory.
+
+Keywords: 
+ARCH Model, ARCH(p), Simulation, Volatility Clustering, Model Selection, AIC, BIC, Residual Diagnostics, Ljung-Box Test, Time Series, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

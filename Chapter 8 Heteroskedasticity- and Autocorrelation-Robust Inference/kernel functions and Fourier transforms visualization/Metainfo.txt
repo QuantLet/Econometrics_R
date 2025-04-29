@@ -1,0 +1,18 @@
+################################################################################################Name of Quantlet: Econometrics_with_R_mtcars_regression
+
+Published in: Econometrics_R
+
+Description: 
+This R script visualizes classical kernel functions (Truncated, Bartlett, Daniell, Parzen, and QS) 
+and their corresponding Fourier transforms. For each kernel, the function itself and its Fourier transform 
+are plotted side-by-side. All the combined plots are displayed and saved as a single PNG file. 
+The script uses ggplot2 for visualization and gridExtra to arrange the plots neatly.
+
+Keywords: 
+Kernel Functions, Fourier Transforms, Spectral Analysis, Visualization, Time Series, ggplot2, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

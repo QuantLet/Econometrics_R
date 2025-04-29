@@ -1,0 +1,19 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script visualizes the EuStockMarkets dataset by first transforming the data into a long format 
+suitable for ggplot2. It plots the time series for the four European stock indices (DAX, SMI, CAC, FTSE) 
+over time, applying a minimalistic theme for clarity. The resulting figure is displayed and also saved 
+as a PNG file in the working directory. The script uses tidyverse functions for data manipulation and ggplot2 for plotting.
+
+Keywords: 
+EuStockMarkets, Time Series, Data Visualization, ggplot2, Tidyverse, Stock Indices, Line Plot, R
+
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

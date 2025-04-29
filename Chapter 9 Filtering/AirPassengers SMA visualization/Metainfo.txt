@@ -1,0 +1,18 @@
+################################################################################################Name of Quantlet: Econometrics_with_R 
+
+Published in: Econometrics_R
+
+Description: 
+This R script applies a 12-month Simple Moving Average (SMA) to the built-in 
+'AirPassengers' time series dataset to smooth seasonal fluctuations. 
+It overlays the SMA on the original time series and visualizes both using a line plot. 
+The result is saved as a high-resolution PNG file for reporting or further analysis.
+
+Keywords: 
+AirPassengers, SMA, Simple Moving Average, Time Series, Smoothing, Trend, Visualization, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

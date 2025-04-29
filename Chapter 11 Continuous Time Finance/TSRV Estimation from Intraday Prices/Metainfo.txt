@@ -1,0 +1,20 @@
+################################################################################################Name of Quantlet: Econometrics_with_R 
+
+Published in: Econometrics_R
+
+Description: 
+This R script implements the Two-Scale Realized Variance (TSRV) estimator using intraday 
+price data from an Excel file. The TSRV approach corrects for microstructure noise by 
+averaging realized volatilities over subsamples and adjusting with a bias correction term. 
+The script reads high-frequency data, applies the TSRV formula, and outputs the estimated 
+integrated volatility.
+
+Keywords: 
+TSRV, Realized Volatility, High-Frequency Data, Market Microstructure Noise, Volatility Estimation, 
+Two-Scale Estimator, Intraday Data, Financial Econometrics
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

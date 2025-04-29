@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R_regression_plot
+################################################################################################Name of Quantlet: Econometrics_with_R 
 
 Published in: Econometrics_R
 

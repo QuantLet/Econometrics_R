@@ -1,0 +1,18 @@
+################################################################################################Name of Quantlet: Econometrics_with_R 
+
+Published in: Econometrics_R
+
+Description: 
+This R script simulates two types of time series processes: an AR(1) process and a Random Walk process,
+each under two scenarios — with and without a negative shock introduced at the 100th observation. 
+It generates time series plots to visually compare the shock responses and saves the plots as PNG files
+in the working directory.
+
+Keywords: 
+AR(1) Process, Random Walk, Shock Simulation, Time Series Analysis, Visualization, R, Dynamic Response
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

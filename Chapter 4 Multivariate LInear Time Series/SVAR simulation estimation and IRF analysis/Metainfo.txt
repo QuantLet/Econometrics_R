@@ -1,0 +1,19 @@
+################################################################################################Name of Quantlet: Econometrics_with_R 
+
+Published in: Econometrics_R
+
+Description: 
+This R script simulates multivariate time series data from a Structural Vector Autoregression (SVAR) process,
+estimates the reduced-form VAR(1) model, and then identifies the structural shocks using both A-model 
+and B-model restrictions. It calculates and plots the Impulse Response Functions (IRFs) for each model.
+The simulated time series, as well as the IRFs for the A-model and B-model, are plotted and saved 
+as PNG files in the working directory.
+
+Keywords: 
+Structural VAR, SVAR, Time Series Simulation, VAR Estimation, Impulse Response Function, A-Model, B-Model, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

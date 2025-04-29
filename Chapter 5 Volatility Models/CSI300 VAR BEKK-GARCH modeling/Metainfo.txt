@@ -1,0 +1,21 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script conducts volatility modeling and spillover analysis using daily closing prices 
+of the CSI300 stock index and its current-month futures contract. The script first computes 
+log returns from the raw price data and fits a Vector Autoregressive (VAR) model to capture 
+the linear interdependencies between the return series. The residuals from the VAR model are 
+then used to estimate a multivariate BEKK-GARCH(1,1) model, which captures time-varying 
+conditional covariances and cross-volatility effects. The fitted model is evaluated using 
+diagnostic checks.
+
+Keywords: 
+CSI300, VAR, BEKK-GARCH, Volatility Spillover, Multivariate GARCH, Time Series Modeling, Financial Econometrics, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

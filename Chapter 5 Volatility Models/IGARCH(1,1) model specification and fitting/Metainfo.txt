@@ -1,0 +1,19 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script specifies and fits an Integrated GARCH (IGARCH)(1,1) model to a given time series 
+dataset. The variance dynamics follow an IGARCH process where the conditional variance depends 
+on both past squared returns and past variances without a stationary constraint. 
+The model assumes normally distributed innovations. The script uses the rugarch package for 
+model specification and fitting and outputs the model estimation results.
+
+Keywords: 
+IGARCH, GARCH Model, Time Series, Volatility Modeling, Integrated GARCH, Model Fitting, R
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################

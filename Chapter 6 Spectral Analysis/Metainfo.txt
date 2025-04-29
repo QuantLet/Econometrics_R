@@ -1,0 +1,21 @@
+################################################################################################Name of Quantlet: Econometrics_with_R
+
+Published in: Econometrics_R
+
+Description: 
+This R script performs spectral analysis on a simulated time series composed of sine and cosine waves,
+and on the classic AirPassengers dataset. The simulated time series is analyzed to understand its
+frequency structure through a spectrum plot. Similarly, the AirPassengers data is analyzed after 
+smoothing and detrending to identify dominant cycles. Both time series and their spectral densities 
+are plotted and saved as PNG files. The script also identifies and reports the frequency associated 
+with the highest spectral density in the AirPassengers data.
+
+Keywords: 
+Spectral Analysis, Time Series, Frequency Domain, AirPassengers, Simulation, Spectrum, Periodicity, R
+
+
+Author: Jiajing Sun
+
+Submitted: 29 April 2025
+
+###################################################################################################
