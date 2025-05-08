@@ -10,7 +10,7 @@ library(zoo)
 library(xts)
 
 # Set your FRED API key
-fredr_set_key("6954169ffff382d9f9f69d89322206d8")
+fredr_set_key("Insert your API key here")
 
 # Set working directory (optional for RStudio users)
 if (requireNamespace("rstudioapi", quietly = TRUE)) {
