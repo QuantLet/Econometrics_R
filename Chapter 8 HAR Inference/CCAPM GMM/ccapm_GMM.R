@@ -1,6 +1,6 @@
-# ======================
+##########################################################################################
 # C-CAPM GMM Estimation
-# ======================
+##########################################################################################
 
 # Load necessary libraries
 library(gmm)
@@ -10,11 +10,16 @@ library(zoo)
 library(xts)
 
 # Set your FRED API key
-fredr_set_key("Insert your own API key")
+fredr_set_key("6954169ffff382d9f9f69d89322206d8")
 
-# -----------------------------
+# Set working directory (optional for RStudio users)
+if (requireNamespace("rstudioapi", quietly = TRUE)) {
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+}
+
+##########################################################################################
 # Step 1: Download Economic Data
-# -----------------------------
+##########################################################################################
 
 # Real Personal Consumption Expenditures
 consumption <- fredr(
@@ -34,18 +39,18 @@ rf_xts <- xts(rf$value / 100 / 12, order.by = rf$date)  # convert annual % to mo
 colnames(cons_xts) <- "consumption"
 colnames(rf_xts) <- "rf"
 
-# -----------------------------
+##########################################################################################
 # Step 2: Download Financial Data
-# -----------------------------
+##########################################################################################
 
 # S&P 500 index from Yahoo Finance
 getSymbols("^GSPC", src = "yahoo", from = "2000-01-01", periodicity = "monthly")
 sp500_returns <- monthlyReturn(Cl(GSPC))
 colnames(sp500_returns) <- "r_m"
 
-# -----------------------------
+##########################################################################################
 # Step 3: Prepare and Merge Data
-# -----------------------------
+##########################################################################################
 
 # Merge all series
 data <- merge.xts(cons_xts, rf_xts, sp500_returns, join = "inner")
@@ -63,9 +68,12 @@ data$z1 <- 1
 data$z2 <- data$dc
 data$z3 <- data$rx
 
-# -----------------------------
+# Save the merged and cleaned dataset to CSV
+write.zoo(data, file = "ccapm_data.csv", sep = ",")
+
+##########################################################################################
 # Step 4: Define GMM Moments
-# -----------------------------
+##########################################################################################
 
 ccapm_moments <- function(theta, x) {
   beta <- theta[1]
@@ -77,9 +85,9 @@ ccapm_moments <- function(theta, x) {
   return(cbind(g1, g2, g3))
 }
 
-# -----------------------------
+##########################################################################################
 # Step 5: Estimate Model
-# -----------------------------
+##########################################################################################
 
 # Initial guess
 theta0 <- c(beta = 0.99, gamma = 2)
@@ -91,9 +99,9 @@ gmm_result <- gmm(g = ccapm_moments, x = data, t0 = theta0)
 gmm_summary <- summary(gmm_result)
 print(gmm_summary)
 
-# -----------------------------
+##########################################################################################
 # Step 6: Hansen J-Test
-# -----------------------------
+##########################################################################################
 
 # Extract J-test statistic
 j_stat <- gmm_summary$stest$test[1]  # J-statistic

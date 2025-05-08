@@ -1,0 +1,14 @@
+################################################################################################Name of Quantlet: Econometrics_with_R 
+
+Published in: Econometrics_R 
+
+Description:
+This R script simulates data from a local-level (random walk plus noise) state-space model, introduces random missing observations, estimates the model parameters via maximum likelihood, and applies Kalman filtering and smoothing using the dlm package. The script also visualizes the true states, observed series with missing data points, filtered estimates, and smoothed estimates. Missing observations are interpolated, and their positions are indicated by vertical grey lines. Additionally, the script investigates the effect of diffuse initialization versus informed initialization on filtered state estimates. The final visualization is generated using ggplot2 and saved as a PNG file.
+
+Keywords:
+Kalman filter, Local level model, State-space model, Missing values, Time Series, Kalman smoothing, dlm, ggplot2, Maximum likelihood, R
+
+Author: Jiajing Sun
+
+Submitted: 5 May 2025
+###################################################################################################
