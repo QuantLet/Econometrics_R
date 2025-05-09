@@ -1,4 +1,4 @@
-Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: PAVX Estimation from Intraday Prices 
 
 Published in: Econometrics_R
 
