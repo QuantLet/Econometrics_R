@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: Econometrics_with_R 
 
 Published in: Econometrics_R
 
@@ -15,4 +15,3 @@ Author: Jiajing Sun
 
 Submitted: 29 April 2025
 
-###################################################################################################
