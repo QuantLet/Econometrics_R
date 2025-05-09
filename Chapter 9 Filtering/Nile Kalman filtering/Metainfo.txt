@@ -1,14 +1,13 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: KalmanFilter_Nile_LocalLevel_Model
 
-Published in: Econometrics_R 
+Published in: Econometrics_R
 
-Description:
+Description: 
 This R script applies Kalman filtering and smoothing to the built-in Nile River dataset using a local-level (random walk plus noise) state-space model. The model parameters are estimated via maximum likelihood. The script compares filtered estimates under diffuse and informed initialization, and visualizes observed values, filtered states, and smoothed states using ggplot2. The plot is saved as a high-resolution PNG file.
 
-Keywords:
+Keywords: 
 Kalman filter, Local level model, State-space model, Time series, Kalman smoothing, Nile dataset, dlm, ggplot2, Maximum likelihood, R
 
 Author: Jiajing Sun
 
 Submitted: 5 May 2025
-###################################################################################################

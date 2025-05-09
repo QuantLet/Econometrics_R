@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R
+Name of Quantlet: CSI300_VAR_BEKKGARCH_Spillover
 
 Published in: Econometrics_R
 
@@ -17,5 +17,3 @@ CSI300, VAR, BEKK-GARCH, Volatility Spillover, Multivariate GARCH, Time Series M
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

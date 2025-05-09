@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R
+Name of Quantlet: ARCH_Effect_Tests_LM_McLeodLi
 
 Published in: Econometrics_R
 
@@ -15,5 +15,3 @@ ARCH Effect, LM Test, Box-Pierce Test, McLeod-Li Test, Volatility Clustering, Ti
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

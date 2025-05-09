@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: Simple_Regression_MPG_Weight
 
 Published in: Econometrics_R
 
@@ -14,5 +14,3 @@ Econometrics, Linear Regression, Data Visualization, R, mtcars, Miles per Gallon
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R
+Name of Quantlet: SSE_GARCH_EGARCH_GJRGARCH_TGARCH_MSGARCH
 
 Published in: Econometrics_R
 
@@ -16,5 +16,3 @@ GARCH, EGARCH, GJR-GARCH, TGARCH, MS-GARCH, Markov Switching, Volatility Modelin
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

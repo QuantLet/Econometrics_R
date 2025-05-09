@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: MLE_Normal_ARMA_Estimation
 
 Published in: Econometrics_R
 
@@ -16,5 +16,3 @@ Maximum Likelihood Estimation, MLE, Normal Distribution, ARMA Model, AR(1), MA(1
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

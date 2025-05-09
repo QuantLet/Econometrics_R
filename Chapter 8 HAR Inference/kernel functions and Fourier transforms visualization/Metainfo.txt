@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R_mtcars_regression
+Name of Quantlet: Kernel_Fourier_Transforms_Visualization
 
 Published in: Econometrics_R
 
@@ -14,5 +14,3 @@ Kernel Functions, Fourier Transforms, Spectral Analysis, Visualization, Time Ser
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

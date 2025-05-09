@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: RandomWalk_Ensemble_Analysis
 
 Published in: Econometrics_R
 
@@ -15,5 +15,3 @@ Random Walk, Stochastic Process, Simulation, Ensemble Average, Variance Estimati
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

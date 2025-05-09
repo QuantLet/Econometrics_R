@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+################################################################################################Name of Quantlet: RandomWalk_With_Drift_ADF_Test
 
 Published in: Econometrics_R
 
@@ -12,9 +12,6 @@ saved as a PNG file in the working directory.
 Keywords: 
 Random Walk, Drift, Simulation, Time Series, Unit Root Test, ADF Test, Stationarity, Visualization, R
 
-
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

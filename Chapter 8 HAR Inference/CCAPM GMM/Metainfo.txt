@@ -1,10 +1,10 @@
-################################################################################################Name of Quantlet: Econometrics_with_R_mtcars_regression
+Name of Quantlet: CCAPM_Estimation_GMM_FRED_Yahoo
 
 Published in: Econometrics_R
 
 Description: 
 This R script estimates the Consumption-based Capital Asset Pricing Model (C-CAPM) using 
-Generalized Method of Moments (GMM). It downloads macroeconomic time series from the Federal 
+the Generalized Method of Moments (GMM). It downloads macroeconomic time series from the Federal 
 Reserve Economic Data (FRED) and financial market data from Yahoo Finance. The model 
 constructs moment conditions based on the intertemporal marginal rate of substitution, 
 then estimates the risk aversion and discount factor parameters. The script also conducts 
@@ -16,5 +16,3 @@ C-CAPM, GMM, Consumption Growth, Excess Returns, FRED, Yahoo Finance, Hansen J-t
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

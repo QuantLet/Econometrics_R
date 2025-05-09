@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R
+Name of Quantlet: Plot_EuStockMarkets_Indices
 
 Published in: Econometrics_R
 
@@ -11,9 +11,6 @@ as a PNG file in the working directory. The script uses tidyverse functions for 
 Keywords: 
 EuStockMarkets, Time Series, Data Visualization, ggplot2, Tidyverse, Stock Indices, Line Plot, R
 
-
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

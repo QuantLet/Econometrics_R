@@ -1,8 +1,8 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: RKX_Estimator_ParzenKernel_HighFrequency
 
 Published in: Econometrics_R
 
-Description:
+Description: 
 This R script implements the Realized Kernel with noise adjustment (RKX) estimator using 
 high-frequency financial price data. It reads price data from an Excel file, computes log returns, 
 estimates noise-adjusted volatility using slow and fast subsampling frequencies, and constructs 
@@ -10,11 +10,9 @@ the RKX estimator with a Parzen kernel for autocovariance adjustment. The result
 annualized covariance matrix that accounts for microstructure noise.
 
 Keywords: 
-RKX, realized kernel, high-frequency data, noise-robust volatility, microstructure noise, 
-Parzen kernel, covariance estimation, log returns, econometrics, financial time series
+RKX, Realized Kernel, High-Frequency Data, Noise-Robust Volatility, Microstructure Noise, 
+Parzen Kernel, Covariance Estimation, Log Returns, Econometrics, Financial Time Series
 
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

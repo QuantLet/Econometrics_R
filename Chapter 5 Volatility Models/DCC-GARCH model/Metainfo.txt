@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R
+Name of Quantlet: DCCGARCH_DowJones_TSX_DynamicCorrelation
 
 Published in: Econometrics_R
 
@@ -16,5 +16,3 @@ Dow Jones, S&P/TSX, ARIMA Residuals, Conditional Correlation, Volatility Modelin
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

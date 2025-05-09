@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: GMVP_Unconstrained_vs_NoShortSell
 
 Published in: Econometrics_R
 
@@ -13,9 +13,6 @@ Keywords:
 Portfolio Optimization, Global Minimum Variance Portfolio, GMVP, Quadratic Programming, 
 Covariance Matrix, No Short Selling, Financial Econometrics
 
-
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

@@ -1,11 +1,11 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: VAR_LogReturns_EuStockMarkets_IRF
 
 Published in: Econometrics_R
 
 Description: 
 This R script fits a Vector Autoregression (VAR) model to the logarithmic returns of the 
-EuStockMarkets dataset. It selects the optimal lag length using the Akaike Information Criterion (AIC),
-estimates the VAR model, and generates impulse response functions (IRFs) for all pairs of variables.
+EuStockMarkets dataset. It selects the optimal lag length using the Akaike Information Criterion (AIC), 
+estimates the VAR model, and generates impulse response functions (IRFs) for all pairs of variables. 
 Each IRF plot is saved as a PNG file in the working directory. 
 The script uses tidyverse for data manipulation and the vars package for VAR modeling.
 
@@ -15,5 +15,3 @@ VAR Model, Impulse Response Function, IRF, Time Series Analysis, EuStockMarkets,
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

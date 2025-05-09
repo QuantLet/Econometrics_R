@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R_mtcars_regression
+Name of Quantlet: DAX_Returns_Histogram_KDE
 
 Published in: Econometrics_R
 
@@ -14,5 +14,3 @@ DAX, EuStockMarkets, Returns, Time Series, Histogram, Kernel Density, Financial 
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

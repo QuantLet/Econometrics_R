@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R
+Name of Quantlet: NadarayaWatson_KernelRegression_mtcars
 
 Published in: Econometrics_R
 
@@ -16,5 +16,3 @@ Horsepower, Miles per Gallon, Data Visualization, mtcars, R
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################

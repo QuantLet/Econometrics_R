@@ -1,4 +1,4 @@
-################################################################################################Name of Quantlet: Econometrics_with_R 
+Name of Quantlet: AirPassengers_SMA_Smoothing
 
 Published in: Econometrics_R
 
@@ -14,5 +14,3 @@ AirPassengers, SMA, Simple Moving Average, Time Series, Smoothing, Trend, Visual
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
-
-###################################################################################################
