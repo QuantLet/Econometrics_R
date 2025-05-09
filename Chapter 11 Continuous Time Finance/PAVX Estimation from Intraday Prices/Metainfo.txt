@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Name of Quantlet: PAVX_TSRV_Estimation_HighFrequency
+=======
+Name of Quantlet: PAVX Estimation from Intraday Prices 
+>>>>>>> 1f2d5819e982a285c3bf8217354d8390310dcd6e
 
 Published in: Econometrics_R
 
@@ -15,3 +19,8 @@ Jacod Estimator, Volatility Estimation, Financial Econometrics, R
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1f2d5819e982a285c3bf8217354d8390310dcd6e

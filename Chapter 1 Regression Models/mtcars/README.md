@@ -5,32 +5,16 @@
 </div>
 
 ```
-# Name of Quantlet: Econometrics with R
+Name of Quantlet: Econometrics_with_R
 
-# Published in: Econometrics_R
+Published in: Econometrics_R
 
-# Description: R codes for Econometrics with R by Yongmiao Hong, Oliver Linton, and Jiajing Sun.
+Description: This R script sets the working directory to the location of the script itself, loads the built-in 'mtcars' dataset, fits a simple linear regression model with 'miles per gallon' (mpg) as the dependent variable and 'weight' (wt) as the independent variable, displays the model summary, and plots the data points along with the fitted regression line using ggplot2.
 
-# Keywords: Econometrics, Time Series Analysis, R, ARIMA, Forecasting, Log Returns, SSE Index
+Keywords: Econometrics, Linear Regression, Data Visualization, R, mtcars, Miles per Gallon, Weight
 
-# Author: Jiajing Sun
+Author: Jiajing Sun
 
-# Submitted: 17 April 2025
+Submitted: 29 April 2025
 
 ```
-<div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/ARMA%20processes/ARMA/acf_SSE.png" alt="Image" />
-</div>
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/ARMA%20processes/ARMA/forecast_plot.png" alt="Image" />
-</div>
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/ARMA%20processes/ARMA/pacf_SSE.png" alt="Image" />
-</div>
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/ARMA%20processes/ARMA/sse_index_plot.png" alt="Image" />
-</div>
-
