@@ -1,0 +1,28 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: WDI_US_GDP_Growth_Spectral_Analysis
+
+Published in: Econometrics_R
+
+Description: This R script retrieves and analyses US real GDP growth (annual %) from the World Bank’s WDI database, combining time-domain and frequency-domain perspectives. Using WDI::WDI(), it downloads the indicator NY.GDP.MKTP.KD.ZG for the United States from 1960 onward, sorts the series by year, and removes missing observations. The annual growth rates are stored as a univariate time-series object with frequency 1. A line-and-point time plot of the annual growth rates is then constructed using ggplot2 and saved as a 6 x 4 inch PNG file ("wdi_annual_gdp_growth_timeseries.png"). For spectral analysis, the script applies the base R spectrum() function to the annual time series with a (3,3)-span smoothing and detrending, requesting the output without plotting. The resulting frequency and spectral density arrays are placed into a data frame and visualised with ggplot2 as a smoothed spectral density plot titled "Smoothed spectral density of US annual GDP growth", which is saved as another 6 x 4 inch PNG file ("wdi_annual_gdp_growth_spectrum.png"). This provides an example of how to investigate cyclical components in macroeconomic growth data via spectral methods.
+
+Keywords: Econometrics, Time Series, Spectral Analysis, Periodogram, WDI, Real GDP Growth, US Economy, Frequency Domain, ggplot2, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%206%20HAR%20Inference/WDI_US_GDP_Growth_Spectral_Analysis/wdi_annual_gdp_growth_spectrum.png" alt="Image" />
+</div>
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%206%20HAR%20Inference/WDI_US_GDP_Growth_Spectral_Analysis/wdi_annual_gdp_growth_timeseries.png" alt="Image" />
+</div>
+
