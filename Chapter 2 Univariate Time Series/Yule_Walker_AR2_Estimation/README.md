@@ -1,0 +1,20 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: Yule_Walker_AR2_Estimation
+
+Published in: Econometrics_R
+
+Description: This R script illustrates estimation of AR(2) parameters via the Yule–Walker equations and compares the results with the built-in ar.yw() estimator. It first simulates a length-1000 AR(2) time series using arima.sim() with true coefficients (0.6, -0.4) under Gaussian innovations. It then computes the sample autocovariances up to lag 2 using acf() with plotting disabled, extracts the empirical γ_0, γ_1, and γ_2 values, and constructs the 2×2 Yule–Walker system based on these estimates. The script solves this linear system for the AR(2) coefficients (φ_1, φ_2) via solve() and prints the resulting estimates. In a second step, it applies ar.yw() with order.max = 2 to the same simulated series, retrieves the AR coefficients from the fitted object, and prints them, allowing a direct comparison between the manual Yule–Walker solution and the standard implementation.
+
+Keywords: Econometrics, Time Series, AR(2), Yule–Walker Equations, Autocovariance, Parameter Estimation, ar.yw, Simulation, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
