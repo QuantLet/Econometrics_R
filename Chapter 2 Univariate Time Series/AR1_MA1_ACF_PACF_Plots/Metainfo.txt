@@ -1,0 +1,11 @@
+Name of Quantlet: AR1_MA1_ACF_PACF_Plots
+
+Published in: Econometrics_R
+
+Description: This R script simulates AR(1) and MA(1) time series and visualises both their partial autocorrelation functions (PACFs) and autocorrelation functions (ACFs). Using arima.sim(), it generates two length-1000 processes under Gaussian innovations: an AR(1) process Y_t = 0.9 Y_{t-1} + ε_t and an MA(1) process Y_t = ε_t + 0.9 ε_{t-1}, with a fixed random seed for reproducibility. The script then applies forecast::ggPacf() and forecast::ggAcf() to compute and plot the PACF and ACF for each series, adds descriptive titles and axis labels with ggplot2, and saves the resulting four figures as 6 x 4 inch PNG files ("ar1_pacf.png", "ma1_pacf.png", "ar1_acf.png", and "ma1_acf.png") in the working directory.
+
+Keywords: Econometrics, Time Series, AR(1), MA(1), Autocorrelation, Partial Autocorrelation, ACF, PACF, Simulation, Forecast, ggplot2, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025

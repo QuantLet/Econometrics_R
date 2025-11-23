@@ -1,0 +1,11 @@
+Name of Quantlet: EWMA_Function_Example
+
+Published in: Econometrics_R
+
+Description: This R script defines and demonstrates a simple Exponentially Weighted Moving Average (EWMA) filter for a univariate time series. It implements an ewma() function that recursively updates the smoothed value as EWMA_t = α x_t + (1 − α) EWMA_{t−1}, starting from the first observation. The script then applies this function to a short numeric example vector (e.g., 20, 22, 24, …) with smoothing parameter α = 0.2, computes the corresponding EWMA series, and prints the resulting smoothed values to the console. This provides a minimal, self-contained illustration of how EWMA can be used to smooth noisy data or capture local trends.
+
+Keywords: Time Series, Exponentially Weighted Moving Average, EWMA, Smoothing, Filtering, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025

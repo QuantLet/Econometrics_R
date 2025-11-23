@@ -1,0 +1,12 @@
+ 
+Name of Quantlet: Econometrics_with_R 
+
+Published in: Econometrics_R
+
+Description: This R script sets the working directory to the location of the script itself, loads the built-in 'mtcars' dataset, fits a simple linear regression model with 'miles per gallon' (mpg) as the dependent variable and 'weight' (wt) as the independent variable, displays the model summary, and plots the data points along with the fitted regression line using ggplot2.
+
+Keywords: Econometrics, Linear Regression, Data Visualization, R, mtcars, Miles per Gallon, Weight
+
+Author: Jiajing Sun
+
+ 

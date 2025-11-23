@@ -1,0 +1,72 @@
+## =====================================================
+## 1. Load required libraries for data visualization 
+##    and regression modeling
+## =====================================================
+library(ggplot2)
+library(ggpubr)
+
+## =====================================================
+## 2. Set random seed for reproducibility 
+## =====================================================
+set.seed(123)
+
+## =====================================================
+## 3. Generate nonlinear data: y = sin(x) + noise
+## =====================================================
+x_vals <- seq(-3, 3, length.out = 100)
+y_vals <- sin(x_vals) + rnorm(length(x_vals), sd = 0.3)  # Add noise
+
+# Create a data frame
+data <- data.frame(x = x_vals, y = y_vals)
+
+## =====================================================
+## 4. Fit linear regression model to the data
+## =====================================================
+linear_model <- lm(y ~ x, data = data)
+
+## =====================================================
+## 5. Fit nonparametric regression model using LOESS
+##    (local polynomial regression)
+## =====================================================
+loess_model <- loess(y ~ x, data = data, degree = 2)
+
+## =====================================================
+## 6. Predict fitted values from both models
+## =====================================================
+data$y_pred_linear <- predict(linear_model, newdata = data)
+data$y_pred_loess <- predict(loess_model, newdata = data)
+
+## =====================================================
+## 7. Compute residuals for both models
+## =====================================================
+data$residuals_linear <- data$y - data$y_pred_linear
+data$residuals_loess <- data$y - data$y_pred_loess
+
+## =====================================================
+## 8. Plot 1: Fitted values from both models
+## =====================================================
+plot1 <- ggplot(data, aes(x = x)) +
+  geom_point(aes(y = y), color = "black") +  # Actual data points
+  geom_line(aes(y = y_pred_linear), color = "blue", size = 1) +  # Linear fit
+  geom_line(aes(y = y_pred_loess), color = "red", size = 1) +  # LOESS fit
+  labs(title = "Fitted Values", x = "x", y = "y")  
+theme(legend.title = element_blank())
+
+## =====================================================
+## 9. Plot 2: Residuals from linear regression
+## =====================================================
+plot2 <- ggplot(data, aes(x = x)) +
+  geom_point(aes(y = residuals_linear), color = "blue") +
+  labs(title = "Residuals of Linear Regression", x = "x", y = "Residuals")  
+
+## =====================================================
+## 10. Plot 3: Residuals from LOESS
+## =====================================================
+plot3 <- ggplot(data, aes(x = x)) +
+  geom_point(aes(y = residuals_loess), color = "red") +
+  labs(title = "Residuals of LOESS", x = "x", y = "Residuals")  
+
+## =====================================================
+## 11. Arrange the three plots in a single row with three columns
+## =====================================================
+ggarrange(plot1, plot2, plot3, ncol = 3, nrow = 1) 

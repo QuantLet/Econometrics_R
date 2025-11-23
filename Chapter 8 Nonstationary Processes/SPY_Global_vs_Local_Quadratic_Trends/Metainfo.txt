@@ -1,0 +1,13 @@
+Name of Quantlet: SPY_Global_vs_Local_Quadratic_Trends
+
+Published in: Econometrics_R
+
+Description: This R script compares a global quadratic trend and a rolling local quadratic trend for the SPY ETF price series. It downloads daily SPY prices from Yahoo Finance via quantmod::getSymbols() for 2015–2024, extracts adjusted closing prices, and constructs a time index t along with log prices. A global quadratic trend is estimated on the log-price scale via lm(log_price ~ t + t^2); the fitted log trend is back-transformed to the price scale with a simple bias correction factor based on exp(residuals). The script also computes a rolling local quadratic trend by repeatedly fitting the same quadratic model over a moving window of recent observations (default 40 days) and predicting the trend at the window endpoint, again with a local bias correction.
+
+Two ggplot2 figures are produced: (i) log prices with the global and rolling local quadratic trends overlaid, saved as "spy_log_trend_global_local.png", and (ii) the level prices with their corresponding global and local quadratic fits, saved as "spy_level_trend_global_local.png". Additionally, if the global quadratic coefficient on t² is negative, the script reports the estimated time and calendar date of the global peak.
+
+Keywords: Econometrics, Time Series, Trend Estimation, Quadratic Trend, Rolling Regression, Local Trend, SPY, Log Prices, Quantmod, ggplot2, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025

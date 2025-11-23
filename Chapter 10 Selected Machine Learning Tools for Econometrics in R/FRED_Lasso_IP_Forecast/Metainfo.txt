@@ -1,0 +1,26 @@
+Name of Quantlet: FRED_Lasso_IP_Forecast
+
+Published in: Econometrics_R
+
+Description: 
+This R script demonstrates how to forecast U.S. industrial production growth using 
+high-dimensional lagged macroeconomic predictors and regularized regression. It 
+downloads monthly time series from the FRED API (industrial production, unemployment 
+rate, CPI, and the federal funds rate), constructs transformed series (industrial 
+production growth, inflation, and first differences of unemployment and the policy 
+rate), and builds a feature set comprising 12 lags of each variable. The data are 
+split into a training and a test sample. A lasso regression is then fitted with 
+10-fold cross-validation via glmnet, the selected coefficients and test RMSE are 
+reported, and the performance is compared to a naive mean forecast and to a ridge 
+regression benchmark. A brief illustration of time-series-aware cross-validation 
+using a blocked fold structure is also included.
+
+Keywords: 
+Econometrics, Forecasting, Lasso, Ridge, Regularization, Industrial Production, 
+Macroeconomic Data, FRED, glmnet, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+Datafile: Monthly macroeconomic series retrieved via the FRED API
