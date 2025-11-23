@@ -1,0 +1,22 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: CCAPM_GMM_Estimation_FRED_SP500
+
+Published in: Econometrics_R
+
+Description: This R script estimates a consumption-based CAPM (C-CAPM) via Generalized Method of Moments (GMM) using macro-financial data from FRED and S&P 500 returns from Yahoo Finance. It downloads monthly real personal consumption expenditures (PCECC96) and the 3-month Treasury bill rate (TB3MS) from FRED via fredr, converts them to xts objects, and computes a monthly risk-free rate (annualised T-bill rate divided by 12). It then retrieves S&P 500 index data (^GSPC) with quantmod::getSymbols(), constructs monthly log returns, and merges all series into a common monthly panel.
+
+The script computes log consumption growth (Δc_t) and excess market returns (r^x_{t+1}) by leading the excess return so that it is aligned with time-t information. It defines a set of GMM moment conditions based on a standard C-CAPM Euler equation: m_t(θ) = β (1 + r^x_{t+1}) exp(−γ Δc_t) − 1, where β is the subjective discount factor and γ is the coefficient of relative risk aversion. Instruments include a constant (z₁ = 1), consumption growth (z₂ = Δc_t), and excess returns (z₃ = r^x_{t+1}), yielding an over-identified system with three moment conditions and two parameters. Using the gmm package, the script estimates θ = (β, γ) by calling gmm(), prints the estimation output, and computes the J-statistic for over-identifying restrictions by scaling the minimized GMM objective by the sample size. It then calculates the degrees of freedom (number of moments minus number of parameters) and the associated p-value from the chi-squared distribution, thereby providing a specification test for the C-CAPM.
+
+Keywords: Econometrics, Asset Pricing, C-CAPM, GMM, Euler Equation, Over-Identifying Restrictions, J-Statistic, FRED, Real Consumption, Risk-Free Rate, S&P 500, Quantmod, gmm, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
