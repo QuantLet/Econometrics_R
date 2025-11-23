@@ -1,0 +1,24 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+ame of Quantlet: SelfNormalized_M_S_Critical_Values
+
+Published in: Econometrics_R
+
+Description: This R script uses Monte Carlo simulation to study the finite-sample distributions and critical values of two self-normalized Brownian functionals—Hong et al.’s (2024) M statistic and Shao’s (2010) S statistic—alongside the standard normal benchmark. For each of 10,000 replications, it simulates a standard Brownian motion on [0,1] using normalized Gaussian increments on a fine time grid of size 200,000, constructs the associated Brownian bridge, and computes: (i) the adjusted-range self-normalizer M = B(1) / (max(B_bridge) − min(B_bridge)), (ii) the Shao self-normalized statistic S = B(1) / sqrt(∫_0^1 B_bridge(t)^2 dt), and (iii) the terminal value B(1), which is approximately N(0,1). The script then extracts upper-tail critical values at significance levels 5%, 2.5%, 1%, 0.5%, and 0.1% from the empirical distributions of M, S, and the N(0,1) benchmark, arranges them in a table, and exports the result as a LaTeX table (“cv.tex”) using xtable. Finally, it computes kernel density estimates for the three distributions, combines them into a tidy data frame, and uses ggplot2 to overlay the estimated densities in a single figure, which is saved as a 6 x 4 inch PNG file (“dist-m-hat.png”). This provides both tabular and graphical comparisons of the self-normalized statistics relative to the standard normal distribution.
+
+Keywords: Econometrics, Time Series, Brownian Motion, Brownian Bridge, Self-Normalization, Hong M Statistic, Shao S Statistic, Critical Values, Monte Carlo Simulation, Kernel Density, ggplot2, xtable, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%206%20HAR%20Inference/SelfNormalized_M_S_Critical_Values/dist-m-hat.png" alt="Image" />
+</div>
+
