@@ -1,0 +1,24 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: Nile_Local_Level_Kalman_Filter_Smoother
+
+Published in: Econometrics_R
+
+Description: This R script applies a local level state-space model to the classic Nile River annual flow series and compares Kalman filter and smoother estimates under different initializations. Using dlm, it defines a model-building function for a univariate local level model (random walk plus noise) and estimates the observation and state variances by maximum likelihood with dlmMLE() on the full Nile dataset. With the fitted model, Kalman filtering and smoothing are performed under the default diffuse initialization, while an alternative “informed” initialization sets the prior state mean to the sample mean of the series and a tight prior variance of 0.01. The script stores the observed flows, the two filtered paths (diffuse and informed), and the smoothed state in a data frame indexed by calendar year. These series are reshaped and plotted with ggplot2, producing a multi-line graphic showing the observed Nile flows, filtered estimates from both initializations, and the smoothed estimates. The plot is saved as a 6 x 4 inch PNG file ("nile_kalman_plot.png") at 300 dpi. Finally, the mean absolute difference between the two filtered paths is computed and printed, quantifying the impact of initialization on filtering results for the Nile data.
+
+Keywords: Econometrics, Time Series, State-Space Model, Local Level Model, Kalman Filter, Kalman Smoother, Initialization, DLM, Nile River Flow, dlm, ggplot2, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%207%20Filtering/Nile_Local_Level_Kalman_Filter_Smoother/nile_kalman_plot.png" alt="Image" />
+</div>
+
