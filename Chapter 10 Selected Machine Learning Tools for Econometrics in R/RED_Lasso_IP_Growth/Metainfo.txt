@@ -2,11 +2,9 @@ Name of Quantlet: FRED_Lasso_IP_Growth
 
 Published in: Econometrics_R
 
-Description: 
-Downloads monthly US macroeconomic series from FRED (industrial production INDPRO, unemployment UNRATE, CPI inflation CPIAUCSL, and the federal funds rate FEDFUNDS), constructs industrial production growth, inflation, and first differences of unemployment and the policy rate, and builds a high-dimensional predictor set using 12 monthly lags of each variable. The script splits the sample into training and test sets, fits a lasso regression with cv.glmnet to forecast industrial production growth, reports the selected variables and out-of-sample RMSE, compares the lasso forecaster with a ridge regression benchmark, and shows how to adapt cv.glmnet to a time-series cross-validation scheme using a blocked foldid.
+Description: Downloads monthly US macroeconomic series from FRED (industrial production INDPRO, unemployment UNRATE, CPI inflation CPIAUCSL, and the federal funds rate FEDFUNDS), constructs industrial production growth, inflation, and first differences of unemployment and the policy rate, and builds a high-dimensional predictor set using 12 monthly lags of each variable. The script splits the sample into training and test sets, fits a lasso regression with cv.glmnet to forecast industrial production growth, reports the selected variables and out-of-sample RMSE, compares the lasso forecaster with a ridge regression benchmark, and shows how to adapt cv.glmnet to a time-series cross-validation scheme using a blocked foldid.
 
-Keywords: 
-FRED, lasso, ridge, glmnet, macroeconomics, forecasting, industrial production, inflation, unemployment, R
+Keywords: FRED, lasso, ridge, glmnet, macroeconomics, forecasting, industrial production, inflation, unemployment, R
 
 Author: Jiajing Sun
 

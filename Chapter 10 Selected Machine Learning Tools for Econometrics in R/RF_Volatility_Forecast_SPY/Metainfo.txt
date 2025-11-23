@@ -2,20 +2,10 @@ Name of Quantlet: RF_Volatility_Forecast_SPY
 
 Published in: Econometrics_R
 
-Description: 
-This R script illustrates how to forecast next-day volatility using a random forest 
-model applied to daily equity index data. It downloads SPY (S&P 500 ETF) prices from 
-Yahoo Finance, computes daily log returns (in percent) and a volatility proxy 
-(squared returns), and defines the forecasting target as the next-day squared return. 
-The feature set consists of several lags of the squared returns and of the absolute 
-returns. The data are split into training and test samples; a random forest is then 
-fitted with the ranger package, permutation-based variable importance scores are 
-reported, and the out-of-sample RMSE of the random forest forecaster is compared to 
-a simple naive mean benchmark.
+Description: This R script illustrates how to forecast next-day volatility using a random forest 
+model applied to daily equity index data. It downloads SPY (S&P 500 ETF) prices from Yahoo Finance, computes daily log returns (in percent) and a volatility proxy (squared returns), and defines the forecasting target as the next-day squared return. The feature set consists of several lags of the squared returns and of the absolute returns. The data are split into training and test samples; a random forest is then fitted with the ranger package, permutation-based variable importance scores are reported, and the out-of-sample RMSE of the random forest forecaster is compared to a simple naive mean benchmark.
 
-Keywords: 
-econometrics, volatility forecasting, random forest, machine learning, squared returns, 
-SPY, quantmod, ranger, R
+Keywords: econometrics, volatility forecasting, random forest, machine learning, squared returns, SPY, quantmod, ranger, R
 
 Author: Jiajing Sun
 

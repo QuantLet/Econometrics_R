@@ -2,11 +2,9 @@ Name of Quantlet: US_Climate_Temperature_Analysis
 
 Published in: Econometrics_R
 
-Description: 
-This R script downloads and processes daily maximum temperature (TMAX) data from the Global Historical Climatology Network (GHCN) for all U.S. states during the period 2015–2024 using representative weather stations. It computes annual and decadal average temperatures, merges the results with U.S. state shapefiles, and visualizes the spatial distribution of average temperatures across the country using choropleth maps. Additionally, it includes a daily temperature profile plot for New York City in 2014.
+Description: This R script downloads and processes daily maximum temperature (TMAX) data from the Global Historical Climatology Network (GHCN) for all U.S. states during the period 2015–2024 using representative weather stations. It computes annual and decadal average temperatures, merges the results with U.S. state shapefiles, and visualizes the spatial distribution of average temperatures across the country using choropleth maps. Additionally, it includes a daily temperature profile plot for New York City in 2014.
 
-Keywords: 
-Climate Data, GHCN, rnoaa, Temperature, Weather, Map, Spatial Visualization, U.S. States, ggplot2, sf, Functional Data
+Keywords: Climate Data, GHCN, rnoaa, Temperature, Weather, Map, Spatial Visualization, U.S. States, ggplot2, sf, Functional Data
 
 Author: Jiajing Sun
 

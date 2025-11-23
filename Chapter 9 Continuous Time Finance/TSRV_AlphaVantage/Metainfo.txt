@@ -2,18 +2,9 @@ Name of Quantlet: TSRV_AlphaVantage
 
 Published in: Econometrics_R
 
-Description: 
-This R script downloads intraday high-frequency stock prices from the 
-Alpha Vantage API using quantmod, and computes the Two-Scale Realized 
-Volatility (TSRV) estimator to adjust for market microstructure noise. 
-After fetching 1-minute intraday prices for a chosen symbol (e.g. AAPL), 
-the script constructs a log-price series, splits it into K subsamples, 
-computes subsample realized volatilities, and combines them with the 
-full-sample realized volatility to obtain the TSRV estimate.
+Description: This R script downloads intraday high-frequency stock prices from the Alpha Vantage API using quantmod, and computes the Two-Scale Realized Volatility (TSRV) estimator to adjust for market microstructure noise. After fetching 1-minute intraday prices for a chosen symbol (e.g. AAPL), the script constructs a log-price series, splits it into K subsamples, computes subsample realized volatilities, and combines them with the full-sample realized volatility to obtain the TSRV estimate.
 
-Keywords: 
-high-frequency data, realized volatility, TSRV, Two-Scale Realized Volatility, 
-microstructure noise, Alpha Vantage, quantmod, xts, R
+Keywords: high-frequency data, realized volatility, TSRV, Two-Scale Realized Volatility, microstructure noise, Alpha Vantage, quantmod, xts, R
 
 Author: Jiajing Sun
 
