@@ -1,0 +1,24 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: Simulated_ARMA11_Process
+
+Published in: Econometrics_R
+
+Description: This R script simulates and visualises an ARMA(1,1) time series. Using stats::arima.sim(), it generates a length-1000 ARMA(1,1) process with autoregressive parameter ar = 0.6 and moving-average parameter ma = 0.7 under Gaussian innovations, with a fixed random seed for reproducibility. The simulated series is stored in a data frame with an explicit time index, and ggplot2 is used to produce a line plot showing the ARMA(1,1) path over time. The resulting figure is saved as a 6 x 4 inch PNG file ("simulated-arma11.png") in the working directory.
+
+Keywords: Econometrics, Time Series, ARMA(1,1), Simulation, Linear Processes, R, ggplot2
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/Simulated_ARMA11_Process/simulated-arma11.png" alt="Image" />
+</div>
+
