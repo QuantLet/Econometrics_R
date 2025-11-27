@@ -61,4 +61,4 @@ p_wold <- ggplot(df_wold, aes(x = Time)) +
   )  
 
 # Save the figure 
-ggsave(filename = "Wold-decomposition.png", plot = p_wold, width = 6, height = 4, dpi = 300)
+ggsave(filename = "Wold_decomposition.png", plot = p_wold, width = 6, height = 4, dpi = 300)
