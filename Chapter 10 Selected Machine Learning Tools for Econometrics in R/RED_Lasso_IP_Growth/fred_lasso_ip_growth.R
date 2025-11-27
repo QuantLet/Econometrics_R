@@ -235,7 +235,7 @@ print(p_lasso)
 
 # Save to file: 6 x 4 inches, 300 dpi
 ggsave(
-  filename = "realised_vs_lasso.png",
+  filename = "realized_vs_lasso.png",
   plot     = p_lasso,
   width    = 6,
   height   = 4,
