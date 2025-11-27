@@ -1,11 +1,11 @@
-Name of Quantlet: FRED_Lasso_IP_Growth
+Name of Quantlet: SPY_Lasso_RF_VolForecast
 
 Published in: Econometrics_R
 
-Description: Downloads monthly US macroeconomic series from FRED (industrial production INDPRO, unemployment UNRATE, CPI inflation CPIAUCSL, and the federal funds rate FEDFUNDS), constructs industrial production growth, inflation, and first differences of unemployment and the policy rate, and builds a high-dimensional predictor set using 12 monthly lags of each variable. The script splits the sample into training and test sets, fits a lasso regression with cv.glmnet to forecast industrial production growth, reports the selected variables and out-of-sample RMSE, compares the lasso forecaster with a ridge regression benchmark, and shows how to adapt cv.glmnet to a time-series cross-validation scheme using a blocked foldid.
+Description: Downloads daily SPY prices from Yahoo Finance, computes log returns and squared returns as a proxy for realised volatility, and constructs a high-dimensional predictor set using lags of squared and absolute returns plus day-of-week dummies. The script uses a blocked time-series cross-validation scheme on the initial subsample to select the lasso penalty in a glmnet regression, specifies a GARCH(1,1) benchmark via rugarch, and then runs a rolling-window forecasting exercise. For each forecast origin it re-estimates an AR(1) on squared returns, a GARCH(1,1) on returns, a lasso regression, and a random forest model, produces one-step-ahead volatility forecasts, and compares their out-of-sample RMSEs. An optional ggplot2 figure illustrates realised volatility versus the lasso forecast over the evaluation period.
 
-Keywords: FRED, lasso, ridge, glmnet, macroeconomics, forecasting, industrial production, inflation, unemployment, R
+Keywords: SPY, volatility, squared returns, GARCH, lasso, random forest, glmnet, rugarch, ranger, time-series cross-validation, machine learning, forecasting, R
 
 Author: Jiajing Sun
 
-Submitted: 22 November 2025
+Submitted: 27 November 2025
