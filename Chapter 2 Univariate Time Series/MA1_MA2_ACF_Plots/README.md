@@ -19,10 +19,10 @@ Submitted: 22 November 2025
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/A1_MA2_ACF_Plots/ma1_acf.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/MA1_MA2_ACF_Plots/ma1_acf.png" alt="Image" />
 </div>
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/A1_MA2_ACF_Plots/ma2_acf.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/MA1_MA2_ACF_Plots/ma2_acf.png" alt="Image" />
 </div>
 
