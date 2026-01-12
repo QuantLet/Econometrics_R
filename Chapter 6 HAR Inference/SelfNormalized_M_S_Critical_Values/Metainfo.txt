@@ -1,4 +1,4 @@
-ame of Quantlet: SelfNormalized_M_S_Critical_Values
+Name of Quantlet: SelfNormalized_M_S_Critical_Values
 
 Published in: Econometrics_R
 
