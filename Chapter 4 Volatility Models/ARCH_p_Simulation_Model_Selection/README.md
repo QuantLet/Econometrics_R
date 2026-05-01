@@ -1,0 +1,24 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: ARCH_p_Simulation_Model_Selection
+
+Published in: Econometrics_R
+
+Description: This R script simulates an ARCH(p) process, performs model selection across different ARCH orders, and conducts diagnostic checks on the selected model. It first simulates a length-1000 ARCH(3) process with parameters ω = 0.1 and α = (0.5, 0.2, 0.1), recursively constructing the conditional variance σ_t^2 and innovations ε_t. The resulting series is plotted over time using ggplot2 and saved as a 6 x 4 inch PNG file ("arch_p_series.png"). Next, the script fits a sequence of symmetric GARCH models with pure ARCH(p) variance components (sGARCH with order (p, 0)) for p = 1,…,5 using rugarch::ugarchfit(), computes AIC and BIC via infocriteria(), and identifies the orders that minimise each criterion. It refits the best model according to AIC, prints the parameter estimates and standard output, and then applies a Ljung–Box test (via FinTS::Box.test()) to the standardized residuals (residuals divided by conditional standard deviations) to assess remaining serial dependence in the conditional mean.
+
+Keywords: Econometrics, Time Series, Volatility, ARCH, GARCH, Model Selection, AIC, BIC, Ljung–Box Test, rugarch, ggplot2, FinTS, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%204%20Volatility%20Models/ARCH_p_Simulation_Model_Selection/arch_p_series.png" alt="Image" />
+</div>
+

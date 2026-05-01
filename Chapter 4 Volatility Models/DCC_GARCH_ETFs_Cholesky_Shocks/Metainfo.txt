@@ -1,0 +1,13 @@
+Name of Quantlet: DCC_GARCH_ETFs_Cholesky_Shocks
+
+Published in: Econometrics_R
+
+Description: This R script estimates constant-correlation and DCC-GARCH models for a small equity ETF universe and illustrates Cholesky-based orthogonalisation of shocks. It downloads adjusted closing prices for SPY (S&P 500), QQQ (Nasdaq 100), and EFA (MSCI EAFE) from Yahoo Finance via quantmod::getSymbols(), constructs daily log returns (in percent), and demeans them to obtain innovations. Each return series is first fitted with a univariate sGARCH(1,1) model (with ARMA(0,0) mean and normal innovations) using rmgarch::ugarchspec(), multispec(), and multifit(). Time-varying conditional standard deviations and standardized residuals are extracted and used to construct a constant-correlation GARCH model: a time-invariant correlation matrix is estimated from the standardized residuals, and for each t the conditional covariance matrix is built as Σ_t = D_t R D_t, where D_t is the diagonal matrix of conditional standard deviations.
+
+The script then specifies and fits a multivariate DCC-GARCH(1,1) model with dccspec() and dccfit(), extracting the full time-varying covariance and correlation arrays via rcov() and rcor(). As an illustration of orthogonalisation, it takes the last DCC covariance matrix Σ_T, computes its Cholesky factor L_T such that Σ_T = L_T L_T′, and transforms the corresponding demeaned returns at time T into orthogonal shocks b_T = L_T^{-1} ε_T. This demonstrates how to obtain dynamically uncorrelated shocks from a multivariate volatility model.
+
+Keywords: Econometrics, Financial Econometrics, Multivariate GARCH, DCC-GARCH, Constant-Correlation GARCH, Covariance Matrix, Correlation Matrix, Cholesky Decomposition, Orthogonal Shocks, SPY, QQQ, EFA, rmgarch, Quantmod, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025

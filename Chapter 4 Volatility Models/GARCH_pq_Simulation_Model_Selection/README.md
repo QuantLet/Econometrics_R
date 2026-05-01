@@ -1,0 +1,20 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: GARCH_pq_Simulation_Model_Selection
+
+Published in: Econometrics_R
+
+Description: This R script simulates a univariate GARCH(1,1) process and performs model selection over a grid of symmetric GARCH(p, q) specifications using AIC and BIC. It generates 1,000 observations from a GARCH(1,1) model with parameters α₀ = 0.01, α₁ = 0.05, and β₁ = 0.9, constructing the conditional variance σ_t² recursively and drawing returns y_t from a zero-mean normal distribution with variance σ_t². The script then defines a grid of candidate sGARCH(p, q) models with p, q ∈ {1, 2, 3}, fits each specification to the simulated series using rugarch::ugarchfit() (with a zero-mean ARMA(0,0) in the mean equation), and extracts the information criteria via infocriteria(). It records the AIC and BIC in matrices indexed by (p, q), identifies the (p, q) combination that minimises each criterion, and prints the best orders selected by AIC and BIC to the console, illustrating how in-sample fit criteria can recover the true GARCH structure.
+
+Keywords: Econometrics, Time Series, Volatility, GARCH, sGARCH, Model Selection, AIC, BIC, rugarch, Simulation, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
