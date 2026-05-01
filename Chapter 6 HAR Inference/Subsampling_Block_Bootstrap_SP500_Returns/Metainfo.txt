@@ -1,0 +1,13 @@
+Name of Quantlet: Subsampling_Block_Bootstrap_SP500_Returns
+
+Published in: Econometrics_R
+
+Description: This R script illustrates subsampling and block bootstrap methods for inference on moments of S&P 500 daily returns. It downloads S&P 500 index data (^GSPC) from Yahoo Finance, computes daily returns, and sets up a framework to analyze the sampling distributions of two statistics: the mean return and the lag-1 autocorrelation of squared returns. For subsampling, it uses a moving window of length b_sub = 5 years of daily data, computes subsample means and subsample lag-1 autocorrelations of squared returns within each window, and forms self-normalized statistics √b_sub (stat_sub − stat_full). Histograms of the resulting subsampling distributions are produced via ggplot2, with the full-sample root √T · stat_full indicated as a vertical red line.
+
+The script then implements a moving-block bootstrap for the mean return using a block length b_boot = 252 (approximately one year). A helper function block_bootstrap_mean() constructs overlapping blocks of returns, resamples blocks with replacement to form bootstrap series, and computes bootstrap roots √T (r̄_boot − r̄). The resulting bootstrap distribution is visualised with ggplot2 as a histogram with the full-sample root highlighted. The final plot of the block bootstrap distribution of the mean is saved as a 6 x 4 inch PNG file ("block-bootstrap-mean.png") at 300 dpi.
+
+Keywords: Econometrics, Time Series, Subsampling, Block Bootstrap, Moving Blocks, Mean Return, Autocorrelation of Squared Returns, S&P 500, Daily Returns, Quantmod, ggplot2, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
