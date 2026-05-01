@@ -1,0 +1,11 @@
+Name of Quantlet: Structural_VAR1_IRF_A_B_Models
+
+Published in: Econometrics_R
+
+Description: This R script simulates a three-dimensional VAR(1) system with a specified structural impact matrix and estimates structural VARs under both A-model and B-model identification schemes, including impulse response analysis. It first constructs a 3×3 VAR(1) coefficient matrix and a lower-triangular structural impact matrix, generates 500 observations from the resulting process with Gaussian shocks, and stores the simulated data as a multivariate time series that is plotted via plot.ts(). A reduced-form VAR(1) without deterministic terms is estimated using vars::VAR(). For structural identification, the script imposes a lower-triangular structure with ones on the diagonal and free lower-triangular elements on the contemporaneous coefficient matrix A (A-model), estimates the structural VAR via SVAR(…, Amat = A_matrix), reports the estimated A matrix and its standard errors, and computes the implied impact matrix B by inverting A. It then imposes an analogous lower-triangular structure on the impact matrix B (B-model), estimates a second structural VAR via SVAR(…, Bmat = B_matrix), and reports the estimated B matrix and its standard errors. Finally, the script computes and plots orthogonalised impulse response functions for both the A-model and B-model using irf(), with bootstrap confidence intervals and a 10-period forecast horizon, illustrating how different identification schemes affect the implied dynamic responses to structural shocks.
+
+Keywords: Econometrics, Time Series, Structural VAR, SVAR, VAR(1), A-Model, B-Model, Contemporaneous Restrictions, Impact Matrix, Identification, Impulse Response Functions, Simulation, vars, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025

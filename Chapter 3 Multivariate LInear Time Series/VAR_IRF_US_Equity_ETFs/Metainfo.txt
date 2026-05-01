@@ -1,0 +1,11 @@
+Name of Quantlet: VAR_IRF_US_Equity_ETFs
+
+Published in: Econometrics_R
+
+Description: This R script estimates a vector autoregression (VAR) model on daily log returns of major US and international equity ETFs and produces orthogonal impulse response function (IRF) plots. It downloads adjusted closing prices for SPY (S&P 500), QQQ (Nasdaq 100), IWM (Russell 2000), and EFA (developed markets ex-US) from Yahoo Finance for the year 2024 using quantmod::getSymbols(). Logarithmic returns are computed as differences of log prices and converted to a data frame. The script selects the VAR lag order via VARselect() based on the AIC and then estimates a VAR(p) with a constant using vars::VAR(). For every ordered pair of ETFs, it computes Cholesky-based orthogonal IRFs with bootstrap confidence intervals via vars::irf(), plots the responses for a 10-step horizon, and saves each plot as a PNG file in a "figures" subdirectory, with filenames of the form "IRF_[impulse]_to_[response].png".
+
+Keywords: Econometrics, Time Series, VAR, Impulse Response Functions, IRF, Cholesky Decomposition, Equity ETFs, SPY, QQQ, IWM, EFA, Quantmod, Yahoo Finance, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
