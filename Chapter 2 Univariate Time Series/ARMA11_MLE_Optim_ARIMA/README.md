@@ -1,0 +1,20 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: ARMA11_MLE_Optim_Arima
+
+Published in: Econometrics_R
+
+Description: This R script illustrates maximum likelihood estimation for an ARMA(1,1) model using both a user-defined log-likelihood and the built-in arima() function. It first simulates 500 observations from an ARMA(1,1) process with true parameters ar = 0.5 and ma = 0.4 under Gaussian innovations. A custom negative log-likelihood function loglik_arma11() is then defined in terms of the AR(1) coefficient (phi), MA(1) coefficient (theta), and innovation standard deviation (sigma), with residuals computed recursively. The script uses optim() with the BFGS method and a supplied Hessian to obtain numerical MLEs and prints the estimated parameters and maximised log-likelihood value. For comparison, it also fits an ARMA(1,1) model via arima(data, order = c(1, 0, 1), method = "ML") and prints the standard output, allowing a direct comparison between the manual MLE implementation and R’s built-in maximum likelihood estimator.
+
+Keywords: Econometrics, Time Series, ARMA(1,1), Maximum Likelihood, MLE, Log-likelihood, Optimisation, optim, arima, Simulation, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```

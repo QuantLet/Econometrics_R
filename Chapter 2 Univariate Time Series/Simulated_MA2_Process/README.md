@@ -1,0 +1,24 @@
+<div style="margin: 0; padding: 0; text-align: center; border: none;">
+<a href="https://quantlet.com" target="_blank" style="text-decoration: none; border: none;">
+<img src="https://github.com/StefanGam/test-repo/blob/main/quantlet_design.png?raw=true" alt="Header Image" width="100%" style="margin: 0; padding: 0; display: block; border: none;" />
+</a>
+</div>
+
+```
+Name of Quantlet: Simulated_MA2_Process
+
+Published in: Econometrics_R
+
+Description: This R script simulates and visualises a moving average process of order 2 (MA(2)). It defines a helper function simulate_ma2() that generates an MA(2) time series of length n using Gaussian innovations with standard deviation sigma and parameters theta1 and theta2. Using a fixed random seed for reproducibility, the script simulates a length-1000 MA(2) series with theta1 = 0.5, theta2 = -0.3, and sigma = 1, stores the result in a data frame with a time index, and then employs ggplot2 to produce a line plot of the simulated process over time. The resulting figure is exported as a 6 x 4 inch PNG file ("simulated-ma2.png").
+
+Keywords: Econometrics, Time Series, Moving Average, MA(2), Simulation, Linear Processes, R, ggplot2
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
+
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/Simulated_MA2_Process/simulated-ma2.png" alt="Image" />
+</div>
+

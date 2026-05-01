@@ -1,0 +1,11 @@
+Name of Quantlet: ARMA_Order_Selection_AIC_BIC
+
+Published in: Econometrics_R
+
+Description: This R script demonstrates order selection for ARMA models using information criteria. It first simulates 500 observations from an ARMA(1,1) process with parameters ar = 0.5 and ma = 0.4 under Gaussian innovations. The script then loads the forecast package and applies auto.arima() twice to the simulated series: once using the Akaike Information Criterion (AIC) and once using the Bayesian Information Criterion (BIC), with stepwise = FALSE and approximation = FALSE to enforce an exhaustive, exact search over candidate ARMA specifications. The resulting fitted models, including the selected orders and parameter estimates, are printed to the console, allowing comparison of the model choices implied by AIC and BIC.
+
+Keywords: Econometrics, Time Series, ARMA, Model Selection, AIC, BIC, auto.arima, Forecast, Simulation, R
+
+Author: Jiajing Sun
+
+Submitted: 22 November 2025
