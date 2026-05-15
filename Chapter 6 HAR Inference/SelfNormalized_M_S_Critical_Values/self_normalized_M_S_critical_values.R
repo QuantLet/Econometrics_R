@@ -103,10 +103,14 @@ dens_df <- rbind(
 )
 
 p_dist <- ggplot(dens_df, aes(x = x, y = y, colour = dist, linetype = dist)) +
-  geom_line(size = 1) +
-  scale_linetype_manual(values = c("M" = "solid",
-                                   "Shao's (2010) S" = "dashed",
-                                   "N(0,1)" = "dotdash")) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = c("Hong et al.'s (2024) M" = "#F8766D",
+                                 "N(0,1)" = "#00BA38",
+                                 "Shao's (2010) S" = "#619CFF")) +
+  scale_linetype_manual(values = c("Hong et al.'s (2024) M" = "solid",
+                                   "N(0,1)" = "dotdash",
+                                   "Shao's (2010) S" = "dashed")) +
+  coord_cartesian(xlim = c(-5, 5), ylim = c(0, 0.52)) +
   labs(x = "", y = "", colour = "", linetype = "") +
   theme_minimal() +
   theme(legend.position = "top")

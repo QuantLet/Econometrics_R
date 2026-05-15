@@ -58,8 +58,8 @@ df_ts <- data.frame(
 )
 
 p_time <- ggplot(df_ts, aes(x = year, y = value)) +
-  geom_line() +
-  geom_point() +
+  geom_line(color = "#0072B2") +
+  geom_point(color = "#1F1F1F") +
   ggtitle("US Real GDP Growth (Annual %, WDI)") +
   xlab("Year") +
   ylab("Growth rate (%)") 
@@ -85,7 +85,7 @@ spec_df <- data.frame(
 )
 
 p_spec <- ggplot(spec_df, aes(x = freq, y = spec)) +
-  geom_line() +
+  geom_line(color = "#D55E00") +
   labs(
     title = "Smoothed spectral density of US annual GDP growth",
     x     = "Frequency",

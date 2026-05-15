@@ -35,7 +35,7 @@ spec_df <- data.frame(
 ## 4. Build ggplot2 time-series and spectrum plots
 ## =====================================================
 p_ts <- ggplot(ts_df, aes(x = Time, y = Value)) +
-  geom_line() +
+  geom_line(color = "#0072B2") +
   labs(
        title = "Simulated Time Series",
        x     = "Time",
@@ -43,7 +43,7 @@ p_ts <- ggplot(ts_df, aes(x = Time, y = Value)) +
   )  
 
 p_spec <- ggplot(spec_df, aes(x = Frequency, y = Spectrum)) +
-  geom_line() +
+  geom_line(color = "#D55E00") +
   labs(
     title = "Estimated Spectrum",
     x     = "Frequency",
