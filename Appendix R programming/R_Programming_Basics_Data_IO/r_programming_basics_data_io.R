@@ -144,3 +144,59 @@ png("box-plot-iris.png", width = 800, height = 600, res = 120)
 boxplot(Sepal.Length ~ Species, data = iris,
         main = "Sepal Length by Species")
 dev.off()
+
+## =====================================================
+## Probability distributions and inverse c.d.f. simulation
+## =====================================================
+
+# Uniform distribution examples
+dunif(0.5, min = 0, max = 1)
+punif(0.5, min = 0, max = 1)
+qunif(0.5, min = 0, max = 1)
+runif(5, min = 0, max = 1)
+
+# Normal distribution examples
+dnorm(0, mean = 0, sd = 1)
+pnorm(1.96, mean = 0, sd = 1)
+qnorm(0.975, mean = 0, sd = 1)
+rnorm(5, mean = 0, sd = 1)
+
+set.seed(123456789)
+
+# c.d.f. of a standard normal distribution
+compute_phi <- function(z) {
+  integrand <- function(t) {
+    (1 / sqrt(2 * pi)) * exp(-t^2 / 2)
+  }
+  result <- integrate(integrand, -Inf, z)
+  return(result$value)
+}
+
+# Test the function and compare with the built-in function
+z_val <- 1.96
+print(compute_phi(z_val))
+print(pnorm(z_val))
+
+# First, sample from the continuous uniform distribution on [0, 1]
+sample_unif <- runif(1000)
+
+# The inverse of c.d.f. for the standard normal distribution
+inverse_phi <- function(phi_value) {
+  function_to_zero <- function(z) {
+    compute_phi(z) - phi_value
+  }
+  root <- uniroot(function_to_zero, c(-10, 10))
+  return(root$root)
+}
+
+# Sample from the standard normal distribution
+sample_norm <- as.numeric(lapply(sample_unif, inverse_phi))
+
+hist(sample_norm,
+  probability = TRUE,
+  main = "Histogram with Density Curve",
+  xlab = "Value",
+  col = "lightblue",
+  border = "black"
+)
+lines(density(sample_norm), col = "red", lwd = 2)
