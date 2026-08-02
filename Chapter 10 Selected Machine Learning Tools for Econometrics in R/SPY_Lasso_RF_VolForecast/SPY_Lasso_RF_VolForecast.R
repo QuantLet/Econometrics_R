@@ -62,8 +62,11 @@ df_lagged <- df %>%
 N <- nrow(df_lagged)
 cat("Usable observations after lagging:", N, "\n")
 
-## Design matrix for ML models (drop date and response)
-ml_dat <- df_lagged %>% select(-date)
+## Design matrix for ML models.
+## Keep r in df_lagged for the GARCH benchmark, but exclude it from the
+## machine-learning design: y = r^2, so contemporaneous r would reveal the
+## response and create target leakage.
+ml_dat <- df_lagged %>% select(-date, -r)
 X_all  <- model.matrix(y ~ ., data = ml_dat)[, -1]  # remove intercept column
 y_all  <- ml_dat$y
 
@@ -163,20 +166,21 @@ for (j in seq_along(eval_idx)) {
   ## -----------------------------
   ## 4.4 Random forest (ranger)
   ## -----------------------------
-  rf_train_df <- df_lagged[train_idx, ]
-  rf_test_df  <- df_lagged[test_idx, ]
+  rf_train_df <- ml_dat[train_idx, , drop = FALSE]
+  rf_test_df  <- ml_dat[test_idx, , drop = FALSE]
   
   rf_fit <- ranger(
     formula    = y ~ .,
-    data       = rf_train_df %>% select(-date),
+    data       = rf_train_df,
     num.trees  = 500,
-    mtry       = floor(sqrt(ncol(rf_train_df) - 2)),  # exclude date, y
+    mtry       = floor(sqrt(ncol(rf_train_df) - 1)),  # exclude response y
     min.node.size = 5,
-    importance = "none"
+    importance = "none",
+    num.threads = 1  # reproducible results across runs
   )
   
   f_rf[j] <- as.numeric(
-    predict(rf_fit, data = rf_test_df %>% select(-date))$predictions
+    predict(rf_fit, data = rf_test_df)$predictions
   )
   
   if (j %% 50 == 0) cat("Finished", j, "of", n_eval, "forecasts\n")
@@ -239,7 +243,7 @@ print(p_lasso)
 
 # Save to file: 6 x 4 inches, 300 dpi
 ggsave(
-  filename = "realized_vs_lasso.png",
+  filename = "realised_vs_lasso.png",
   plot     = p_lasso,
   width    = 6,
   height   = 4,

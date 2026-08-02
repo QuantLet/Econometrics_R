@@ -5,7 +5,7 @@
 </div>
 
 ```
-Name of Quantlet: Econometrics_with_R
+Name of Quantlet: ols_regression_mtcars
 
 Published in: Econometrics_R
 
@@ -19,4 +19,3 @@ Author: Jiajing Sun
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%201%20Regression%20Models/ols_regression_mtcars/ols-mtcars.png" alt="Image" />
 </div>
-

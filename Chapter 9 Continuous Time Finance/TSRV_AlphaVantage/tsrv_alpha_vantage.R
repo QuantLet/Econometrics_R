@@ -17,8 +17,11 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 library(quantmod)  # getSymbols.av interface
 library(xts)       # time-series handling
 
-# Set your Alpha Vantage API key
-api_key <- "Your_Own_Key"
+# Read the Alpha Vantage API key from the environment
+api_key <- Sys.getenv("ALPHAVANTAGE_API_KEY")
+if (!nzchar(api_key)) {
+  stop("Please set the ALPHAVANTAGE_API_KEY environment variable.")
+}
 setDefaults(getSymbols.av, api.key = api_key)
 
 ## =====================================================
@@ -44,54 +47,42 @@ data_xts <- na.omit(data_xts)
 
 # Convert to a numeric price vector
 priceX <- as.numeric(data_xts)
-n      <- length(priceX)
 
 # Define TSRV function (input: price vector and number of subsamples K)
 TSRV <- function(priceX, K) {
-  n <- length(priceX)
-  
-  # Choose m so that K * (m + 1) <= n
-  m <- floor(n / K) - 1
-  
-  # Compute log prices
   lprice <- log(priceX)
-  
-  # Initialize a vector to store realized volatility from each subsample
+  n <- length(lprice) - 1L  # number of return intervals
+
+  if (K < 1L || K > n) stop("K must lie between 1 and n.")
+
   RV_sub <- numeric(K)
-  
-  ## Compute RV for each subsample
-  for (j in 1:K) {
-    # Generate subsample of log prices
-    sub_sample <- lprice[seq(from = j, by = K, length.out = m + 1)]
-    
-    # Compute returns (log price differences)
-    returns <- diff(sub_sample)
-    
-    # Compute realized volatility for the subsample
-    RV_sub[j] <- sum(returns^2)
+  m_j <- integer(K)
+
+  for (j in seq_len(K)) {
+    idx <- seq.int(from = j, to = length(lprice), by = K)
+    m_j[j] <- length(idx) - 1L
+    RV_sub[j] <- sum(diff(lprice[idx])^2)
   }
-  
-  ## Compute full-sample realized volatility
-  returns_full <- diff(lprice)
-  RV_n <- sum(returns_full^2)
-  
-  ## Compute TSRV estimate
-  TSRV_estimate <- (1 / K) * sum(RV_sub) - (m / n) * RV_n
-  
-  return(list(
-    TSRV = TSRV_estimate,
-    K    = K,
-    m    = m,
-    n    = n
-  ))
+
+  m_bar <- mean(m_j)
+  RV_n <- sum(diff(lprice)^2)
+
+  list(
+    TSRV = mean(RV_sub) - (m_bar / n) * RV_n,
+    K = K,
+    m_j = m_j,
+    m_bar = m_bar,
+    n_returns = n
+  )
 }
 
 ## =====================================================
 ## 3. Apply the TSRV function to the Alpha Vantage data
 ## =====================================================
 
-# Set number of subsamples
-K <- 5  # e.g., 5 subsamples
+# Use the canonical TSRV order K proportional to n^(2/3)
+n_returns <- length(priceX) - 1L
+K <- max(1L, as.integer(floor(n_returns^(2 / 3))))
 
 # Compute TSRV estimate
 tsrv_result <- TSRV(priceX, K)

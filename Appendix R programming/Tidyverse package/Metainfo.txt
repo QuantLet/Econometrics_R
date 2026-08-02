@@ -1,4 +1,4 @@
-Name of Quantlet: Tidyverse_Data_Manipulation_Visualisation
+Name of Quantlet: Tidyverse package
 
 Published in: Econometrics_R
 

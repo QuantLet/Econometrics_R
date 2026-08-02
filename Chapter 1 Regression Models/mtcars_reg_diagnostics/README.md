@@ -5,7 +5,7 @@
 </div>
 
 ```
-Name of Quantlet: MTCARS_Regression_Diagnostics
+Name of Quantlet: mtcars_reg_diagnostics
 
 Published in: Econometrics_with_R
 

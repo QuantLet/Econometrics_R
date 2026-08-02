@@ -19,6 +19,5 @@ Submitted: 22 November 2025
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%203%20Multivariate%20LInear%20Time%20Series/VAR_IRF_US_Equity_ETFs/rw1-rw2.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%203%20Multivariate%20Linear%20Time%20Series/VAR_IRF_US_Equity_ETFs/figures/IRF_SPY_to_QQQ.png" alt="Orthogonal impulse response of QQQ returns to an SPY return shock" />
 </div>
-

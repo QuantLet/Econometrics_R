@@ -1,4 +1,4 @@
-Name of Quantlet: US_Climate_Temperature_Analysis
+Name of Quantlet: Temperature Data with US Map
 
 Published in: Econometrics_R
 

@@ -43,36 +43,44 @@ getSymbols("^GSPC", src = "yahoo", from = "2000-01-01", periodicity = "monthly")
 sp500_returns <- monthlyReturn(Cl(GSPC))
 colnames(sp500_returns) <- "r_m"
 
+# FRED uses month-start dates whereas Yahoo uses month-end dates.
+# Normalize all indexes to year-month before taking the inner merge.
+index(cons_xts) <- zoo::as.yearmon(index(cons_xts))
+index(rf_xts) <- zoo::as.yearmon(index(rf_xts))
+index(sp500_returns) <- zoo::as.yearmon(index(sp500_returns))
+
 # Merge the first two series (consumption and risk-free rate)
 data <- merge.xts(cons_xts, rf_xts, join = "inner")
 
 # Then merge with the third series (S&P 500 returns)
 data <- merge.xts(data, sp500_returns, join = "inner")
+if (NROW(data) == 0L) stop("The monthly series did not overlap after alignment.")
 
 # =====================================================
 ## 3. Data Processing and Moment Conditions Function
 ## =====================================================
-# Compute log consumption growth and excess returns
-data$dc <- diff(log(data$consumption))  # Log difference of consumption to get growth rate
-data$rx <- dplyr::lead(data$r_m - data$rf, n = 1)  # Lead excess return to match timing
+# Compute current consumption growth and the gross market return
+data$dc <- diff(log(data$consumption))
+data$gross_m <- 1 + data$r_m
 
-# Drop NA rows due to lag and diff
+# Predetermined instruments must be measurable before the priced return
+data$z1 <- 1
+data$z2 <- xts::lag.xts(data$dc, k = 1)
+data$z3 <- xts::lag.xts(data$r_m - data$rf, k = 1)
+
+# Drop observations lost to differencing and lagging
 data <- na.omit(data)
-
-# Add constant instrument for identification
-data$z1 <- 1  # Constant instrument (useful for identification)
-data$z2 <- data$dc  # Use consumption growth as an instrument
-data$z3 <- data$rx  # Or lagged returns (if available)
 
 # GMM moment conditions function (at least two moments)
 C_CAPM_moments <- function(theta, x) {
-  beta <- theta[1]   # Parameter for risk aversion
-  gamma <- theta[2]  # Parameter for consumption elasticity
-  m <- beta * (1 + x$rx) * exp(-gamma * x$dc) - 1  # Moment condition
-  g1 <- m * x$z1  # Multiply by instrument z1
-  g2 <- m * x$z2  # Multiply by instrument z2
-  g3 <- m * x$z3  # Multiply by instrument z3
-  return(cbind(g1, g2, g3))  # Return a matrix of moment conditions
+  beta <- theta[1]   # Subjective discount factor
+  gamma <- theta[2]  # Coefficient of relative risk aversion
+  euler_error <- beta * x$gross_m * exp(-gamma * x$dc) - 1
+  cbind(
+    euler_error * x$z1,
+    euler_error * x$z2,
+    euler_error * x$z3
+  )
 }
 
 # =====================================================

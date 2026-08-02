@@ -1,9 +1,3 @@
-
-# Optional: set working directory to current script location (RStudio)
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-}
-
 # =====================================================
 ## 1. Load Required Libraries and Download GDP Data
 ## =====================================================
@@ -12,6 +6,10 @@ library(WDI)
 
 # Download GDP data from World Bank API
 gdp_data <- WDI(indicator = "NY.GDP.PCAP.KD", country = "US", start = 1960, end = 2023)
+
+# WDI commonly returns years in descending order; transformations must be
+# computed in chronological order.
+gdp_data <- gdp_data[order(gdp_data$year), , drop = FALSE]
 
 # =====================================================
 ## 2. Calculate the First and Logarithmic Differences of GDP

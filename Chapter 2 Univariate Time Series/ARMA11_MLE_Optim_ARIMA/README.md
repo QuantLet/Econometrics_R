@@ -5,7 +5,7 @@
 </div>
 
 ```
-Name of Quantlet: ARMA11_MLE_Optim_Arima
+Name of Quantlet: ARMA11_MLE_Optim_ARIMA
 
 Published in: Econometrics_R
 

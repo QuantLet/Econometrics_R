@@ -12,8 +12,4 @@ Submitted: 29 April 2025
 
 Datafile: Intraday data retrieved via Alpha Vantage API
 
-See also:
-HF_Realized_Volatility_Synthetic,
-GBM_MLE_Approx_vs_Exact_Diagnostics,
-ols_mtcars_regression,
-heteroskedasticity_simulation
+See also: TSRV_AlphaVantage, GBM_MLE_Approx_vs_Exact_Diagnostics

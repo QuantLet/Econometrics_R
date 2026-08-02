@@ -87,8 +87,8 @@ cat("Selected VAR(p) by SC:", p_opt, "\n")
 var_fit <- vars::VAR(y_ts, p = p_opt, type = "const")
 summary(var_fit)
 
-# Extract estimated coefficient matrices and Omega
-Phi_hat  <- Bcoef(var_fit)  # stacked coefficients
+# Extract estimated lag-coefficient matrices and Omega
+Phi_hat  <- vars::Acoef(var_fit)  # list: Phi_1,...,Phi_p
 Omega_hat <- crossprod(resid(var_fit)) / nrow(resid(var_fit))
 Omega_hat
 
@@ -104,14 +104,9 @@ Gamma0_hat
 # Fit VAR(1)
 var1_fit <- vars::VAR(y_ts, p = 1, type = "const")
 
-# Coefficient matrix:
-# rows = equations (lcons, linc)
-# columns = const, l1.lcons, l1.linc
-B1 <- Bcoef(var1_fit)
-
-# Drop the intercept column, keep only lagged coefficients
-# This is the A matrix in y_t = c + A y_{t-1} + eps_t
-A_hat <- as.matrix(B1[, -1])  # n x n, no transpose
+# This is the A matrix in y_t = c + A y_{t-1} + eps_t.
+# Acoef() avoids relying on the column order used by Bcoef().
+A_hat <- vars::Acoef(var1_fit)[[1]]
 
 # Innovation covariance from VAR(1) residuals
 Omega1_hat <- crossprod(resid(var1_fit)) / nrow(resid(var1_fit))
@@ -154,27 +149,17 @@ get_Psi_array <- function(Phi_list, K) {
   for (k in 1:K) {
     tmp <- matrix(0, n, n)
     for (i in 1:min(p, k)) {
-      tmp <- tmp + Psi[, , k + 1 - i] %*% Phi_list[[i]]
+      tmp <- tmp + Phi_list[[i]] %*% Psi[, , k + 1 - i]
     }
     Psi[, , k + 1] <- tmp
   }
   Psi
 }
 
-# Extract Phi_1,...,Phi_p from 'var_fit'
+# Extract Phi_1,...,Phi_p directly from 'var_fit'
 p <- p_opt
 n <- ncol(y_ts)
-Phi_list <- vector("list", p)
-for (ell in 1:p) {
-  # 'Phi' stacked: each block (for a lag) is a 2x2 matrix row-wise
-  # Bcoef(var_fit) returns: each row = eq, columns = const + lags
-  Bmat <- Bcoef(var_fit)
-  Phi_block <- matrix(NA, n, n)
-  for (i in 1:n) {
-    Phi_block[i, ] <- Bmat[i, (1 + (ell - 1) * n + 1):(1 + ell * n)]
-  }
-  Phi_list[[ell]] <- Phi_block
-}
+Phi_list <- vars::Acoef(var_fit)
 
 K_max <- 24
 Psi_hat <- get_Psi_array(Phi_list, K = K_max)
@@ -211,7 +196,13 @@ connectedness_d <- function(Psi_array, Omega, K) {
       d_mat[i, j] <- as.numeric((1 / sigma_jj) * num / den)
     }
   }
-  d_mat
+  # Generalized FEVD entries do not generally sum to one by row.
+  # Normalize before interpreting them as variance shares.
+  row_totals <- rowSums(d_mat)
+  if (any(!is.finite(row_totals) | row_totals <= 0)) {
+    stop("Cannot normalize generalized FEVD rows.")
+  }
+  sweep(d_mat, 1, row_totals, FUN = "/")
 }
 
 K_spill <- 10
@@ -245,20 +236,20 @@ R1_hat
 
 # Theoretical quantities from the example:
 # Gamma_11(1) = 0
-# Gamma_21(1) = 1
+# Gamma_12(1) = 1
 # Gamma_22(1) = theta
-# R_21(1)  = 1 / sqrt(2(1+theta^2))
+# R_12(1)  = 1 / sqrt(2(1+theta^2))
 # R_22(1)  = theta / (1+theta^2)
 
 Gamma11_1_th <- 0
-Gamma21_1_th <- 1
+Gamma12_1_th <- 1
 Gamma22_1_th <- theta
 
-R21_1_th <- 1 / sqrt(2 * (1 + theta^2))
+R12_1_th <- 1 / sqrt(2 * (1 + theta^2))
 R22_1_th <- theta / (1 + theta^2)
 
-Gamma11_1_th; Gamma21_1_th; Gamma22_1_th
-R21_1_th; R22_1_th
+Gamma11_1_th; Gamma12_1_th; Gamma22_1_th
+R12_1_th; R22_1_th
 
 ## =====================================================
 ## 9. VARMA(1,1) simulation via MTS::VARMAsim

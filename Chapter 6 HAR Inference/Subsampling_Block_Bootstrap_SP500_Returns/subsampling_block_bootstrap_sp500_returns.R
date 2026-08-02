@@ -50,11 +50,11 @@ S       <- 1000      # number of bootstrap replications
 ## 5. Subsampling for mean return
 ## =====================================================
 
-n_sub  <- T - b_sub
+n_sub  <- T - b_sub + 1L
 rbar   <- mean(r)
 R_mean <- numeric(n_sub)
 
-for (j in 1:n_sub) {
+for (j in seq_len(n_sub)) {
   r_sub     <- r[j:(j + b_sub - 1)]
   rbar_sub  <- mean(r_sub)
   R_mean[j] <- sqrt(b_sub) * (rbar_sub - rbar)
@@ -90,7 +90,7 @@ print(p_sub_mean)
 rho_hat <- acf(r^2, lag.max = 1, plot = FALSE)$acf[2]
 R_acf   <- numeric(n_sub)
 
-for (j in 1:n_sub) {
+for (j in seq_len(n_sub)) {
   r_sub   <- r[j:(j + b_sub - 1)]
   rho_sub <- acf(r_sub^2, lag.max = 1, plot = FALSE)$acf[2]
   R_acf[j] <- sqrt(b_sub) * (rho_sub - rho_hat)
@@ -125,7 +125,7 @@ print(p_sub_acf)
 
 block_bootstrap_mean <- function(r, b, S) {
   T <- length(r)
-  m <- floor(T / b)                 # number of blocks needed
+  m <- ceiling(T / b)               # enough blocks for a length-T sample
   blocks <- embed(r, b)[, b:1]      # overlapping blocks
   B <- nrow(blocks)                 # number of available blocks
   
@@ -133,7 +133,7 @@ block_bootstrap_mean <- function(r, b, S) {
   for (s in 1:S) {
     indices     <- sample(1:B, m, replace = TRUE)
     boot_sample <- as.vector(t(blocks[indices, ]))
-    boot_sample <- boot_sample[1:(b * m)]
+    boot_sample <- boot_sample[seq_len(T)]
     boot_rbar   <- mean(boot_sample)
     boot_stats[s] <- sqrt(T) * (boot_rbar - mean(r))
   }

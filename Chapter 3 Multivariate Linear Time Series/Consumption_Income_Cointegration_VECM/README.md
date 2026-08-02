@@ -19,6 +19,5 @@ Submitted: 22 November 2025
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%203%20Multivariate%20LInear%20Time%20Series/Consumption_Income_Cointegration_VECM/log-consumption-income.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%203%20Multivariate%20Linear%20Time%20Series/Consumption_Income_Cointegration_VECM/log-consumption-income.png" alt="Log real consumption and log real disposable income" />
 </div>
-

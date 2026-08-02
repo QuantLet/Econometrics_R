@@ -1,4 +1,4 @@
-Name of Quantlet: Heteroskedasticity_Simulation_OLS_Diagnostics
+Name of Quantlet: hetero_diagnostics_sim
 
 Published in: Econometrics_R
 

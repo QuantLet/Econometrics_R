@@ -5,7 +5,7 @@
 </div>
 
 ```
-Name of Quantlet: Tidyverse_Data_Manipulation_Visualisation
+Name of Quantlet: Tidyverse package
 
 Published in: Econometrics_R
 
@@ -65,4 +65,3 @@ Submitted: 22 November 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Tidyverse%20package/mpg_statistical.png" alt="Image" />
 </div>
-

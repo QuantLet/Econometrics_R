@@ -5,7 +5,7 @@
 </div>
 
 ```
-Name of Quantlet: US_Climate_Temperature_Analysis
+Name of Quantlet: Temperature Data with US Map
 
 Published in: Econometrics_R
 
@@ -25,4 +25,3 @@ Submitted: 1 May 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Temperature%20Data%20with%20US%20Map/US_Temperature_Map_2014.png" alt="Image" />
 </div>
-

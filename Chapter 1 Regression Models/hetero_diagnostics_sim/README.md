@@ -5,7 +5,7 @@
 </div>
 
 ```
-Name of Quantlet: Heteroskedasticity_Simulation_OLS_Diagnostics
+Name of Quantlet: hetero_diagnostics_sim
 
 Published in: Econometrics_R
 
@@ -21,4 +21,3 @@ Submitted: 22 November 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%201%20Regression%20Models/hetero_diagnostics_sim/heter_sim.png" alt="Image" />
 </div>
-

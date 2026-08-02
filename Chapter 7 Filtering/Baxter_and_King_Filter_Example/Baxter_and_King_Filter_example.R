@@ -14,6 +14,9 @@ gdp_data <- WDI(country = "US",
                 extra = FALSE,    # optional
                 cache = NULL)     # optional
 
+# Apply the time-series filter in chronological order.
+gdp_data <- gdp_data[order(gdp_data$year), , drop = FALSE]
+
 # =====================================================
 ## 2. Apply Baxter and King Filter
 ## pl and pu set the periodic limits for the business cycle frequency
