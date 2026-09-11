@@ -15,7 +15,7 @@ getSymbols("SPY", src = "yahoo", from = "2010-01-01",
 # Daily log returns (in percent, optional)
 ret_xts <- na.omit(diff(log(Ad(SPY)))) * 100
 
-# Build a data frame with date, return and "volatility" proxy (squared return)
+# Build a data frame with date, return and a daily squared-return proxy
 vol_df <- data.frame(
   date = index(ret_xts),
   ret  = as.numeric(ret_xts)
@@ -67,12 +67,18 @@ test_df  <- rf_data[(T_train + 1):T_total, ]
 
 set.seed(123)  # for reproducibility
 
+## These tuning values are pre-specified for a compact illustration. In a
+## forecasting study, compare candidate values by rolling-origin validation;
+## OOB error alone does not preserve time ordering.
 rf_fit <- ranger(
   formula    = y ~ .,
   data       = dplyr::select(train_df, -date),
   num.trees  = 500,
   mtry       = floor(sqrt(ncol(train_df) - 2)),  # predictors per split
-  importance = "permutation"                     # compute variable importance
+  min.node.size = 5,
+  importance = "permutation",                    # compute variable importance
+  num.threads = 1,
+  seed = 123                                      # reproducible across runs
 )
 
 print(rf_fit)

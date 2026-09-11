@@ -120,17 +120,24 @@ Sigma_T <- Sigma_dcc_last
 U_T <- chol(Sigma_T)
 L_T <- t(U_T)  # lower-triangular so that Σ_T = L_T L_T'
 
-# Take the corresponding innovations at time T
-eps_T <- as.numeric(eps_xts[T, ])
+# Extract innovations from the fitted DCC mean models
+eps_dcc <- residuals(dcc_fit)
+eps_T <- as.numeric(eps_dcc[T, ])
 
 # Orthogonal shocks: b_T = L_T^{-1} eps_T
 b_T <- solve(L_T, eps_T)
 
-# Check that these shocks are (approximately) uncorrelated with unit variance
-# Var(b_T | F_{T-1}) = I_k if Σ_T is exact covariance of eps_T
+# The model implies Var(b_T | F_{T-1}) = I_k. A single vector cannot
+# verify this moment condition, so construct the full standardized sample.
 b_T
-t(b_T) %*% b_T          # squared length at one time point
-# In practice you could apply this over all t to build a series of orthogonal shocks
+b_mat <- matrix(NA_real_, nrow = T, ncol = k,
+                dimnames = list(NULL, symbols))
+for (t in 1:T) {
+  L_t <- t(chol(H_array[, , t]))
+  b_mat[t, ] <- solve(L_t, as.numeric(eps_dcc[t, ]))
+}
+colMeans(b_mat)
+cov(b_mat)
 
 ## =====================================================
 ## 6. Summary

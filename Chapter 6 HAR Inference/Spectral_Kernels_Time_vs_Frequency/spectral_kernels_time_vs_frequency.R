@@ -12,25 +12,43 @@ library(gridExtra)
 ## 2. Define kernels and their Fourier transforms
 ## =====================================================
 
+# Numerically stable sinc and quadratic-spectral functions
+sinc <- function(z) {
+  out <- rep(1, length(z))
+  nz <- abs(z) > sqrt(.Machine$double.eps)
+  out[nz] <- sin(z[nz]) / z[nz]
+  out
+}
+
+qs_kernel <- function(x) {
+  z <- pi * x
+  out <- numeric(length(z))
+  small <- abs(z) < 1e-4
+  out[small] <- 1 - z[small]^2 / 10 + z[small]^4 / 280
+  out[!small] <- 3 / z[!small]^2 *
+    (sinc(z[!small]) - cos(z[!small]))
+  out
+}
+
 # Time-domain kernel functions k(x)
 kernels <- list(
   Truncated = function(x) ifelse(abs(x) <= 1, 1, 0),
   Bartlett  = function(x) ifelse(abs(x) <= 1, 1 - abs(x), 0),
-  Daniell   = function(x) ifelse(x == 0, 1, sin(pi * x) / (pi * x)),
+  Daniell   = function(x) sinc(pi * x),
   Parzen    = function(x) ifelse(
     abs(x) <= 0.5,
     1 - 6 * x^2 + 6 * abs(x)^3,
     ifelse(abs(x) <= 1, 2 * (1 - abs(x))^3, 0)
   ),
-  QS        = function(x) 3 / (pi * x)^2 * (sin(pi * x) / (pi * x) - cos(pi * x))
+  QS        = qs_kernel
 )
 
 # Frequency-domain Fourier transforms K(u)
 fourier_transforms <- list(
-  Truncated = function(u) (1 / pi) * (sin(u) / u),
-  Bartlett  = function(u) (1 / (2 * pi)) * (sin(u / 2) / (u / 2))^2,
+  Truncated = function(u) (1 / pi) * sinc(u),
+  Bartlett  = function(u) (1 / (2 * pi)) * sinc(u / 2)^2,
   Daniell   = function(u) (1 / (2 * pi)) * ifelse(abs(u) <= pi, 1, 0),
-  Parzen    = function(u) (3 / (8 * pi)) * (sin(u / 4) / (u / 4))^4,
+  Parzen    = function(u) (3 / (8 * pi)) * sinc(u / 4)^4,
   QS        = function(u) (3 / (4 * pi)) * (1 - (u / pi)^2) * ifelse(abs(u) <= pi, 1, 0)
 )
 

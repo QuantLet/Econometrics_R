@@ -32,7 +32,7 @@ fitted_model <- build_model(fit$par)
 # =====================================================
 ## 3. Kalman Filtering and Smoothing
 ## =====================================================
-# Kalman filter and smoother with default (diffuse) initialization
+# Default large-variance approximate diffuse initialization
 filtered_diffuse <- dlmFilter(y, fitted_model)
 smoothed <- dlmSmooth(filtered_diffuse)
 

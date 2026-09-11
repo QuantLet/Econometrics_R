@@ -3,8 +3,7 @@
 ##    and kernel density estimation
 ## =====================================================
 library(quantmod)     # for data downloading
-library(MASS)          # for kde function for kernel density estimation
-library(ks)            # for multivariate kernel density estimation
+library(ks)           # provides multivariate kernel density estimation
 
 ## =====================================================
 ## 2. Download recent FTSE 100 & DAX data and compute returns
@@ -44,8 +43,8 @@ colnames(market_returns_clean) <- c("Date", "FTSE_Returns", "DAX_Returns")
 # Convert the cleaned data frame to a matrix for multivariate analysis
 data_matrix <- as.matrix(market_returns_clean[, c("FTSE_Returns", "DAX_Returns")])
 
-# Perform multivariate kernel density estimation using the ks package
-kde_result <- kde(x = data_matrix)
+# Perform multivariate kernel density estimation explicitly with ks::kde()
+kde_result <- ks::kde(x = data_matrix)
 
 ## =====================================================
 ## 4. 2D and 3D Visualization using ks package

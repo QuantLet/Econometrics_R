@@ -22,7 +22,9 @@ n_samples <- 500
 Y         <- numeric(n_samples)
 epsilon   <- rnorm(n_samples, mean = 0, sd = 1)
 
-# Random walk recursion
+# Start from Y_0 = 0, so Y_1 = epsilon_1.
+Y[1] <- epsilon[1]
+# Random walk recursion for the remaining observations
 for (t in 2:n_samples) {
   Y[t] <- Y[t - 1] + epsilon[t]
 }

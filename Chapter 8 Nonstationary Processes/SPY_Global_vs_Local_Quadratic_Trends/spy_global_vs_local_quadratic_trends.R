@@ -53,13 +53,19 @@ spy_df$trend_global_log <- fitted(global_fit)
 bc_factor_global <- mean(exp(residuals(global_fit)))  # sample approximation to E(exp(ε))
 spy_df$trend_global <- exp(spy_df$trend_global_log) * bc_factor_global
 
-# Time of the peak of the global quadratic curve (if γ < 0)
+# Time of the peak of the global quadratic curve (if it is a
+# concave parabola and its vertex lies inside the observed sample)
 b <- coef(global_fit)
 if (b["I(t^2)"] < 0) {
-  t_peak   <- -b["t"] / (2 * b["I(t^2)"])
-  date_peak <- spy_df$date[round(t_peak)]
-  message("Estimated peak (global quadratic) at t ≈ ",
-          round(t_peak, 1), ", date ≈ ", as.character(date_peak))
+  t_peak <- -b["t"] / (2 * b["I(t^2)"])
+  peak_index <- round(t_peak)
+  if (is.finite(t_peak) && peak_index >= 1 && peak_index <= T_obs) {
+    date_peak <- spy_df$date[peak_index]
+    message("Estimated peak (global quadratic) at t ≈ ",
+            round(t_peak, 1), ", date ≈ ", as.character(date_peak))
+  } else {
+    message("The fitted quadratic vertex lies outside the observed sample.")
+  }
 }
 
 ## =========================================================

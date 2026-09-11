@@ -51,10 +51,20 @@ computeLRVCovMatrix <- function(y, bandwidth) {
   if (is.vector(y)) {
     y <- matrix(y, ncol = 1)
   }
+
+  if (!is.matrix(y) || !is.numeric(y) || anyNA(y)) {
+    stop("y must be a complete numeric vector or matrix")
+  }
+
+  if (length(bandwidth) != 1L || !is.finite(bandwidth) ||
+      bandwidth < 0 || bandwidth > 1) {
+    stop("bandwidth must be one finite number in [0, 1]")
+  }
   
   n <- nrow(y)  # Number of observations
   p <- ncol(y)  # Number of variables
-  lags <- floor(bandwidth * n)  # Maximum lag m = floor(b * n)
+  if (n < 2L) stop("at least two observations are required")
+  lags <- min(n - 1L, floor(bandwidth * n))
   
   ## -------------------------------------------------
   ## 2. Demean the data

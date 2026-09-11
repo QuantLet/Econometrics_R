@@ -15,6 +15,23 @@ library(WDI)
 library(quantmod)
 library(lmtest)
 
+arch_lm_test <- function(residuals, p) {
+  z <- embed(residuals^2, p + 1)
+  aux_data <- as.data.frame(z)
+  names(aux_data) <- c("current", paste0("lag", 1:p))
+  aux_fit <- lm(current ~ ., data = aux_data)
+  statistic <- nrow(aux_data) * summary(aux_fit)$r.squared
+  list(
+    statistic = statistic,
+    parameter = p,
+    p.value = pchisq(statistic, df = p, lower.tail = FALSE)
+  )
+}
+
+mcleod_li_test <- function(residuals, p) {
+  Box.test(residuals^2, lag = p, type = "Ljung-Box")
+}
+
 ## =====================================================
 ## 2. Annual U.S. GDP growth (WDI)
 ##    LM and McLeod–Li tests
@@ -47,30 +64,21 @@ p_gdp <- 4
 
 # --- LM test (Engle) on annual GDP growth ---
 
-aux_gdp <- lm(
-  res_gdp2[(p_gdp + 1):T_gdp] ~ res_gdp2[1:(T_gdp - p_gdp)]
-)
-
-lm_stat_gdp <- summary(aux_gdp)$r.squared * (T_gdp - p_gdp)
+lm_gdp <- arch_lm_test(res_gdp, p_gdp)
+lm_stat_gdp <- lm_gdp$statistic
 
 cat("GDP: LM test statistic for ARCH effects:", lm_stat_gdp, "\n")
 cat("GDP: Asymptotic reference: Chi-squared with", p_gdp, "df.\n")
+cat("GDP: LM p-value:", lm_gdp$p.value, "\n")
 
 # --- McLeod–Li test on annual GDP growth ---
 
-sigma2_gdp    <- mean(res_gdp2)
-res_gdp2_dm   <- res_gdp2 - sigma2_gdp
-gamma0_gdp    <- var(res_gdp2_dm)
+ml_gdp <- mcleod_li_test(res_gdp, p_gdp)
+ml_stat_gdp <- unname(ml_gdp$statistic)
 
-gammaj_gdp <- sapply(1:p_gdp, function(j) {
-  mean(res_gdp2_dm[(j + 1):T_gdp] * res_gdp2_dm[1:(T_gdp - j)], na.rm = TRUE)
-})
-
-rho_gdp  <- gammaj_gdp / gamma0_gdp
-ml_stat_gdp <- T_gdp * sum(rho_gdp^2)
-
-cat("GDP: McLeod–Li statistic ML(p):", ml_stat_gdp, "\n")
+cat("GDP: McLeod-Li statistic ML(p):", ml_stat_gdp, "\n")
 cat("GDP: Asymptotic reference: Chi-squared with", p_gdp, "df.\n")
+cat("GDP: McLeod-Li p-value:", ml_gdp$p.value, "\n")
 
 ## =====================================================
 ## 3. Monthly U.S. industrial production (FRED)
@@ -78,7 +86,8 @@ cat("GDP: Asymptotic reference: Chi-squared with", p_gdp, "df.\n")
 ## =====================================================
 
 # INDPRO: Industrial Production Index (U.S.)
-getSymbols("INDPRO", src = "FRED")
+getSymbols("INDPRO", src = "FRED",
+           from = "1960-01-01", to = "2023-12-31")
 
 # Monthly growth rate (log difference * 100)
 ip  <- na.omit(INDPRO)
@@ -99,27 +108,18 @@ p_ip <- 12
 
 # --- LM test (Engle) on monthly IP growth ---
 
-aux_ip <- lm(
-  res_ip2[(p_ip + 1):T_ip] ~ res_ip2[1:(T_ip - p_ip)]
-)
-
-lm_stat_ip <- summary(aux_ip)$r.squared * (T_ip - p_ip)
+lm_ip <- arch_lm_test(res_ip, p_ip)
+lm_stat_ip <- lm_ip$statistic
 
 cat("IP: LM test statistic for ARCH effects:", lm_stat_ip, "\n")
 cat("IP: Asymptotic reference: Chi-squared with", p_ip, "df.\n")
+cat("IP: LM p-value:", lm_ip$p.value, "\n")
 
 # --- McLeod–Li test on monthly IP growth ---
 
-sigma2_ip   <- mean(res_ip2)
-res_ip2_dm  <- res_ip2 - sigma2_ip
-gamma0_ip   <- var(res_ip2_dm)
+ml_ip <- mcleod_li_test(res_ip, p_ip)
+ml_stat_ip <- unname(ml_ip$statistic)
 
-gammaj_ip <- sapply(1:p_ip, function(j) {
-  mean(res_ip2_dm[(j + 1):T_ip] * res_ip2_dm[1:(T_ip - j)], na.rm = TRUE)
-})
-
-rho_ip    <- gammaj_ip / gamma0_ip
-ml_stat_ip <- T_ip * sum(rho_ip^2)
-
-cat("IP: McLeod–Li statistic ML(p):", ml_stat_ip, "\n")
+cat("IP: McLeod-Li statistic ML(p):", ml_stat_ip, "\n")
 cat("IP: Asymptotic reference: Chi-squared with", p_ip, "df.\n")
+cat("IP: McLeod-Li p-value:", ml_ip$p.value, "\n")

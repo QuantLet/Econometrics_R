@@ -6,11 +6,9 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 #========================================
-# Load required packages
+# Load required package
 #========================================
-# install.packages("forecast")
 # install.packages("ggplot2")
-library(forecast)
 library(ggplot2)
 
 #========================================
@@ -31,12 +29,14 @@ for (t in 2:n) {
 }
 
 #========================================
-# Fit an MA(10) model (Wold-style approximation)
+# Construct the ten-lag Wold truncation directly
 #========================================
-fit <- Arima(Y, order = c(0, 0, 10), include.mean = FALSE)
-
-# Fitted values: linear predictor (finite MA approximation)
-fitted_values <- fitted(fit)
+J <- 10
+wold_approx <- numeric(n)
+for (t in 1:n) {
+  lags <- 0:min(J, t - 1)
+  wold_approx[t] <- sum(phi^lags * epsilon[t - lags])
+}
 
 #========================================
 # Prepare data for plotting
@@ -44,21 +44,21 @@ fitted_values <- fitted(fit)
 df_wold <- data.frame(
   Time    = 1:n,
   Original = as.numeric(Y),
-  Fitted   = as.numeric(fitted_values)
+  Truncated = wold_approx
 )
 
 #========================================
-# Plot: Original AR(1) vs MA(10) approximation
+# Plot: Original AR(1) vs ten-lag Wold truncation
 #========================================
 p_wold <- ggplot(df_wold, aes(x = Time)) +
   geom_line(aes(y = Original, colour = "Original series",
                 linetype = "Original series")) +
-  geom_line(aes(y = Fitted, colour = "MA(10) approximation",
-                linetype = "MA(10) approximation")) +
+  geom_line(aes(y = Truncated, colour = "Ten-lag Wold truncation",
+                linetype = "Ten-lag Wold truncation")) +
   scale_linetype_manual(values = c("Original series" = "solid",
-                                   "MA(10) approximation" = "dashed")) +
+                                   "Ten-lag Wold truncation" = "dashed")) +
   labs(
-    title = "Demonstration of the Wold decomposition (AR(1) \u2248 MA(10))",
+    title = "AR(1) Series and Its Ten-Lag Wold Truncation",
     x     = "Time",
     y     = "Value",
     colour = "Series",

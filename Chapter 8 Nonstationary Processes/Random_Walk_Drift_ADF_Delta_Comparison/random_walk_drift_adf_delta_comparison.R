@@ -20,12 +20,10 @@ set.seed(123)
 ## =====================================================
 simulate_rw <- function(delta, n) {
   epsilon <- rnorm(n)  # Generate white noise (epsilon)
-  y <- numeric(n)      # Initialize vector to hold random walk values
-  y[1] <- 0            # Set the starting value of the series
-  for (t in 2:n) {
-    y[t] <- y[t - 1] + delta + epsilon[t]  # Generate the random walk process
-  }
-  return(y)  # Return the simulated series
+  # Start from Y_0 = 0 and return Y_1, ..., Y_n, so that the
+  # first innovation is included rather than silently discarded.
+  y <- cumsum(delta + epsilon)
+  return(y)
 }
 
 # =====================================================

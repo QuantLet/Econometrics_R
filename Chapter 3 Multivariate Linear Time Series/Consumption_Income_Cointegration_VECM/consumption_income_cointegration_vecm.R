@@ -209,10 +209,17 @@ r_ci <- 1
 vecm_fit <- cajorls(joh_trace, r = r_ci)
 summary(vecm_fit$rlm)
 
-# 6.5 Extract estimated cointegrating vector β (normalised)
+# 6.5 Extract estimated cointegrating vector beta (normalised)
 beta_hat <- joh_trace@V[, 1]        # first eigenvector
+beta_names <- rownames(joh_trace@V)
 beta_hat <- beta_hat / beta_hat[1]  # normalise w.r.t. lcons
 beta_hat
 
 cat("Estimated cointegrating relation (normalised on lcons):\n")
-cat("lcons_t -", abs(beta_hat[2]), "* linc_t ~ I(0)\n")
+relation_terms <- paste0(
+  ifelse(beta_hat >= 0, "+ ", "- "),
+  formatC(abs(beta_hat), digits = 6, format = "f"),
+  " * ", beta_names
+)
+relation_text <- sub("^[+] ", "", paste(relation_terms, collapse = " "))
+cat(relation_text, "~ I(0)\n")

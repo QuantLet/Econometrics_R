@@ -11,7 +11,7 @@ data <- rnorm(100, mean = 5, sd = 3)
 
 log_likelihood <- function(params) {
   mu     <- params[1]
-  sigma2 <- params[2]
+  sigma2 <- exp(params[2])  # log-variance parameterization ensures positivity
   
   # Note: optim() minimizes, so we return the negative log-likelihood.
   n <- length(data)
@@ -23,12 +23,12 @@ log_likelihood <- function(params) {
 ## 3. Maximize the log-likelihood via optim()
 ## =====================================================
 
-start_values <- c(mu = 0, sigma2 = 1)  # Initial values
+start_values <- c(mu = 0, log_sigma2 = 0)  # Initial values
 result       <- optim(start_values, log_likelihood)
 
 cat("MLE via optim():\n")
 cat("  mu      =", result$par[1], "\n")
-cat("  sigma^2 =", result$par[2], "\n\n")
+cat("  sigma^2 =", exp(result$par[2]), "\n\n")
 
 ## =====================================================
 ## 4. Closed-form MLE for mu and sigma^2
@@ -40,5 +40,3 @@ mle_sigma2 <- sum((data - mle_mu)^2) / length(data)
 cat("Closed-form MLEs:\n")
 cat("  mu      =", mle_mu, "\n")
 cat("  sigma^2 =", mle_sigma2, "\n")
- 
- 

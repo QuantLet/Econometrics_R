@@ -24,8 +24,13 @@ library(xtable)
 ## 3. Simulation design
 ## =====================================================
 
-numrep      <- 10000   # Number of Monte Carlo replications
-sample.size <- 200000  # Number of time steps in [0, 1]
+## Laptop-friendly defaults.  To reproduce the finer grid used for the
+## table in the book, set SN_GRID_SIZE=200000 before running the script.
+numrep      <- as.integer(Sys.getenv("SN_NUM_REP", "10000"))
+sample.size <- as.integer(Sys.getenv("SN_GRID_SIZE", "5000"))
+
+if (numrep < 100L) stop("SN_NUM_REP must be at least 100.")
+if (sample.size < 100L) stop("SN_GRID_SIZE must be at least 100.")
 
 # Storage for simulated statistics
 Hong.M.test     <- numeric(numrep)
@@ -37,12 +42,12 @@ standard.normal <- numeric(numrep)
 ## =====================================================
 
 for (i in 1:numrep) {
-  # Discrete time grid on [0, 1]
+  # Discrete time grid on [0, 1], including B(0) = 0
   times <- seq(0, 1, length.out = sample.size)
   dt    <- times[2] - times[1]
   
-  # Standard Brownian motion via normalized Gaussian increments
-  dB <- rnorm(sample.size) / sqrt(sample.size)
+  # Standard Brownian motion via Gaussian increments with variance dt
+  dB <- c(0, rnorm(sample.size - 1L, sd = sqrt(dt)))
   B  <- cumsum(dB)
   
   # Brownian bridge on [0, 1]
@@ -50,7 +55,7 @@ for (i in 1:numrep) {
   
   # Adjusted-range self-normalizer (Hong et al.'s M)
   adjusted_range <- max(B_bridge) - min(B_bridge)
-  B1 <- sum(dB)  # B(1), should be approximately N(0,1)
+  B1 <- B[sample.size]  # B(1), distributed as N(0,1)
   Hong.M.test[i] <- B1 / adjusted_range
   
   # Self-normalized statistic based on Shao (2010)
@@ -68,14 +73,13 @@ for (i in 1:numrep) {
 ## =====================================================
 
 # Upper-tail levels
-cv.list  <- c(5, 2.5, 1, 0.5, 0.1) / 100
-cv.index <- round(numrep * (1 - cv.list))
+cv.list <- c(5, 2.5, 1, 0.5, 0.1) / 100
 
 result <- rbind(
   alpha                    = cv.list,
-  "Hong et al.'s (2024) M" = sort(Hong.M.test)[cv.index],
-  "Shao's (2010) S"        = sort(Shao.S.test)[cv.index],
-  "N(0,1)"                 = sort(standard.normal)[cv.index]
+  "Hong et al.'s (2024) M" = unname(quantile(Hong.M.test, 1 - cv.list, type = 8)),
+  "Shao's (2010) S"        = unname(quantile(Shao.S.test, 1 - cv.list, type = 8)),
+  "N(0,1)"                 = unname(quantile(standard.normal, 1 - cv.list, type = 8))
 )
 
 result <- t(result)

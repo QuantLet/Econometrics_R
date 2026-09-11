@@ -35,17 +35,23 @@ series_ids <- c(
   "FEDFUNDS"   # Effective Federal Funds Rate
 )
 
-get_series <- function(id, start_date = "1980-01-01") {
+get_series <- function(id, start_date = "1980-01-01", end_date = "2024-12-31") {
   out <- fredr(
     series_id         = id,
-    observation_start = as.Date(start_date)
+    observation_start = as.Date(start_date),
+    observation_end   = as.Date(end_date)
   ) %>%
     select(date, value)
   names(out)[names(out) == "value"] <- id
   out
 }
 
-data_list <- lapply(series_ids, get_series, start_date = "1980-01-01")
+data_list <- lapply(
+  series_ids,
+  get_series,
+  start_date = "1980-01-01",
+  end_date   = "2024-12-31"
+)
 
 # Merge all series on the date dimension
 macro_raw <- purrr::reduce(
@@ -97,7 +103,7 @@ y <- macro_lagged$ip_growth
 
 ## Predictors: all lags of IP growth, inflation, unemployment, Fed funds
 X <- macro_lagged %>%
-  select(-date, -ip_growth) %>%
+  select(matches("_L[0-9]+$")) %>%
   as.matrix()
 
 ## =====================================================
@@ -117,24 +123,70 @@ X_test  <- X[(T_train + 1):T_total, ]
 y_test  <- y[(T_train + 1):T_total]
 
 ## =====================================================
-## 6. Fit lasso with cross-validation
+## 6. Fit lasso with expanding-window cross-validation
 ## =====================================================
 
-set.seed(123)   # for reproducibility
+## Ordinary K-fold CV can train on observations later than a held-out
+## block. These splits always fit on the past and validate on the next
+## contiguous block.
+make_expanding_splits <- function(n, initial = floor(0.5 * n), K = 5L) {
+  validation_idx <- seq.int(initial + 1L, n)
+  block_id <- cut(seq_along(validation_idx), breaks = K, labels = FALSE)
+  lapply(split(validation_idx, block_id), function(validate) {
+    list(train = seq_len(min(validate) - 1L), validate = validate)
+  })
+}
 
-lasso_cv <- cv.glmnet(
-  x      = X_train,
-  y      = y_train,
-  alpha  = 1,          # alpha = 1 -> lasso
-  nfolds = 10          # 10-fold CV
-  # family = "gaussian"  # implied by numeric y
+ts_cv_glmnet <- function(X, y, alpha, lambda, splits) {
+  block_mse <- matrix(NA_real_, nrow = length(splits), ncol = length(lambda))
+
+  for (k in seq_along(splits)) {
+    train <- splits[[k]]$train
+    validate <- splits[[k]]$validate
+    fit <- glmnet(
+      X[train, , drop = FALSE], y[train],
+      alpha = alpha, lambda = lambda
+    )
+    pred <- predict(
+      fit,
+      newx = X[validate, , drop = FALSE],
+      s = lambda
+    )
+    block_mse[k, ] <- colMeans(sweep(pred, 1, y[validate], "-")^2)
+  }
+
+  mean_mse <- colMeans(block_mse)
+  list(lambda.min = lambda[which.min(mean_mse)], cvm = mean_mse)
+}
+
+splits <- make_expanding_splits(T_train, K = 5L)
+initial_idx <- splits[[1]]$train
+
+## Derive the candidate path from the earliest training window only.
+lasso_lambda <- glmnet(
+  X_train[initial_idx, , drop = FALSE],
+  y_train[initial_idx],
+  alpha = 1
+)$lambda
+
+lasso_cv <- ts_cv_glmnet(
+  X_train, y_train,
+  alpha = 1,
+  lambda = lasso_lambda,
+  splits = splits
 )
 
 # Lambda that minimises cross-validated error
 lambda_min <- lasso_cv$lambda.min
 
+lasso_fit <- glmnet(
+  X_train, y_train,
+  alpha = 1,
+  lambda = lasso_lambda
+)
+
 # Coefficients at the selected lambda
-coef_lasso <- coef(lasso_cv, s = "lambda.min")
+coef_lasso <- coef(lasso_fit, s = lambda_min)
 print(coef_lasso)
 
 # Variables actually used (non-zero coefficients)
@@ -147,7 +199,7 @@ print(selected_vars)
 ## 7. Out-of-sample predictions and RMSE (lasso)
 ## =====================================================
 
-y_hat_test <- predict(lasso_cv, newx = X_test, s = "lambda.min")
+y_hat_test <- predict(lasso_fit, newx = X_test, s = lambda_min)
 y_hat_test <- as.numeric(y_hat_test)
 
 rmse_test <- sqrt(mean((y_test - y_hat_test)^2))
@@ -162,37 +214,29 @@ cat("Test RMSE (naive mean forecaster):", rmse_naive, "\n")
 ## 8. Optional: compare with ridge regression
 ## =====================================================
 
-ridge_cv <- cv.glmnet(
-  x      = X_train,
-  y      = y_train,
-  alpha  = 0,          # alpha = 0 -> ridge
-  nfolds = 10
+ridge_lambda <- glmnet(
+  X_train[initial_idx, , drop = FALSE],
+  y_train[initial_idx],
+  alpha = 0
+)$lambda
+
+ridge_cv <- ts_cv_glmnet(
+  X_train, y_train,
+  alpha = 0,
+  lambda = ridge_lambda,
+  splits = splits
 )
 
 lambda_ridge <- ridge_cv$lambda.min
-coef_ridge   <- coef(ridge_cv, s = "lambda.min")
+ridge_fit <- glmnet(
+  X_train, y_train,
+  alpha = 0,
+  lambda = ridge_lambda
+)
+coef_ridge <- coef(ridge_fit, s = lambda_ridge)
 
-y_hat_test_ridge <- predict(ridge_cv, newx = X_test, s = "lambda.min")
+y_hat_test_ridge <- predict(ridge_fit, newx = X_test, s = lambda_ridge)
 y_hat_test_ridge <- as.numeric(y_hat_test_ridge)
 
 rmse_test_ridge <- sqrt(mean((y_test - y_hat_test_ridge)^2))
 cat("Test RMSE (ridge forecaster):", rmse_test_ridge, "\n")
-
-## =====================================================
-## 9. Note on time-series cross-validation
-## =====================================================
-
-## cv.glmnet uses random folds by default. For strict time-series
-## cross-validation, you can construct a 'foldid' vector with
-## contiguous blocks rather than random folds, for example:
-
-K       <- 10
-foldid  <- rep(1:K, length.out = T_train)
-# Optionally: keep folds in time order
-# foldid <- sort(foldid)
-lasso_cv_ts <- cv.glmnet(
-  X_train, y_train,
-  alpha  = 1,
-  nfolds = K,
-  foldid = foldid
-)

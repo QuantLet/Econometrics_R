@@ -31,7 +31,7 @@ df <- data.frame(
   r    = as.numeric(ret_xts)
 ) %>%
   mutate(
-    v    = r^2,                         # realised volatility proxy
+    v    = r^2,                         # daily squared-return proxy
     absr = abs(r),
     dow  = factor(wday(date, label = TRUE, week_start = 1))
   )
@@ -83,17 +83,50 @@ if (N <= T0 + 50L) stop("Not enough observations for this setup.")
 X_tune <- X_all[1:T0, ]
 y_tune <- y_all[1:T0]
 
-## Blocked folds (no shuffling) for time-series CV
-K <- 5
-foldid <- rep(1:K, length.out = T0)
-foldid <- sort(foldid)
+## Expanding-window validation. Ordinary K-fold CV, even with contiguous
+## fold labels, can train on observations later than the validation block.
+make_expanding_splits <- function(n, initial = floor(0.5 * n), K = 5L) {
+  validation_idx <- seq.int(initial + 1L, n)
+  block_id <- cut(seq_along(validation_idx), breaks = K, labels = FALSE)
+  lapply(split(validation_idx, block_id), function(validate) {
+    list(train = seq_len(min(validate) - 1L), validate = validate)
+  })
+}
 
-lasso_cv <- cv.glmnet(
-  x      = X_tune,
-  y      = y_tune,
-  alpha  = 1,          # lasso
-  nfolds = K,
-  foldid = foldid
+ts_cv_glmnet <- function(X, y, lambda, splits) {
+  block_mse <- matrix(NA_real_, nrow = length(splits), ncol = length(lambda))
+
+  for (k in seq_along(splits)) {
+    train <- splits[[k]]$train
+    validate <- splits[[k]]$validate
+    fit <- glmnet(
+      X[train, , drop = FALSE], y[train],
+      alpha = 1, lambda = lambda
+    )
+    pred <- predict(
+      fit,
+      newx = X[validate, , drop = FALSE],
+      s = lambda
+    )
+    block_mse[k, ] <- colMeans(sweep(pred, 1, y[validate], "-")^2)
+  }
+
+  mean_mse <- colMeans(block_mse)
+  list(lambda.min = lambda[which.min(mean_mse)], cvm = mean_mse)
+}
+
+cv_splits <- make_expanding_splits(T0, K = 5L)
+initial_idx <- cv_splits[[1]]$train
+lambda_grid <- glmnet(
+  X_tune[initial_idx, , drop = FALSE],
+  y_tune[initial_idx],
+  alpha = 1
+)$lambda
+
+lasso_cv <- ts_cv_glmnet(
+  X_tune, y_tune,
+  lambda = lambda_grid,
+  splits = cv_splits
 )
 
 lambda_opt <- lasso_cv$lambda.min
@@ -146,7 +179,10 @@ for (j in seq_along(eval_idx)) {
   r_train   <- df_lagged$r[train_idx]
   garch_fit <- ugarchfit(garch_spec, data = r_train, solver = "hybrid")
   garch_fc  <- ugarchforecast(garch_fit, n.ahead = 1)
-  f_garch[j] <- as.numeric(sigma(garch_fc))^2   # forecast of variance
+  garch_mean <- as.numeric(fitted(garch_fc))
+  garch_sd   <- as.numeric(sigma(garch_fc))
+  ## E(r_i^2 | F_{i-1}) = Var(r_i | F_{i-1}) + E(r_i | F_{i-1})^2.
+  f_garch[j] <- garch_sd^2 + garch_mean^2
   
   ## -----------------------------
   ## 4.3 Lasso (glmnet)
@@ -158,13 +194,15 @@ for (j in seq_along(eval_idx)) {
     x      = X_train,
     y      = y_all[train_idx],
     alpha  = 1,
-    lambda = lambda_opt
+    lambda = lambda_grid
   )
   
-  f_lasso[j] <- as.numeric(predict(lasso_fit, newx = X_test))
+  f_lasso[j] <- as.numeric(
+    predict(lasso_fit, newx = X_test, s = lambda_opt)
+  )
   
   ## -----------------------------
-  ## 4.4 Random forest (ranger)
+  ## 4.4 Random forest (ranger; pre-specified tuning values)
   ## -----------------------------
   rf_train_df <- ml_dat[train_idx, , drop = FALSE]
   rf_test_df  <- ml_dat[test_idx, , drop = FALSE]
@@ -176,7 +214,8 @@ for (j in seq_along(eval_idx)) {
     mtry       = floor(sqrt(ncol(rf_train_df) - 1)),  # exclude response y
     min.node.size = 5,
     importance = "none",
-    num.threads = 1  # reproducible results across runs
+    num.threads = 1,
+    seed = 456 + j  # reproducible results across runs
   )
   
   f_rf[j] <- as.numeric(
@@ -218,18 +257,18 @@ plot_df <- data.frame(
 )
 
 p_lasso <- ggplot(plot_df, aes(x = date)) +
-  geom_line(aes(y = y, colour = "Realised", linetype = "Realised"), linewidth = 0.4) +
+  geom_line(aes(y = y, colour = "Squared return", linetype = "Squared return"), linewidth = 0.4) +
   geom_line(aes(y = Lasso, colour = "Lasso", linetype = "Lasso"), linewidth = 0.4) +
   scale_colour_manual(
-    values = c("Realised" = "black", "Lasso" = "red"),
+    values = c("Squared return" = "black", "Lasso" = "red"),
     name   = NULL
   ) +
   scale_linetype_manual(
-    values = c("Realised" = "solid", "Lasso" = "dashed"),
+    values = c("Squared return" = "solid", "Lasso" = "dashed"),
     name   = NULL
   ) +
   labs(
-    title = "Realised volatility vs lasso forecast",
+    title = "Daily squared return vs lasso forecast",
     x     = "Date",
     y     = "Squared return / forecast"
   ) +

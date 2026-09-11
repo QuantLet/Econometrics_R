@@ -21,9 +21,13 @@ n      <- 1000
 omega  <- 0.1
 alphas <- c(0.5, 0.2, 0.1)  # p = 3
 
-eps    <- rnorm(n)
+eps    <- numeric(n)
 sigma2 <- numeric(n)
 sigma2[1:length(alphas)] <- omega / (1 - sum(alphas))
+eps[1:length(alphas)] <- rnorm(
+  length(alphas),
+  sd = sqrt(sigma2[1:length(alphas)])
+)
 
 for (i in (length(alphas) + 1):n) {
   sigma2[i] <- omega + sum(alphas * eps[(i - 1):(i - length(alphas))]^2)

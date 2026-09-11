@@ -20,9 +20,11 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 set.seed(123)
 n_samples <- 500
 alpha     <- 0.9
-Y         <- rep(0, n_samples)
+Y         <- numeric(n_samples)
 epsilon   <- rnorm(n_samples, mean = 0, sd = 1)
 
+# Start from Y_0 = 0, so Y_1 = epsilon_1.
+Y[1] <- epsilon[1]
 for (t in 2:n_samples) {
   Y[t] <- alpha * Y[t - 1] + epsilon[t]
 }

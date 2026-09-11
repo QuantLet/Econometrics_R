@@ -17,11 +17,12 @@ library(ncvreg)
 ## 2. Set up FRED API key and download macro series
 ## =====================================================
 
-## Put your key in an environment variable FRED_API_KEY,
-## or replace Sys.getenv(...) with your key as a string.
-
-fredr_set_key(Sys.getenv("FRED_API_KEY"))
-# fredr_set_key("YOUR_FRED_API_KEY_HERE")
+## Put your key in an environment variable FRED_API_KEY.
+fred_api_key <- Sys.getenv("FRED_API_KEY")
+if (!nzchar(fred_api_key)) {
+  stop("Please set the FRED_API_KEY environment variable before running this script.")
+}
+fredr_set_key(fred_api_key)
 
 ## We will forecast industrial production growth (INDPRO)
 ## using its own lags and lags of unemployment, inflation,
@@ -34,21 +35,31 @@ series_ids <- c(
   "FEDFUNDS"   # Effective Federal Funds Rate
 )
 
-get_series <- function(id, start_date = "1980-01-01") {
+get_series <- function(id, start_date = "1980-01-01", end_date = "2024-12-31") {
   out <- fredr(
     series_id         = id,
-    observation_start = as.Date(start_date)
+    observation_start = as.Date(start_date),
+    observation_end   = as.Date(end_date)
   ) %>%
     select(date, value)
   names(out)[names(out) == "value"] <- id
   out
 }
 
-data_list <- lapply(series_ids, get_series, start_date = "1980-01-01")
+data_list <- lapply(
+  series_ids,
+  get_series,
+  start_date = "1980-01-01",
+  end_date   = "2024-12-31"
+)
 
 # Merge all series on the date dimension
-macro_raw <- reduce(data_list, inner_join, by = "date") %>%
-  arrange(date)
+macro_raw <- purrr::reduce(
+  data_list,
+  dplyr::inner_join,
+  by = "date"
+) %>%
+  dplyr::arrange(date)
 
 ## =====================================================
 ## 3. Construct growth rates and first differences
@@ -92,7 +103,7 @@ y <- macro_lagged$ip_growth
 
 ## Predictors: all lags of IP growth, inflation, unemployment, Fed funds
 X <- macro_lagged %>%
-  select(-date, -ip_growth) %>%
+  select(matches("_L[0-9]+$")) %>%
   as.matrix()
 
 ## =====================================================
@@ -112,26 +123,73 @@ X_test  <- X[(T_train + 1):T_total, ]
 y_test  <- y[(T_train + 1):T_total]
 
 ## =====================================================
-## 6. Fit SCAD-penalised regression with cv.ncvreg
+## 6. Fit SCAD with expanding-window cross-validation
 ## =====================================================
-
-set.seed(123)   # for reproducibility of the folds
 
 ## family = "gaussian" for continuous responses
 ## penalty = "SCAD" gives the smoothly clipped absolute deviation penalty
 
-scad_cv <- cv.ncvreg(
-  X      = X_train,
-  y      = y_train,
+make_expanding_splits <- function(n, initial = floor(0.5 * n), K = 5L) {
+  validation_idx <- seq.int(initial + 1L, n)
+  block_id <- cut(seq_along(validation_idx), breaks = K, labels = FALSE)
+  lapply(split(validation_idx, block_id), function(validate) {
+    list(train = seq_len(min(validate) - 1L), validate = validate)
+  })
+}
+
+ts_cv_ncvreg <- function(X, y, penalty, lambda, splits) {
+  block_mse <- matrix(NA_real_, nrow = length(splits), ncol = length(lambda))
+
+  for (k in seq_along(splits)) {
+    train <- splits[[k]]$train
+    validate <- splits[[k]]$validate
+    fit <- ncvreg(
+      X[train, , drop = FALSE], y[train],
+      family = "gaussian", penalty = penalty, lambda = lambda
+    )
+    pred <- predict(
+      fit,
+      X[validate, , drop = FALSE],
+      type = "response",
+      which = seq_along(lambda)
+    )
+    block_mse[k, ] <- colMeans(sweep(pred, 1, y[validate], "-")^2)
+  }
+
+  mean_mse <- colMeans(block_mse)
+  list(lambda.min = lambda[which.min(mean_mse)], cvm = mean_mse)
+}
+
+splits <- make_expanding_splits(T_train, K = 5L)
+initial_idx <- splits[[1]]$train
+
+## Derive the candidate path from the earliest training window only.
+scad_lambda <- ncvreg(
+  X_train[initial_idx, , drop = FALSE],
+  y_train[initial_idx],
   family = "gaussian",
   penalty = "SCAD"
+)$lambda
+
+scad_cv <- ts_cv_ncvreg(
+  X_train, y_train,
+  penalty = "SCAD",
+  lambda = scad_lambda,
+  splits = splits
 )
 
 # Lambda that minimises cross-validated error
 lambda_min_scad <- scad_cv$lambda.min
 
+scad_fit <- ncvreg(
+  X_train, y_train,
+  family = "gaussian",
+  penalty = "SCAD",
+  lambda = scad_lambda
+)
+
 ## Coefficients at the selected lambda
-coef_scad <- coef(scad_cv, lambda = lambda_min_scad)
+coef_scad <- coef(scad_fit, lambda = lambda_min_scad)
 print(coef_scad)
 
 ## Variables actually used (non-zero coefficients)
@@ -147,7 +205,7 @@ print(selected_vars_scad)
 ## =====================================================
 
 y_hat_test_scad <- predict(
-  scad_cv,
+  scad_fit,
   X_test,
   lambda = lambda_min_scad
 )
@@ -168,18 +226,31 @@ cat("Test RMSE (naive mean forecaster):", rmse_naive, "\n")
 ## Using penalty = "lasso" reproduces an L1-penalised estimator
 ## for comparison with SCAD.
 
-lasso_cv <- cv.ncvreg(
-  X      = X_train,
-  y      = y_train,
+lasso_lambda <- ncvreg(
+  X_train[initial_idx, , drop = FALSE],
+  y_train[initial_idx],
   family = "gaussian",
   penalty = "lasso"
+)$lambda
+
+lasso_cv <- ts_cv_ncvreg(
+  X_train, y_train,
+  penalty = "lasso",
+  lambda = lasso_lambda,
+  splits = splits
 )
 
 lambda_min_lasso <- lasso_cv$lambda.min
-coef_lasso <- coef(lasso_cv, lambda = lambda_min_lasso)
+lasso_fit <- ncvreg(
+  X_train, y_train,
+  family = "gaussian",
+  penalty = "lasso",
+  lambda = lasso_lambda
+)
+coef_lasso <- coef(lasso_fit, lambda = lambda_min_lasso)
 
 y_hat_test_lasso <- predict(
-  lasso_cv,
+  lasso_fit,
   X_test,
   lambda = lambda_min_lasso
 )
@@ -187,24 +258,3 @@ y_hat_test_lasso <- as.numeric(y_hat_test_lasso)
 
 rmse_test_lasso <- sqrt(mean((y_test - y_hat_test_lasso)^2))
 cat("Test RMSE (lasso forecaster via ncvreg):", rmse_test_lasso, "\n")
-
-## =====================================================
-## 9. Note on time-series cross-validation
-## =====================================================
-
-## cv.ncvreg by default creates random folds. For strict time-series
-## cross-validation, you can construct a 'folds' list with contiguous
-## blocks rather than random indices, e.g.:
-##
-##   K     <- 10
-##   idx   <- 1:T_train
-##   folds <- split(idx, cut(idx, K, labels = FALSE))
-##
-##   scad_cv_ts <- cv.ncvreg(
-##     X       = X_train,
-##     y       = y_train,
-##     family  = "gaussian",
-##     penalty = "SCAD",
-##     folds   = folds
-##   )
-##

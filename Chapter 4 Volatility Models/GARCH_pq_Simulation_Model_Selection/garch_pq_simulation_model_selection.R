@@ -28,6 +28,7 @@ beta1  <- 0.9
 
 # Initialize conditional variance using unconditional value
 sigma2[1] <- alpha0 / (1 - alpha1 - beta1)
+y[1]      <- rnorm(1, mean = 0, sd = sqrt(sigma2[1]))
 
 # Generate GARCH(1,1) series
 for (i in 2:n) {

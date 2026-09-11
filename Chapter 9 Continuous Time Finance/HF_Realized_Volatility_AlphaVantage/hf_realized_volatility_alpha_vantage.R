@@ -8,8 +8,11 @@ library(ggplot2)       # for plotting
 # Optionally:
 # library(alphavantager)  # for alternative API interface
 
-# Set your Alpha Vantage API key
-api_key <- "Your_Own_Key"
+# Read the Alpha Vantage API key from the environment
+api_key <- Sys.getenv("ALPHAVANTAGE_API_KEY")
+if (!nzchar(api_key)) {
+  stop("Please set the ALPHAVANTAGE_API_KEY environment variable.")
+}
 setDefaults(getSymbols.av, api.key = api_key)
 # Or if using alphavantager:
 # alphavantager::av_api_key(api_key)
@@ -18,7 +21,7 @@ setDefaults(getSymbols.av, api.key = api_key)
 ## 2. Download intraday high‑frequency data for a stock
 ## =====================================================
 
-symbol <- "AAPL"        # Apple inc. 
+symbol <- "AAPL"        # Apple Inc.
 interval <- "1min"      # high‑frequency interval
 output_size <- "full"   # get as many intraday points as available 
 getSymbols(symbol, src = "av", periodicity = "intraday",

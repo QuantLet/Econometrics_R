@@ -14,14 +14,14 @@ x <- mtcars$hp  # Horsepower
 y <- mtcars$mpg # Miles per Gallon
 
 ## =====================================================
-## 3. Select optimal bandwidth using dpill
+## 3. Select a direct plug-in bandwidth for local linear regression
 ## =====================================================
 bw <- dpill(x, y)
 
 ## =====================================================
-## 4. Perform Nadaraya–Watson kernel regression using locpoly
+## 4. Perform local linear kernel regression using locpoly
 ## =====================================================
-fit <- locpoly(x, y, bandwidth = bw, degree = 0, kernel = "normal", gridsize = 100)
+fit <- locpoly(x, y, bandwidth = bw, degree = 1, kernel = "normal", gridsize = 100)
 
 ## =====================================================
 ## 5. Create a fine grid for plotting
@@ -40,8 +40,8 @@ fit_df <- data.frame(x_fine = x_fine, y_pred = y_pred)
 ## =====================================================
 p <- ggplot() +
   geom_point(data = data.frame(x, y), aes(x, y)) +
-  geom_line(data = fit_df, aes(x_fine, y_pred), color = "blue", size = 1) +
-  labs(title = "Nadaraya–Watson Estimation",
+  geom_line(data = fit_df, aes(x_fine, y_pred), color = "blue", linewidth = 1) +
+  labs(title = "Local-Linear Kernel Regression",
        x = "Horsepower", y = "Miles per Gallon") 
 
 # Save the plot as a PNG file

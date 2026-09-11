@@ -20,7 +20,10 @@ loglik_arma11 <- function(par, data) {
   eps <- numeric(n)
   for (t in 2:n) eps[t] <- data[t] - phi * data[t - 1] - theta * eps[t - 1]
   
-  sum_ll <- -n / 2 * log(2 * pi * sigma2) - sum(eps^2) / (2 * sigma2)
+  innovations <- eps[2:n]
+  n_eff <- length(innovations)
+  sum_ll <- -n_eff / 2 * log(2 * pi * sigma2) -
+    sum(innovations^2) / (2 * sigma2)
   -sum_ll   # negative log-likelihood (optim() minimizes)
 }
 
@@ -46,7 +49,7 @@ cat("Log-likelihood value at the estimates:", -result$value, "\n")
 fit <- arima(data, order = c(1, 0, 1), method = "ML")
 
 ## =====================================================
-## 3. Output results
+## 6. Output results
 ## =====================================================
 
 print(fit)

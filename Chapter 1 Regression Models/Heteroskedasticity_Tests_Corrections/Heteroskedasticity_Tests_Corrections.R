@@ -161,15 +161,15 @@ summary(fit_GLS_unknown)
 
 ## =====================================================
 ## 7. Wage example: Goldfeld–Quandt and groupwise FGLS
-##    using CPS1985 data from carData
+##    using CPS1985 data from AER
 ## =====================================================
 
 ## -----------------------------------------------------
 ## 7.1 Load wage data and estimate OLS model
 ## -----------------------------------------------------
 
-# install.packages("carData")   # run once if not installed
-library(carData)
+# install.packages("AER")   # run once if not installed
+library(AER)
 
 data("CPS1985")   # loads data frame 'CPS1985'
 
@@ -197,8 +197,8 @@ female_data <- subset(CPS1985, gender == "female")
 fit_male   <- lm(wage ~ education + experience, data = male_data)
 fit_female <- lm(wage ~ education + experience, data = female_data)
 
-sigma2_male   <- var(residuals(fit_male))
-sigma2_female <- var(residuals(fit_female))
+sigma2_male   <- deviance(fit_male) / df.residual(fit_male)
+sigma2_female <- deviance(fit_female) / df.residual(fit_female)
 
 # F-statistic for equality of variances (male vs female)
 F_GQ <- sigma2_male / sigma2_female

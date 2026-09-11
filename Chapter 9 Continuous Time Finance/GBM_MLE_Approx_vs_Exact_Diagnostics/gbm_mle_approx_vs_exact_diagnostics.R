@@ -2,6 +2,14 @@
 ## 0. Set Random Seed and Define Small Epsilon for Numerical Stability
 ## =====================================================
 
+required_packages <- c("MLEMVD", "numDeriv")
+missing_packages <- required_packages[
+  !vapply(required_packages, requireNamespace, logical(1), quietly = TRUE)
+]
+if (length(missing_packages) > 0L) {
+  stop("Install the required package(s): ", paste(missing_packages, collapse = ", "))
+}
+
 set.seed(22)
 epsilon <- 1e-3
 args <- list()
@@ -46,14 +54,14 @@ delta <- time_step / factor
 params <- params_0
 
 random_noise <- rnorm(num_simulations)
-simulated_values <- rep(num_simulations, 0)
+simulated_values <- numeric(num_simulations)
 simulated_values[1] <- initial_value
 for (i in 2:num_simulations) {
   simulated_values[i] <- simulated_values[i - 1] + 
     (mu * simulated_values[i - 1]) * delta + sigma * simulated_values[i - 1] * sqrt(delta) * random_noise[i]
 }
 
-x <- rep(num_points, 0)
+x <- numeric(num_points)
 for (i in 1:num_points) {
   x[i] <- simulated_values[burn_in * factor + 1 + (i - 1) * factor]
 }
@@ -75,7 +83,7 @@ for (i in 1:num_trials) {
   ## 3. Estimate the MLE Parameters
   ## =====================================================
   
-  output <- mle(ModelU2, x, time_step, params, args)
+  output <- MLEMVD::mle(MLEMVD::ModelU2, x, time_step, params, args)
   estimated_params[i, ] <- output$solution
 }
 
@@ -83,46 +91,56 @@ for (i in 1:num_trials) {
 ## 4. Compute Diagnostic Information and Plot Log Likelihood Function
 ## =====================================================
 
-diagnostic_results <- summary(ModelU2, x, time_step, output$solution, args)
+diagnostic_results <- MLEMVD::summary(
+  MLEMVD::ModelU2, x, time_step, output$solution, args
+)
 
 ## =====================================================
-# 5. Perform Additional Diagnostics Comparing Approximate Likelihood with Exact Value
+## 5. Compare Approximate Diagnostics with Analytical Benchmarks
 ## =====================================================
 
 objective_function <- function(params) {
-  log_likelihood <- logdensity2loglik(ModelU2, x, time_step, params, args)$llk
+  log_likelihood <- MLEMVD::logdensity2loglik(
+    MLEMVD::ModelU2, x, time_step, params, args
+  )$llk
   return(log_likelihood)
 }
 
-exact_log_likelihood <- objective_function(params_0)
-grad(objective_function, params_0)
-hessian(objective_function, params_0)
+max_log_likelihood <- objective_function(output$solution)
+true_parameter_log_likelihood <- objective_function(params_0)
+numDeriv::grad(objective_function, params_0)
+numDeriv::hessian(objective_function, params_0)
 
-print(paste("Maximum log likelihood is ", exact_log_likelihood))
+print(paste("Maximum approximate log likelihood is", max_log_likelihood))
+print(paste("Approximate log likelihood at true parameters is",
+            true_parameter_log_likelihood))
 print(paste("Standard Error Estimate ", diagnostic_results$se))
 print(paste("Huber Sandwich Error Estimate ", diagnostic_results$se_robust))
 
 exact <- list()
-exact$score <- exactscore(x, time_step, output$solution)
-exact$InfoMatrix <- exactinformationmatrix(x, time_step, output$solution)
-exact$H <- exacthessian(x, time_step, output$solution)
+exact$score <- MLEMVD::exactscore(x, time_step, output$solution)
+exact$InfoMatrix <- MLEMVD::exactinformationmatrix(
+  x, time_step, output$solution
+)
+exact$H <- MLEMVD::exacthessian(x, time_step, output$solution)
 variance <- solve(exact$InfoMatrix)
 inv_hessian <- solve(exact$H)
 variance_robust <- inv_hessian %*% exact$InfoMatrix %*% t(inv_hessian)
 
 exact$se <- sqrt(diag(variance))
 exact$se_robust <- sqrt(diag(variance_robust))
-print(paste("Exact Standard Error ", diagnostic_results$se))
-print(paste("Exact Huber Sandwich Error ", diagnostic_results$se_robust))
+print(paste("Exact Standard Error ", exact$se))
+print(paste("Exact Huber Sandwich Error ", exact$se_robust))
 
-print(paste("Error in S.E. Estimate ", 
-            norm(as.matrix(diagnostic_results$se - exact$se))))
-print(paste("Error in H.S.E. Estimate ", 
-            norm(as.matrix(diagnostic_results$se_robust - exact$se_robust))))
-print(paste("L2 Norm of Score Error ", 
-            norm(as.matrix(diagnostic_results$score - exact$score))))
-print(paste("L2 Norm of Hessian Error ", 
-            norm(as.matrix(diagnostic_results$H - exact$H))))
-print(paste("L2 Norm of Information Matrix Error ", 
-            norm(as.matrix(diagnostic_results$InfoMatrix - exact$InfoMatrix))))
- 
+print(paste("Error in S.E. Estimate ",
+            norm(as.matrix(diagnostic_results$se - exact$se), type = "F")))
+print(paste("Error in H.S.E. Estimate ",
+            norm(as.matrix(diagnostic_results$se_robust - exact$se_robust),
+                 type = "F")))
+print(paste("Euclidean Norm of Score Error ",
+            norm(as.matrix(diagnostic_results$score - exact$score), type = "F")))
+print(paste("Frobenius Norm of Hessian Error ",
+            norm(as.matrix(diagnostic_results$H - exact$H), type = "F")))
+print(paste("Frobenius Norm of Information Matrix Error ",
+            norm(as.matrix(diagnostic_results$InfoMatrix - exact$InfoMatrix),
+                 type = "F")))

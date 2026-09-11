@@ -22,7 +22,7 @@ fredr_set_key(fred_api_key)
 ## =====================================================
 # Download Real Personal Consumption Expenditures (monthly by default)
 consumption <- fredr(
-  series_id = "PCECC96",
+  series_id = "PCEC96",
   observation_start = as.Date("2000-01-01")
 )
 

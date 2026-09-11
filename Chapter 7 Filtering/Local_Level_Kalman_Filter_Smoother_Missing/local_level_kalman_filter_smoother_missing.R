@@ -52,14 +52,14 @@ fitted_model <- build_model(fit$par)
 filtered  <- dlmFilter(y_missing, fitted_model)
 smoothed  <- dlmSmooth(filtered)
 
-# Interpolate missing values using the Kalman filter
+# Interpolate missing values using the full-sample smoothed state
 y_interpolated <- y_missing
-y_interpolated[missing_indices] <- dropFirst(filtered$m)[missing_indices]
+y_interpolated[missing_indices] <- dropFirst(smoothed$s)[missing_indices]
 
 # =====================================================
 ## 5. Investigate Initialization Effects
 ## =====================================================
-# Diffuse initialization (default)
+# Large-variance approximate diffuse initialization (dlm default)
 filtered_diffuse <- filtered
 
 # Informed initialization (tight prior)
@@ -73,7 +73,7 @@ filtered_informed   <- dlmFilter(y_missing, informed_model)
 ## =====================================================
 data_plot <- data.frame(
   Time             = 1:N,
-  Observed         = y,
+  Observed         = y_missing,
   True_State       = alpha,
   Filtered_Diffuse = dropFirst(filtered_diffuse$m),
   Filtered_Informed= dropFirst(filtered_informed$m),
@@ -111,8 +111,12 @@ p1 <- ggplot(plot_data_main,
   ) +
   labs(title = "Local Level Model: Kalman Filter and Smoother",
        y = "Value", x = "Time") +
-  theme_minimal() +
-  theme(legend.title = element_blank())
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        plot.title = element_text(size = 13)) +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE),
+         linetype = guide_legend(nrow = 2, byrow = TRUE))
 
 # Add vertical grey lines at missing observations
 p1 <- p1 + geom_vline(xintercept = missing_indices,
@@ -141,10 +145,12 @@ p2 <- ggplot(plot_data_filter_zoom,
     values = c("dashed", "dotdash"),
     labels = c("Filtered (Diffuse)", "Filtered (Informed)")
   ) +
-  labs(title = "Initialization Effect: Filtered States (First 20 Periods)",
+  labs(title = "Initialization: First 20 Periods",
        y = "Filtered State", x = "Time") +
-  theme_minimal() +
-  theme(legend.title = element_blank())
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        plot.title = element_text(size = 13))
 
 print(p2)
 ggsave(filename = "local_level_kalman_filters.png",

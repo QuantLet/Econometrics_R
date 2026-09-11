@@ -140,11 +140,14 @@ vr_recent <- VR.minus.1(spy_ret_recent$ret, kvec = kvec)
 VRk_full   <- vr_full$VR.kvec     # VR(k) - 1
 VRk_recent <- vr_recent$VR.kvec
 
-Z_full <- sqrt(n_full * kvec / (2 * (kvec - 1))) * VRk_full
-Z_recent <- sqrt(n_recent * kvec / (2 * (kvec - 1))) * VRk_recent
+# Under rw1, sqrt(n) * (VR(k) - 1) has asymptotic variance
+# 2 * (2k - 1) * (k - 1) / (3k).
+theta_hom <- 2 * (2 * kvec - 1) * (kvec - 1) / (3 * kvec)
+Z_full <- sqrt(n_full) * VRk_full / sqrt(theta_hom)
+Z_recent <- sqrt(n_recent) * VRk_recent / sqrt(theta_hom)
 
-p_full <- 2 * (1 - pnorm(abs(Z_full)))
-p_recent <- 2 * (1 - pnorm(abs(Z_recent)))
+p_full <- 2 * pnorm(-abs(Z_full))
+p_recent <- 2 * pnorm(-abs(Z_recent))
 
 vr_table_full <- data.frame(
   k       = kvec,

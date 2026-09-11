@@ -19,16 +19,16 @@ gdp_data <- gdp_data[order(gdp_data$year), , drop = FALSE]
 
 # =====================================================
 ## 2. Apply Baxter and King Filter
-## pl and pu set the periodic limits for the business cycle frequency
+## Annual data: retain cycles with periods between 2 and 8 years
 # =====================================================
-gdp_filtered <- bkfilter(gdp_data$NY.GDP.PCAP.KD, pl = 12, pu = 32, drift = TRUE)
+gdp_filtered <- bkfilter(gdp_data$NY.GDP.PCAP.KD, pl = 2, pu = 8, drift = TRUE)
 
 # Prepare the dataframe for plotting
 # Add the filtered cycle component to the dataframe
 gdp_data$BK_Filtered <- gdp_filtered$cycle
 
-# Remove rows with NA values in the BK_Filtered column
-gdp_data <- gdp_data[!is.na(gdp_data$BK_Filtered), ]
+# Keep a separate interior sample for the two-sided cycle estimate
+gdp_cycle <- gdp_data[!is.na(gdp_data$BK_Filtered), ]
 
 # =====================================================
 ## 3. Create the Plots
@@ -40,11 +40,15 @@ p1 <- ggplot(gdp_data, aes(x = year, y = NY.GDP.PCAP.KD)) +
   labs(title = "Original GDP per Capita (US)", x = "Year", y = "")
 
 # Plot 2: Baxter and King Filtered GDP per Capita
-p2 <- ggplot(gdp_data, aes(x = year, y = BK_Filtered)) +
+p2 <- ggplot(gdp_cycle, aes(x = year, y = BK_Filtered)) +
   geom_line(color = 'red') +
   labs(title = "Baxter and King Filtered GDP per Capita (US)", x = "Year", y = "")
 
 # =====================================================
 ## 4. Arrange and Display the Plots
 # =====================================================
-grid.arrange(p1, p2, ncol = 1)
+combined_plot <- arrangeGrob(p1, p2, ncol = 1)
+grid::grid.newpage()
+grid::grid.draw(combined_plot)
+ggsave("gdp-bk-fiter.png", plot = combined_plot,
+       width = 6, height = 8, dpi = 300)

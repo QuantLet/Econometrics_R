@@ -9,9 +9,9 @@ Name of Quantlet: Temperature Data with US Map
 
 Published in: Econometrics_R
 
-Description: This R script downloads and processes daily maximum temperature (TMAX) data from the Global Historical Climatology Network (GHCN) for all U.S. states during the period 2015–2024 using representative weather stations. It computes annual and decadal average temperatures, merges the results with U.S. state shapefiles, and visualizes the spatial distribution of average temperatures across the country using choropleth maps. Additionally, it includes a daily temperature profile plot for New York City in 2014.
+Description: This R script downloads official GHCN-Daily station metadata and inventory files, then retrieves 2014 daily maximum temperature (TMAX) observations in metric units from NOAA's NCEI Daily Summaries service. For each of the 48 contiguous states, it identifies active stations near the state capital, checks actual 2014 coverage, and selects one representative station. It plots daily TMAX for New York City Central Park and maps the annual mean of daily TMAX at each selected representative station using state polygons from the maps package. The mapped values are representative-station means, not statewide spatial averages.
 
-Keywords: Climate Data, GHCN, rnoaa, Temperature, Weather, Map, Spatial Visualization, U.S. States, ggplot2, sf, Functional Data
+Keywords: Climate Data, GHCN-Daily, NOAA, NCEI, Daily Summaries API, TMAX, Temperature, Weather, Representative Stations, State Capitals, Contiguous United States, ggplot2, maps, Spatial Visualization, R
 
 Author: Jiajing Sun
 

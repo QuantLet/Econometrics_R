@@ -2,7 +2,7 @@ Name of Quantlet: Baxter_and_King_Filter_Example
 
 Published in: Econometrics_R
 
-Description: This R script downloads US real GDP per capita (NY.GDP.PCAP.KD) from the World Development Indicators (WDI) database for 1960–2023, sorts the observations into chronological order, and then applies the Baxter–King band-pass filter (mFilter::bkfilter) to extract the cyclical component of the series using periodic limits pl = 12 and pu = 32 (with drift = TRUE). It appends the filtered cycle to the dataset, removes missing values created by filtering, and visualizes (i) the original GDP per capita series and (ii) the extracted Baxter–King cycle using ggplot2, arranged vertically with gridExtra.
+Description: This R script downloads annual U.S. real GDP per capita (NY.GDP.PCAP.KD) from the World Development Indicators (WDI) database for 1960–2023, sorts the observations into chronological order, and applies the Baxter–King band-pass filter (mFilter::bkfilter) with pl = 2 and pu = 8 to retain 2–8-year cycles. With drift = TRUE, the endpoint-to-endpoint linear drift is removed before filtering. The full original series is kept for the upper panel, while the interior cycle sample excludes the three unavailable observations at each endpoint. The two panels are arranged vertically and saved as "gdp-bk-fiter.png" at 300 dpi.
 
 Keywords: Time Series, Business Cycle, Baxter-King Filter, Band-Pass Filter, GDP per Capita, WDI, mFilter, ggplot2, R
 

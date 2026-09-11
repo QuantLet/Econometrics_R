@@ -59,7 +59,7 @@ print(kcn)
 ## =====================================================
 
 cat("\n--- Breusch–Pagan test (baseline) ---\n")
-print(bptest(fit))  # default varformula = ~ fitted.values
+print(bptest(fit))  # default variance regressors are the model regressors
 
 cat("\n--- Non-constant variance score test (ncvTest) ---\n")
 print(ncvTest(fit)) # vs fitted values by default
@@ -81,7 +81,7 @@ print(coeftest(fit, vcov = rob_vcov))
 ## =====================================================
 
 cat("\n--- Ramsey RESET (powers of fitted) ---\n")
-print(resettest(fit, power = 2:3, type = "regressor"))
+print(resettest(fit, power = 2:3, type = "fitted"))
 
 ## =====================================================
 ## 7. Residual and influence diagnostics
