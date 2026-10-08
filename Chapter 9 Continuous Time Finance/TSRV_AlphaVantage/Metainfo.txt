@@ -1,14 +1,7 @@
 Name of Quantlet: TSRV_AlphaVantage
-
 Published in: Econometrics_R
-
-Description: Computes two-scale realised variance from Alpha Vantage intraday prices. The script selects positive, non-duplicate observations from the latest regular trading session and checks the exchange time zone and large price changes before estimation.
-
-
-Keywords: high-frequency data, realized volatility, TSRV, Two-Scale Realized Volatility, microstructure noise, Alpha Vantage, quantmod, xts, R
-
+Description: Compatibility entry point for the fixed public intraday sample in Intraday_Fixed_Sample. The example no longer calls Alpha Vantage and needs no API key.
+Keywords: TSRV, realised variance, high-frequency data, R
 Author: Jiajing Sun
-
-Submitted: 22 November 2025
-
-Datafile: Intraday price data retrieved via the Alpha Vantage API
+Datafile: ../Intraday_Fixed_Sample/sample_trades_20140917.csv
+See also: Intraday_Fixed_Sample

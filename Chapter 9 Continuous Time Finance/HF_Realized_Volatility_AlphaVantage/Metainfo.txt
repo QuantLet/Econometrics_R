@@ -5,12 +5,12 @@ Published in: Econometrics_R
 Description: Simulates one trading day of latent log prices, measurement noise and an isolated bad quote. The figures compare observed returns and realised variance. All prices in this example are simulated; no market-data account is required.
 
 
-Keywords: high-frequency data, realized volatility, log-returns, aggregation, market microstructure, Alpha Vantage, quantmod, R
+Keywords: high-frequency data, realized volatility, log-returns, aggregation, market microstructure, simulation, R
 
 Author: Jiajing Sun
 
 Submitted: 29 April 2025
 
-Datafile: Intraday data retrieved via Alpha Vantage API
+Datafile: None; prices are simulated within the script.
 
-See also: TSRV_AlphaVantage, GBM_MLE_Approx_vs_Exact_Diagnostics
+See also: Intraday_Fixed_Sample, GBM_MLE_Approx_vs_Exact_Diagnostics
