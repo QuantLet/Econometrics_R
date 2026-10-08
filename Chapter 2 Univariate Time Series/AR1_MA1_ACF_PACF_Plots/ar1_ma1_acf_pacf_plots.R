@@ -25,25 +25,34 @@ ar1_sim <- arima.sim(n = n, model = list(ar = 0.9))
 ma1_sim <- arima.sim(n = n, model = list(ma = 0.9))
 
 ## =====================================================
-## 3. PACF plots (square) for AR(1) and MA(1)
+## 3. PACF plots for side-by-side display
 ## =====================================================
+
+acf_theme <- theme(
+  plot.title = element_text(size = 10),
+  axis.text = element_text(size = 9)
+)
 
 p_ar1_pacf <- ggPacf(ar1_sim) +
-  labs(title = "PACF for AR(1) process", x = "Lag", y = "Partial autocorrelation") 
-ggsave("ar1_pacf.png", plot = p_ar1_pacf, width = 6, height = 4, dpi = 300)
+  labs(title = "PACF for AR(1) process", x = "Lag", y = "Partial autocorrelation") +
+  acf_theme
+ggsave("ar1_pacf.png", plot = p_ar1_pacf, width = 3.5, height = 3.2, dpi = 300)
 
 p_ma1_pacf <- ggPacf(ma1_sim) +
-  labs(title = "PACF for MA(1) process", x = "Lag", y = "Partial autocorrelation")  
-ggsave("ma1_pacf.png", plot = p_ma1_pacf, width = 6, height = 4, dpi = 300)
+  labs(title = "PACF for MA(1) process", x = "Lag", y = "Partial autocorrelation") +
+  acf_theme
+ggsave("ma1_pacf.png", plot = p_ma1_pacf, width = 3.5, height = 3.2, dpi = 300)
 
 ## =====================================================
-## 4. ACF plots (square) for AR(1) and MA(1)
+## 4. ACF plots for side-by-side display
 ## =====================================================
 
 p_ar1_acf <- ggAcf(ar1_sim) +
-  labs(title = "ACF for AR(1) process", x = "Lag", y = "Autocorrelation") 
-ggsave("ar1_acf.png", plot = p_ar1_acf, width = 6, height = 4, dpi = 300)
+  labs(title = "ACF for AR(1) process", x = "Lag", y = "Autocorrelation") +
+  acf_theme
+ggsave("ar1_acf.png", plot = p_ar1_acf, width = 3.5, height = 3.2, dpi = 300)
 
 p_ma1_acf <- ggAcf(ma1_sim) +
-  labs(title = "ACF for MA(1) process", x = "Lag", y = "Autocorrelation")
-ggsave("ma1_acf.png", plot = p_ma1_acf, width = 6, height = 4, dpi = 300)
+  labs(title = "ACF for MA(1) process", x = "Lag", y = "Autocorrelation") +
+  acf_theme
+ggsave("ma1_acf.png", plot = p_ma1_acf, width = 3.5, height = 3.2, dpi = 300)
