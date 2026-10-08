@@ -276,12 +276,18 @@ varma_sim <- VARMAsim(
 y_varma <- varma_sim$series
 colnames(y_varma) <- c("y1", "y2")
 
-# Quick check: plot the simulated series
+# Plot the simulated series with a separate legend below.
+oldpar <- par(no.readonly = TRUE)
+layout(matrix(1:2, ncol = 1), heights = c(1, 0.15))
+par(mar = c(4.2, 4.2, 3, 0.8))
 matplot(y_varma, type = "l",
         main = "Simulated VARMA(1,1) series",
         xlab = "Time", ylab = "",
         col = 1:2, lty = 1)
-legend("topleft", legend = c("y1", "y2"), col = 1:2, lty = 1, bty = "n")
+par(mar = rep(0, 4)); plot.new()
+legend("center", legend = c("y1", "y2"), col = 1:2,
+       lty = 1, bty = "n", horiz = TRUE)
+layout(1); par(oldpar)
 
 # Approximate VARMA(1,1) with a higher-order VAR
 

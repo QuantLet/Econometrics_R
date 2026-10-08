@@ -1,0 +1,11 @@
+Name of Quantlet: CART_Partition
+
+Published in: Econometrics_R
+
+Description: Draws the four rectangular regions in Figure 10.1, with splits at x2 = 2 and x1 = 3. The region predictions match the associated regression tree. The split legend sits below the axes.
+
+Keywords: Econometrics, R, Statistical Graphics
+
+Author: Jiajing Sun
+
+Submitted: 9 October 2026

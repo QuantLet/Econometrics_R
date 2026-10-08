@@ -48,11 +48,22 @@ saveRDS(list(S=scalar,U=Ucv,M2=Mcv,B=B,K=K,seed=61008,
  scalar_MC=data.frame(alpha,S=quantile(sqrt(U[,1]),1-2*alpha,type=8),
  M=quantile(sqrt(M2[,1]),1-2*alpha,type=8))),'critical_checks.rds')
 print(Ucv);print(Mcv)
-pdf('figures/dist-m-hat.pdf',width=7,height=4.5)
 sgn<-sample(c(-1,1),B,replace=TRUE)
 ds<-density(sgn*sqrt(U[,1]),from=-12,to=12,n=2048)
 dm<-density(sgn*sqrt(M2[,1]),from=-12,to=12,n=2048)
-plot(dm,lwd=2,col='#184e77',xlab='Statistic',main='',ylim=c(0,max(dm$y)))
-lines(ds,lwd=2,col='#9d4c3c');curve(dnorm(x),add=TRUE,lty=2)
-legend('topright',c('Range M','Self-normalised S','Standard normal'),
- col=c('#184e77','#9d4c3c','black'),lty=c(1,1,2),lwd=c(2,2,1),bty='n');dev.off()
+draw_densities <- function() {
+ oldpar <- par(no.readonly=TRUE)
+ on.exit({layout(1); par(oldpar)})
+ layout(matrix(1:2, ncol=1), heights=c(1, 0.16))
+ par(mar=c(4.2, 4.2, 0.8, 0.8))
+ plot(dm,lwd=2,col='#184e77',xlab='Statistic',main='',ylim=c(0,max(dm$y)))
+ lines(ds,lwd=2,col='#9d4c3c');curve(dnorm(x),add=TRUE,lty=2)
+ par(mar=rep(0, 4)); plot.new()
+ legend('center',c('Range M','Self-normalised S','Standard normal'),
+  col=c('#184e77','#9d4c3c','black'),lty=c(1,1,2),lwd=c(2,2,1),
+  bty='n',horiz=TRUE,cex=0.9,seg.len=3)
+}
+pdf('figures/dist-m-hat.pdf',width=7,height=4.5)
+draw_densities();dev.off()
+png('figures/dist-m-hat.png',width=2100,height=1350,res=300)
+draw_densities();dev.off()

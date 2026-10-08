@@ -287,7 +287,7 @@ p_lasso <- ggplot(plot_df, aes(x = date)) +
     y     = "Squared return / forecast"
   ) +
   theme(
-    legend.position = "top",
+    legend.position = "bottom",
     plot.title = element_text(hjust = 0.5)
   )
 

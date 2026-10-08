@@ -1,0 +1,11 @@
+Name of Quantlet: Iris_Correlation_Plot
+
+Published in: Econometrics_R
+
+Description: Plots the Pearson correlation matrix of the four numeric iris measurements. Circle size shows correlation magnitude and colour shows its sign and magnitude; the colour scale is placed below the matrix.
+
+Keywords: Econometrics, R, Statistical Graphics
+
+Author: Jiajing Sun
+
+Submitted: 9 October 2026

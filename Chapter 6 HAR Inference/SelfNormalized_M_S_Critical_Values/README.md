@@ -32,3 +32,5 @@ Rscript "self_normalized_M_S_critical_values.R"
 ```
 
 Book and companion materials: https://econometricsandtimeseries.com/
+
+The script exports PDF and PNG versions of Figure 6.4 in `figures/`, with a shared horizontal legend below the axes. The simulation seed, critical-value calculations and density estimates are unchanged.
