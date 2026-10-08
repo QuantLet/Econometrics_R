@@ -119,7 +119,7 @@ draw_regions <- function() {
   par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4), new = TRUE)
   plot.new()
   legend("bottom", inset = 0.012, bty = "n", ncol = 3, cex = 0.83,
-         legend = c("Increment hull", "Shao ellipse", "Estimate", "True mean", "Null"),
+         legend = c("Increment hull", "Shao's ellipse", "Estimate", "True mean", "Null"),
          col = c("#147D64", "#405D89", "black", "black", "#9D4438"),
          lty = c(1, 2, NA, NA, NA), pch = c(NA, NA, 19, 3, 5),
          lwd = c(1.8, 1.8, NA, NA, NA))

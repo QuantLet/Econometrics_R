@@ -112,7 +112,7 @@ draw_decisions <- function() {
   par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4), new = TRUE)
   plot.new()
   legend("bottom", inset = 0.012, bty = "n", ncol = 2, cex = 0.87,
-         legend = c("Adjusted-range region", "Shao ellipse", "Estimate", "Null (0, 0)"),
+         legend = c("Adjusted-range region", "Shao's ellipse", "Estimate", "Null (0, 0)"),
          col = c("#147D64", "#405D89", "black", "#9D4438"),
          lty = c(1, 2, NA, NA), pch = c(NA, NA, 19, 5),
          lwd = c(1.8, 1.8, NA, NA))
