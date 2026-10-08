@@ -24,3 +24,5 @@ The [companion website](https://econometricsandtimeseries.com/) provides chapter
 Open an example folder and follow its README. Run the R script with that folder as the working directory, keeping any accompanying CSV files beside it. Install the packages loaded by the script first. Examples with saved data use the same observations as the revised manuscript; examples using a live service obtain the data available when they are run.
 
 The Chapter 9 [pre-averaging example](Chapter%209%20Continuous%20Time%20Finance/Preaveraging_Covariance/) contains the explicit noise-bias correction for covariance estimation. The simulated intraday illustration requires no API key; the separate TSRV example uses an Alpha Vantage key supplied through the environment.
+
+The Chapter 6 [aersn example](Chapter%206%20HAR%20Inference/AERSN_Multivariate_Inference/) compares multivariate adjusted-range and quadratic self-normalization, with joint confidence regions, simultaneous contrast intervals and selected regression coefficients.

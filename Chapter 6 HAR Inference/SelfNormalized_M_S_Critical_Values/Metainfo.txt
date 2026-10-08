@@ -2,7 +2,7 @@ Name of Quantlet: SelfNormalized_M_S_Critical_Values
 
 Published in: Econometrics_R
 
-Description: Calculates critical values for the signed self-normalised S and range-based M statistics and their multivariate quadratic forms. Numerical integration is used for the univariate tail probabilities; simulation illustrates their distributions and the multivariate cases.
+Description: Calculates critical values for the signed self-normalised S and range-based M statistics and their multivariate quadratic forms. The componentwise range statistic requires long-run diagonalization; it is distinct from the affine-equivariant increment-hull gauge implemented in the neighbouring AERSN_Multivariate_Inference example. Numerical integration is used for the univariate tail probabilities; simulation illustrates their distributions and the multivariate cases.
 
 
 Keywords: Econometrics, Time Series, Brownian Motion, Brownian Bridge, Self-Normalization, Hong M Statistic, Shao S Statistic, Critical Values, Monte Carlo Simulation, Kernel Density, ggplot2, xtable, R

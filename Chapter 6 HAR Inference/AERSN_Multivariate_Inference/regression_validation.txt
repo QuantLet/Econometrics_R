@@ -1,0 +1,1 @@
+OLS influence calculation agrees to 1.78e-14.

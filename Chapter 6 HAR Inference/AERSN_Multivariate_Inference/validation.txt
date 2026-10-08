@@ -1,0 +1,4 @@
+All mathematical checks passed.
+Direct quadratic discrepancy: 4.97e-14
+Direct hull gauge discrepancy: 5.88e-13
+Affine polygon vertex discrepancy: 6.66e-16
