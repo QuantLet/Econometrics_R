@@ -1,9 +1,12 @@
+# Create the output directory when this example is run on its own.
+dir.create("figures", recursive = TRUE, showWarnings = FALSE)
+
 ## =====================================================
 ## 1. Prepare environment & set working directory
 ## =====================================================
 library(ggplot2)
 library(dplyr)
-library(quantmod)     # for data downloading
+library(quantmod)     # for time-indexed data
 
 # Optional: set working directory
 if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
@@ -11,16 +14,14 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 ## =====================================================
-## 2. Download recent FTSE 100 data & compute returns
+## 2. Read the saved FTSE 100 data and compute returns
 ## =====================================================
-# Use quantmod to get data from Yahoo Finance
-getSymbols("^FTSE", src = "yahoo", from = "2015-01-01", auto.assign = TRUE)
-ftse_prices <- Cl(FTSE)            # closing prices
-ftse_returns <- dailyReturn(ftse_prices, type = "log") * 100  # log returns in percent
-ftse_returns <- na.omit(ftse_returns)
+raw <- read.csv("FTSE_close_2015_2024.csv")
+ftse_prices <- xts(raw$close,as.Date(raw$date))
+ftse_returns <- na.omit(diff(log(ftse_prices))) * 100
 
 # Ensure 'Return' column is correctly named and in data.frame format
-ftse_df <- data.frame(Return = as.numeric(ftse_returns))  
+ftse_df <- data.frame(Return = as.numeric(ftse_returns))
 
 ## =====================================================
 ## 3. Plot histogram + kernel density and save plot as PNG
@@ -30,7 +31,7 @@ p <- ggplot(ftse_df, aes(x = Return)) +
                  binwidth = 0.5, color = "black", fill = "blue", alpha = 0.6) +
   geom_density(alpha = 0.2, fill = "#FF6666") +
   labs(title = "Histogram & Kernel Density of FTSE 100 Daily Returns",
-       x = "Daily Log‑Return (%)", y = "Density")  
+       x = "Daily Log-Return (%)", y = "Density")
 
-ggsave("ftse-returns-density.png", plot = p,
+ggsave("figures/ftse-returns-density.png", plot = p,
        width = 6, height = 4, dpi = 300)

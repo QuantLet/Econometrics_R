@@ -9,7 +9,8 @@ Name of Quantlet: hetero_diagnostics_sim
 
 Published in: Econometrics_R
 
-Description: This R script generates synthetic data with heteroskedastic errors by pairing larger disturbances with larger regressor values, fits an OLS regression of y on x, and then produces three diagnostic plots using ggplot2: the data with fitted regression line, a histogram of residuals, and a residuals-versus-fitted-values plot. The three panels are arranged in a single row using the patchwork package, and the resulting figure is saved as a 6 x 4 inch PNG file ("heter_sim.png").
+Description: Constructs an example in which reordering a normal sample across predictor values changes conditional behaviour while preserving the pooled sample histogram. The plots distinguish the simulated errors from fitted regression residuals.
+
 
 Keywords: Econometrics, Heteroskedasticity, Linear Regression, OLS, Regression Diagnostics, Simulation, R, ggplot2, patchwork
 
@@ -21,3 +22,13 @@ Submitted: 22 November 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%201%20Regression%20Models/hetero_diagnostics_sim/heter_sim.png" alt="Image" />
 </div>
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "hetero_diagnostics_sim.R"
+```
+
+Book and companion materials: https://econometricsandtimeseries.com/

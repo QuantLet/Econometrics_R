@@ -19,18 +19,11 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 
 symbols <- c("SPY", "TLT")  # stock ETF + bond ETF
 
-getSymbols(
-  symbols,
-  src         = "yahoo",
-  from        = "2015-01-01",
-  auto.assign = TRUE
-)
+# Saved adjusted prices: 2015--2024, retrieved 8 October 2026.
+d <- read.csv("ETF_adjusted_2015_2024.csv")
+price_xts <- xts::xts(d[,symbols], order.by=as.Date(d$date))
+price_xts <- na.omit(price_xts)
 
-# Extract adjusted close prices and merge into one xts object
-price_xts <- na.omit(
-  cbind(Ad(SPY), Ad(TLT))
-)
-colnames(price_xts) <- symbols
 
 ## =====================================================
 ## 3. Compute log returns and treat them as innovations

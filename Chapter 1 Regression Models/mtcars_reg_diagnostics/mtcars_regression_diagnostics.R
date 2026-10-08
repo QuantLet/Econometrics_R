@@ -43,7 +43,7 @@ cat("\n--- VIF / GVIF ---\n")
 v <- vif(fit)
 print(v)
 if (is.matrix(v) && "GVIF^(1/(2*Df))" %in% colnames(v)) {
-  cat("\nAdjusted GVIF^(1/(2*Df)) (comparable to VIF):\n")
+  cat("\nAdjusted GVIF^(1/(2*Df)) (standard-error scale):\n")
   print(v[, "GVIF^(1/(2*Df))"])
 }
 
@@ -58,7 +58,7 @@ print(kcn)
 ## 4. Heteroskedasticity diagnostics
 ## =====================================================
 
-cat("\n--- Breusch–Pagan test (baseline) ---\n")
+cat("\n--- Breusch-Pagan test (baseline) ---\n")
 print(bptest(fit))  # default variance regressors are the model regressors
 
 cat("\n--- Non-constant variance score test (ncvTest) ---\n")

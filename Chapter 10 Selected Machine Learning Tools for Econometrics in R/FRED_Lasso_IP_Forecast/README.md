@@ -9,7 +9,8 @@ Name of Quantlet: FRED_Lasso_IP_Forecast
 
 Published in: Econometrics_R
 
-Description: This R script demonstrates pseudo-out-of-sample forecasting of U.S. industrial production growth using regularized regression and latest-vintage monthly FRED data through December 2024. It transforms industrial production, unemployment, CPI, and the federal funds rate and uses 12 lags of each series; no contemporaneous macro release enters the predictor matrix. After a chronological training-test split, a custom expanding-window validation loop selects the lasso and ridge penalties using past-only estimation. The script reports the lasso's selected coefficients and compares lasso, ridge, and a historical-mean benchmark on the untouched test period. A real-time study would additionally require publication-date alignment and historical data vintages.
+Description: Forecasts monthly industrial-production growth using its own lags and lags of unemployment, inflation and the federal funds rate. Lasso and ridge penalties are selected with expanding-window validation. The accompanying FRED snapshots replace live API requests.
+
 
 Keywords: Econometrics, Forecasting, Lasso, Ridge, Regularization, Industrial Production, Macroeconomic Data, FRED, glmnet, R
 
@@ -20,3 +21,22 @@ Submitted: 22 November 2025
 Datafile: Monthly macroeconomic series retrieved via the FRED API
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "fred_lasso_ip_forecast.R"
+```
+
+Keep these data files beside the script:
+
+- `CPIAUCSL.csv`
+- `FEDFUNDS.csv`
+- `INDPRO.csv`
+- `UNRATE.csv`
+
+The saved FRED series are INDPRO, UNRATE, CPIAUCSL and FEDFUNDS. Historical observations may differ from later FRED revisions. No API key is needed.
+
+Book and companion materials: https://econometricsandtimeseries.com/

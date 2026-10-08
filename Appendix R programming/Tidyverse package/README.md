@@ -9,7 +9,8 @@ Name of Quantlet: Tidyverse package
 
 Published in: Econometrics_R
 
-Description: This R script demonstrates core tidyverse workflows for data manipulation, graphics, and basic API-based data access. Using the nycflights13::flights dataset, it applies key dplyr verbs—filter(), select(), arrange(), mutate(), group_by(), and summarise()—to subset, transform, and aggregate flight data (for example, computing average delays by carrier and origin and constructing a simple speed variable). It then uses ggplot2 with the mpg dataset to build a sequence of plots illustrating the layers of the Grammar of Graphics: data and aesthetic layers, geometric layers (scatterplots and histograms), additional aesthetics (colour, size, shape), faceting by drive type and vehicle class, statistical smoothing layers, coordinate and scale control (including coord_equal() and coord_cartesian()), and saving plots to PNG files via ggsave(). Finally, the script illustrates API-based data retrieval via the WDI package by downloading World Bank GDP-per-capita and population series for selected countries and plotting GDP per capita over time.
+Description: Introduces data manipulation and plotting with the tidyverse. The coordinate-limits example uses coord_cartesian to change the visible plotting region while retaining all observations in the fitted regression.
+
 
 Keywords: Econometrics, R, tidyverse, dplyr, ggplot2, Data Manipulation, Data Visualisation, nycflights13, mpg, WDI, World Bank, API
 
@@ -65,3 +66,13 @@ Submitted: 22 November 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Tidyverse%20package/mpg_statistical.png" alt="Image" />
 </div>
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "tidyverse_examples.R"
+```
+
+Book and companion materials: https://econometricsandtimeseries.com/

@@ -2,49 +2,27 @@
 ## 1. Prepare environment & set working directory
 ## =====================================================
 
-# Load packages 
+# Load packages
 # install.packages(c("fredr", "urca", "vars", "ggplot2",
 #                    "dplyr", "lubridate"))
-library(fredr)
 library(urca)
 library(vars)
 library(ggplot2)
 library(dplyr)
 library(lubridate)
 
-# Set working directory (optional for RStudio users)
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# The accompanying CSV files were retrieved on 8 October 2026.
+# The observation window is fixed; FRED may revise historical values.
+start_date <- as.Date("2007-01-01")
+end_date <- as.Date("2025-08-01")
+read_snapshot <- function(id) {
+  d <- read.csv(paste0(id, ".csv"), na.strings = c(".", ""))
+  names(d) <- c("date", "value")
+  d$date <- as.Date(d$date)
+  d[d$date >= start_date & d$date <= end_date, ]
 }
-
-# Set FRED API key
-fred_api_key <- Sys.getenv("FRED_API_KEY")
-if (!nzchar(fred_api_key)) {
-  stop("Please set the FRED_API_KEY environment variable before running this script.")
-}
-fredr_set_key(fred_api_key)
-
-## =====================================================
-## 2. Download income & consumption data from FRED
-##    (Real PCE & Real Disposable Personal Income)
-## =====================================================
-
-start_date <- as.Date("1960-01-01")
-end_date   <- Sys.Date()
-
-# PCEC96: Real Personal Consumption Expenditures
-cons_raw <- fredr(
-  series_id         = "PCEC96",
-  observation_start = start_date,
-  observation_end   = end_date
-)
-
-# DSPIC96: Real Disposable Personal Income
-inc_raw <- fredr(
-  series_id         = "DSPIC96",
-  observation_start = start_date,
-  observation_end   = end_date
-)
+cons_raw <- read_snapshot("PCEC96")
+inc_raw <- read_snapshot("DSPIC96")
 
 # Merge and take logs
 df_raw <- inner_join(
@@ -94,11 +72,11 @@ p_levels <- ggplot(df, aes(x = date)) +
     y      = "log(level)",
     colour = "",
     linetype = ""
-  )  
+  )
 
 print(p_levels)
 
-ggsave(filename = "log-consumption-income.png", plot = p_levels, width = 6,  height = 4, 
+ggsave(filename = "log-consumption-income.png", plot = p_levels, width = 6,  height = 4,
        dpi = 300)
 
 ## =====================================================
@@ -143,7 +121,7 @@ adf_dlinc <- ur.df(
 summary(adf_dlinc)
 
 ## =====================================================
-## 5. Engle–Granger residual-based cointegration test
+## 5. Engle-Granger residual-based cointegration test
 ## =====================================================
 
 # Step 1: static cointegrating regression in levels
@@ -160,8 +138,10 @@ eg_adf <- ur.df(
   selectlags = "AIC"
 )
 summary(eg_adf)
+# The printed tau1 critical values do not apply to estimated residuals.
+# Use the residual cointegration table for a regressor with drift.
 
-## Optional: Phillips–Ouliaris residual-based test
+## Optional: Phillips-Ouliaris residual-based test
 po_test <- ca.po(
   z      = df[, c("lcons", "linc")],
   demean = "constant",
@@ -176,7 +156,7 @@ summary(po_test)
 ## =====================================================
 
 # 6.1 Choose VAR lag order in levels
-lag_sel <- VARselect(y_ts, lag.max = 12, type = "trend")
+lag_sel <- VARselect(y_ts, lag.max = 24, type = "both")
 lag_sel$selection
 
 p_opt <- as.numeric(lag_sel$selection["SC(n)"])
@@ -202,7 +182,7 @@ joh_eigen <- ca.jo(
 )
 summary(joh_eigen)
 
-# Assume rank r = 1 from the Johansen tests
+# Conditional rank-one fit for the trend specification
 r_ci <- 1
 
 # 6.4 Estimate VECM (error-correction representation)
@@ -223,3 +203,9 @@ relation_terms <- paste0(
 )
 relation_text <- sub("^[+] ", "", paste(relation_terms, collapse = " "))
 cat(relation_text, "~ I(0)\n")
+
+
+
+# Sensitivity to the deterministic specification, with the same lag order.
+joh_const <- ca.jo(y_ts, type="trace", ecdet="const", K=p_opt, spec="transitory")
+summary(joh_const)

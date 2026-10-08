@@ -2,11 +2,6 @@
 ## 1. Prepare environment & set working directory
 ## =====================================================
 
-# (Optional) set working directory to current script folder in RStudio
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-}
-
 # Packages needed for this illustration
 pkgs <- c("quantmod", "dplyr", "ggplot2",
           "forecast", "lmtest", "sandwich", "vrtest")
@@ -25,22 +20,11 @@ library(vrtest)
 ## 2. Download SPY prices and construct log returns
 ## =====================================================
 
-# Download daily SPY prices from Yahoo Finance
-spy_xts <- getSymbols("SPY", src = "yahoo",
-                      from = "2000-01-01",
-                      to = "2024-12-31",
-                      auto.assign = FALSE)
-
-# Build a data frame with dates, prices and log returns
-spy_df <- data.frame(
-  date  = index(spy_xts),
-  price = as.numeric(Ad(spy_xts))
-) %>%
+# Saved adjusted-price snapshot: 3 January 2000--30 December 2024.
+d <- read.csv("SPY_adjusted_20000103_20241230.csv")
+spy_df <- data.frame(date=as.Date(d$date),price=d$adjusted) %>%
   filter(!is.na(price)) %>%
-  mutate(
-    log_price = log(price),
-    ret       = c(NA, diff(log_price))
-  )
+  mutate(log_price=log(price), ret=c(NA,diff(log_price)))
 
 # Drop the first NA return and define full / recent samples
 spy_ret_full <- spy_df %>%
@@ -60,12 +44,12 @@ summary(spy_ret_recent$ret)
 p_full <- ggplot(spy_ret_full, aes(x = date, y = ret)) +
   geom_line(linewidth = 0.3) +
   labs(title = "SPY daily log returns (full sample)",
-       x = "Date", y = "Return") 
+       x = "Date", y = "Return")
 
 p_recent <- ggplot(spy_ret_recent, aes(x = date, y = ret)) +
   geom_line(linewidth = 0.3) +
   labs(title = "SPY daily log returns (since 2024)",
-       x = "Date", y = "Return")  
+       x = "Date", y = "Return")
 
 print(p_full)
 print(p_recent)
@@ -105,11 +89,11 @@ emh_ar_test <- function(r, p = 5, label = "") {
   df  <- as.data.frame(emb)
   colnames(df) <- c("ret", paste0("L", 1:p))
   fit <- lm(ret ~ ., data = df)
-  
+
   cat("\n========================================\n")
   cat("AR(", p, ") regression for ", label, "\n", sep = "")
   print(summary(fit))
-  
+
   cat("\nWald test (H0: all lag coefficients = 0)\n")
   # Restricted model: intercept-only
   wtest <- waldtest(fit, . ~ 1,
@@ -166,12 +150,26 @@ vr_table_recent <- data.frame(
 vr_table_full
 vr_table_recent
 
-## Automatic variance ratio tests robust to conditional heteroskedasticity
+# Automatic VR: Choi i.i.d. calibration; use a wild bootstrap for heteroskedasticity
 autoVR_full   <- Auto.VR(spy_ret_full$ret)
 autoVR_recent <- Auto.VR(spy_ret_recent$ret)
 
 autoVR_full
 autoVR_recent
+
+# Heteroskedasticity-robust fixed-horizon VR statistics.
+robust_vr <- function(r, horizons=c(2,5,10,20)) {
+ n <- length(r); z <- r-mean(r); s2 <- mean(z^2)
+ delta <- vapply(1:(max(horizons)-1),function(j)
+   mean(c(z[(j+1):n]^2*z[1:(n-j)]^2,rep(0,j)))/s2^2,numeric(1))
+ vrm1 <- VR.minus.1(r,horizons)$VR.kvec
+ omega <- vapply(horizons,function(k)
+   sum(4*(1-(1:(k-1))/k)^2*delta[1:(k-1)]),numeric(1))
+ Z <- sqrt(n)*vrm1/sqrt(omega)
+ data.frame(horizon=horizons,Z=Z,p=2*pnorm(-abs(Z)))
+}
+robust_vr(spy_ret_full$ret)
+robust_vr(spy_ret_recent$ret)
 
 ## Optional: wild bootstrap version of the automatic VR test
 ## (for small samples or strong conditional heteroskedasticity)

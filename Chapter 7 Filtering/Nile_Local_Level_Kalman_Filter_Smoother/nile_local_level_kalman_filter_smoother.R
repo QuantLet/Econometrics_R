@@ -1,9 +1,3 @@
-# Optional: set working directory to current script location (RStudio)
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-}
-
-
 # =====================================================
 ## 1. Load Libraries and Load Data
 ## =====================================================
@@ -36,11 +30,11 @@ fitted_model <- build_model(fit$par)
 filtered_diffuse <- dlmFilter(y, fitted_model)
 smoothed <- dlmSmooth(filtered_diffuse)
 
-# Informed initialization (tight prior on the first state)
-informed_model <- fitted_model
-informed_model$m0 <- mean(y)
-informed_model$C0 <- 0.01
-filtered_informed <- dlmFilter(y, informed_model)
+# Finite prior initialization (finite prior for the initial state)
+finite_prior_model <- fitted_model
+finite_prior_model$m0 <- 1000
+finite_prior_model$C0 <- 200^2
+filtered_finite_prior <- dlmFilter(y, finite_prior_model)
 
 # =====================================================
 ## 4. Prepare Data for Plotting
@@ -50,7 +44,7 @@ data_plot <- data.frame(
   Time = as.numeric(time(Nile)),
   Observed = y,
   Filtered_Diffuse = dropFirst(filtered_diffuse$m),
-  Filtered_Informed = dropFirst(filtered_informed$m),
+  Filtered_FinitePrior = dropFirst(filtered_finite_prior$m),
   Smoothed = dropFirst(smoothed$s)
 )
 
@@ -61,25 +55,25 @@ plot_data <- melt(data_plot, id.vars = "Time")
 ## 5. Create Plot for Kalman Filtering and Smoothing Results
 ## =====================================================
 # Plot the results
-p <- ggplot(plot_data, aes(x = Time, y = value, color = variable, 
+p <- ggplot(plot_data, aes(x = Time, y = value, color = variable,
                            linetype = variable)) +
   geom_line(linewidth = 1) +
   scale_color_manual(
     values = c("grey70", "blue", "orange", "darkgreen"),
-    labels = c("Observed", "Filtered (Diffuse)", "Filtered (Informed)", "Smoothed")
+    labels = c("Observed", "Filtered (Diffuse)", "Filtered (Finite prior)", "Smoothed")
   ) +
   scale_linetype_manual(
     values = c("solid", "dashed", "dotdash", "dotted"),
-    labels = c("Observed", "Filtered (Diffuse)", "Filtered (Informed)", "Smoothed")
+    labels = c("Observed", "Filtered (Diffuse)", "Filtered (Finite prior)", "Smoothed")
   ) +
   labs(title = "Nile River Flow: Kalman Filtering and Smoothing",
-       y = "Flow (10^8 m³)", x = "Year") + 
+       y = "Flow (10^8 m^3)", x = "Year") +
   theme(legend.title = element_blank())
 
 # Display the plot
 print(p)
 
-# Save the plot as PNG 
+# Save the plot as PNG
 ggsave(filename = "nile_kalman_plot.png", plot = p, width = 6, height = 4, dpi = 300)
 
 # Display the plot
@@ -89,9 +83,9 @@ print(p)
 ## 6. Compare Filtered Results from Both Initializations
 ## =====================================================
 # Compare the filtered results from both initializations
-diff_init_effect <- mean(abs(data_plot$Filtered_Diffuse - 
-                               data_plot$Filtered_Informed), na.rm = TRUE)
+diff_init_effect <- mean(abs(data_plot$Filtered_Diffuse -
+                              data_plot$Filtered_FinitePrior), na.rm = TRUE)
 
 # Output the comparison result
-cat("Mean absolute difference between diffuse and informed filtering: ", 
+cat("Mean absolute difference between diffuse and finite_prior filtering: ",
     round(diff_init_effect, 4), "\n")

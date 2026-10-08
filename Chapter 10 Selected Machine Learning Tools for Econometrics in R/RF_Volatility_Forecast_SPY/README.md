@@ -9,7 +9,8 @@ Name of Quantlet: RF_Volatility_Forecast_SPY
 
 Published in: Econometrics_R
 
-Description: This R script illustrates prediction of next-day squared return from daily SPY data using a random forest. The feature set contains the squared return available at the forecast origin and older squared- and absolute-return measures. After a chronological training-test split, ranger fits a 500-tree forest with pre-specified mtry and minimum-node-size values, reports permutation importance as an internal diagnostic, and compares test RMSE with a historical-mean benchmark. For a tuned time-series application, hyperparameters should be selected by past-only rolling-origin validation rather than ordinary out-of-bag error.
+Description: Uses saved SPY adjusted prices to forecast next-day absolute log returns with a random forest. The script keeps the training sample before the test sample, reports permutation importance and test RMSE, and compares the forest with a constant forecast.
+
 
 Keywords: econometrics, volatility forecasting, random forest, machine learning, squared returns, SPY, quantmod, ranger, R
 
@@ -18,3 +19,19 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "rf_volatility_forecast_spy.R"
+```
+
+Keep these data files beside the script:
+
+- `SPY_adjusted_20000103_20241230.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/

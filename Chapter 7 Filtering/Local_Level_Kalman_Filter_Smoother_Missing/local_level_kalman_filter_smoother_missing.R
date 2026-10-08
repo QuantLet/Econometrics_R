@@ -62,11 +62,11 @@ y_interpolated[missing_indices] <- dropFirst(smoothed$s)[missing_indices]
 # Large-variance approximate diffuse initialization (dlm default)
 filtered_diffuse <- filtered
 
-# Informed initialization (tight prior)
-informed_model      <- fitted_model
-informed_model$m0   <- mean(y_missing, na.rm = TRUE)
-informed_model$C0   <- 0.01
-filtered_informed   <- dlmFilter(y_missing, informed_model)
+# Finite prior initialization (finite prior)
+finite_prior_model      <- fitted_model
+finite_prior_model$m0   <- 0
+finite_prior_model$C0   <- 100
+filtered_finite_prior   <- dlmFilter(y_missing, finite_prior_model)
 
 # =====================================================
 ## 6. Prepare Data for Plotting
@@ -76,7 +76,7 @@ data_plot <- data.frame(
   Observed         = y_missing,
   True_State       = alpha,
   Filtered_Diffuse = dropFirst(filtered_diffuse$m),
-  Filtered_Informed= dropFirst(filtered_informed$m),
+  Filtered_FinitePrior= dropFirst(filtered_finite_prior$m),
   Smoothed         = dropFirst(smoothed$s),
   Interpolated     = y_interpolated
 )
@@ -87,9 +87,9 @@ plot_data_main <- melt(
   id.vars = "Time"
 )
 
-# Data for filter comparison plot (only diffuse vs informed)
+# Data for filter comparison plot (only diffuse vs finite_prior)
 plot_data_filter <- melt(
-  data_plot[, c("Time", "Filtered_Diffuse", "Filtered_Informed")],
+  data_plot[, c("Time", "True_State", "Filtered_Diffuse", "Filtered_FinitePrior")],
   id.vars = "Time"
 )
 
@@ -127,7 +127,7 @@ ggsave(filename = "local_level_kalman_main.png",
        plot = p1, width = 6, height = 4, dpi = 300)
 
 # =====================================================
-## 8. Plot 2: Comparison of filtered (diffuse vs informed)
+## 8. Plot 2: Comparison of filtered (diffuse vs finite_prior)
 ## =====================================================
 # Optionally zoom in on the first 20 observations to emphasise differences
 plot_data_filter_zoom <- subset(plot_data_filter, Time <= 20)
@@ -136,14 +136,14 @@ p2 <- ggplot(plot_data_filter_zoom,
              aes(x = Time, y = value, colour = variable, linetype = variable)) +
   geom_line(linewidth = 1) +
   scale_color_manual(
-    breaks = c("Filtered_Diffuse", "Filtered_Informed"),
-    values = c("blue", "orange"),
-    labels = c("Filtered (Diffuse)", "Filtered (Informed)")
+    breaks = c("True_State", "Filtered_Diffuse", "Filtered_FinitePrior"),
+    values = c("black", "blue", "orange"),
+    labels = c("True state", "Diffuse", "Finite prior")
   ) +
   scale_linetype_manual(
-    breaks = c("Filtered_Diffuse", "Filtered_Informed"),
-    values = c("dashed", "dotdash"),
-    labels = c("Filtered (Diffuse)", "Filtered (Informed)")
+    breaks = c("True_State", "Filtered_Diffuse", "Filtered_FinitePrior"),
+    values = c("solid", "dashed", "dotdash"),
+    labels = c("True state", "Diffuse", "Finite prior")
   ) +
   labs(title = "Initialization: First 20 Periods",
        y = "Filtered State", x = "Time") +
@@ -160,8 +160,8 @@ ggsave(filename = "local_level_kalman_filters.png",
 ## 9. Numeric Comparison Between Initialization Methods
 ## =====================================================
 diff_init_effect <- mean(
-  abs(data_plot$Filtered_Diffuse - data_plot$Filtered_Informed),
+  abs(data_plot$Filtered_Diffuse - data_plot$Filtered_FinitePrior),
   na.rm = TRUE
 )
-cat("Mean absolute difference between diffuse and informed initialization filtering:",
+cat("Mean absolute difference between diffuse and finite_prior initialization filtering:",
     round(diff_init_effect, 4), "\n")

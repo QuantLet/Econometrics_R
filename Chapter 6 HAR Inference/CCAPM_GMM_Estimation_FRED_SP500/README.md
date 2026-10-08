@@ -9,9 +9,8 @@ Name of Quantlet: CCAPM_GMM_Estimation_FRED_SP500
 
 Published in: Econometrics_R
 
-Description: This R script estimates a consumption-based CAPM (C-CAPM) via Generalized Method of Moments (GMM) using macro-financial data from FRED and S&P 500 returns from Yahoo Finance. It downloads monthly real personal consumption expenditures (PCEC96) and the 3-month Treasury bill rate (TB3MS) from FRED via fredr, converts them to xts objects, and computes a monthly risk-free rate (annualised T-bill rate divided by 12). It then retrieves S&P 500 index data (^GSPC) with quantmod::getSymbols(), constructs monthly returns, converts all three indexes to a common year-month representation, and merges them into a nonempty monthly panel.
+Description: Estimates a consumption-based asset-pricing model from the accompanying monthly data. It profiles the discount factor, compares unrestricted and bounded parameter estimates, and computes HAC standard errors and a Stock-Wright S profile with a parameter-dependent moment covariance.
 
-The script computes log consumption growth and the gross market return. Its Euler error is β R^g_t exp(−γ Δc_t) − 1, where β is the subjective discount factor, γ is the coefficient of relative risk aversion, and R^g_t is the gross S&P 500 return. The error is multiplied by a constant and by one-period-lagged consumption growth and market excess return, so the nonconstant instruments are predetermined. This yields three moment conditions for two parameters. Using the gmm package, the script estimates θ = (β, γ), prints the estimation output, and computes the J-statistic and its chi-squared p-value for the over-identifying restrictions.
 
 Keywords: Econometrics, Asset Pricing, C-CAPM, GMM, Euler Equation, Over-Identifying Restrictions, J-Statistic, FRED, Real Consumption, Risk-Free Rate, S&P 500, Quantmod, gmm, R
 
@@ -20,3 +19,19 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "ccapm_gmm_estimation_fred_sp500.R"
+```
+
+Keep these data files beside the script:
+
+- `ch06_ccapm_vintage.csv`
+
+The monthly snapshot combines real consumption, the price index, the equity-price series and the Treasury-bill rate used in the book. The script reports the selected sample window.
+
+Book and companion materials: https://econometricsandtimeseries.com/

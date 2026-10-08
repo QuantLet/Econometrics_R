@@ -9,7 +9,8 @@ Name of Quantlet: HF_Realized_Volatility_AlphaVantage
 
 Published in: Econometrics_R
 
-Description: Downloads high-frequency (1-minute) intraday stock prices from the Alpha Vantage API using the ALPHAVANTAGE_API_KEY environment variable, computes realized volatility at different sampling frequencies (1-minute vs aggregated k-minute bars), and visualizes the results. The script also plots high-frequency log-returns, illustrating market microstructure noise and volatility clustering.
+Description: Simulates one trading day of latent log prices, measurement noise and an isolated bad quote. The figures compare observed returns and realised variance. All prices in this example are simulated; no market-data account is required.
+
 
 Keywords: high-frequency data, realized volatility, log-returns, aggregation, market microstructure, Alpha Vantage, quantmod, R
 
@@ -22,3 +23,17 @@ Datafile: Intraday data retrieved via Alpha Vantage API
 See also: TSRV_AlphaVantage, GBM_MLE_Approx_vs_Exact_Diagnostics
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "hf_realized_volatility_alpha_vantage.R"
+```
+
+Book and companion materials: https://econometricsandtimeseries.com/
+
+![Simulated intraday log returns](log_returns_1min.png)
+
+![Realised variance under measurement noise and a bad quote](volatility_comparison.png)

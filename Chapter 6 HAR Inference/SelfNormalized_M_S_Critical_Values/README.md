@@ -9,7 +9,8 @@ Name of Quantlet: SelfNormalized_M_S_Critical_Values
 
 Published in: Econometrics_R
 
-Description: This R script uses Monte Carlo simulation to study the distributions and critical values of two self-normalized Brownian functionals—Hong et al.’s (2024) M statistic and Shao’s (2010) S statistic—alongside the standard normal benchmark. It simulates Brownian motion on a grid that explicitly includes B(0) = 0, constructs the associated Brownian bridge, and computes: (i) the adjusted-range statistic M = B(1) / (max(B_bridge) − min(B_bridge)), (ii) the Shao statistic S = B(1) / sqrt(∫_0^1 B_bridge(t)^2 dt), and (iii) the terminal value B(1), which is N(0,1). The laptop-friendly defaults use 10,000 replications and 5,000 grid points; the finer 200,000-point grid used for the book’s reported table can be selected through the SN_GRID_SIZE environment variable. The script obtains upper-tail critical values with empirical quantiles, exports them as a LaTeX table (“cv.tex”), and uses ggplot2 to overlay kernel-density estimates in “dist-m-hat.png”.
+Description: Calculates critical values for the signed self-normalised S and range-based M statistics and their multivariate quadratic forms. Numerical integration is used for the univariate tail probabilities; simulation illustrates their distributions and the multivariate cases.
+
 
 Keywords: Econometrics, Time Series, Brownian Motion, Brownian Bridge, Self-Normalization, Hong M Statistic, Shao S Statistic, Critical Values, Monte Carlo Simulation, Kernel Density, ggplot2, xtable, R
 
@@ -21,3 +22,13 @@ Submitted: 22 November 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%206%20HAR%20Inference/SelfNormalized_M_S_Critical_Values/dist-m-hat.png" alt="Image" />
 </div>
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "self_normalized_M_S_critical_values.R"
+```
+
+Book and companion materials: https://econometricsandtimeseries.com/

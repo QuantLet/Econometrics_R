@@ -5,13 +5,17 @@
 # install.packages("rugarch")  # if not already installed
 library(rugarch)
 
-# The manuscript version assumes that a univariate return series called
-# "data" is already available. The fallback below makes this script
-# directly runnable for illustration.
-if (!exists("data")) {
-  set.seed(123)
-  data <- rnorm(1000, mean = 0, sd = 0.01)
+# Simulate a finite IGARCH path, then discard the first 1,000 values.
+set.seed(123)
+z_igarch <- rnorm(3000)
+e_igarch <- numeric(length(z_igarch))
+h_igarch <- 0.0001
+for (t in seq_along(z_igarch)) {
+  e_igarch[t] <- sqrt(h_igarch) * z_igarch[t]
+  h_igarch <- 1e-6 + 0.08 * e_igarch[t]^2 + 0.92 * h_igarch
 }
+returns_igarch <- tail(e_igarch, 2000)
+
 
 ## =====================================================
 ## 2. Specify IGARCH(1,1) model
@@ -27,7 +31,7 @@ spec_igarch <- ugarchspec(
 ## 3. Fit IGARCH(1,1) model to the data
 ## =====================================================
 
-igarch_fit <- ugarchfit(spec = spec_igarch, data = data)
+igarch_fit <- ugarchfit(spec = spec_igarch, data = returns_igarch)
 
 # Print estimation results
 show(igarch_fit)

@@ -1,5 +1,5 @@
 ## =====================================================
-## 1. Prepare environment & download return data
+## 1. Read the saved adjusted-price data
 ## =====================================================
 
 # install.packages(c("quantmod", "dplyr", "ranger"))  # if needed
@@ -8,12 +8,12 @@ library(quantmod)
 library(dplyr)
 library(ranger)
 
-# Example asset: SPY (S&P 500 ETF)
-getSymbols("SPY", src = "yahoo", from = "2010-01-01", 
-           to = "2024-12-31",auto.assign = TRUE)
-
-# Daily log returns (in percent, optional)
-ret_xts <- na.omit(diff(log(Ad(SPY)))) * 100
+# Saved Yahoo Finance adjusted prices, January 2010--December 2024.
+prices <- read.csv("SPY_adjusted_20000103_20241230.csv")
+prices <- prices[prices$date >= "2010-01-01", ]
+spy_adjusted <- xts(prices$adjusted,as.Date(prices$date))
+# Daily log returns in percent.
+ret_xts <- na.omit(diff(log(spy_adjusted))) * 100
 
 # Build a data frame with date, return and a daily squared-return proxy
 vol_df <- data.frame(

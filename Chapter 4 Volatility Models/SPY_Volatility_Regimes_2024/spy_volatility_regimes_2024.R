@@ -14,21 +14,18 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 ## =====================================================
-## 2. Download SPY prices for 2024 and compute log returns
+## 2. Read January 2024--November 2025 prices and compute returns
 ## =====================================================
 
 set.seed(123)  # For reproducibility
 
-# Daily SPY prices from Yahoo Finance starting 2024-01-01
-spy_xts <- getSymbols(
-  "SPY",
-  src         = "yahoo",
-  from        = "2024-01-01",
-  auto.assign = FALSE
-)
+# Fixed Yahoo Finance adjusted-price snapshot supplied with the code.
+spy_data <- read.csv("SPY_adjusted_20240102_20251114.csv")
+spy_xts <- xts(spy_data$adjusted, order.by = as.Date(spy_data$date))
+
 
 # Adjusted closing prices and log returns
-spy_price <- Ad(spy_xts)
+spy_price <- spy_xts
 spy_ret   <- diff(log(spy_price))
 spy_ret   <- na.omit(spy_ret)              # remove initial NA
 log_ret   <- as.numeric(spy_ret)

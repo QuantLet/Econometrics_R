@@ -9,9 +9,8 @@ Name of Quantlet: SPY_EMH_Tests_Random_Walk_2000_2024_Recent2024
 
 Published in: Econometrics_R
 
-Description: This R script conducts a suite of weak-form EMH diagnostics for SPY daily log returns over a long historical sample (2000–2024) and a very recent subsample starting in 2024. It downloads SPY prices from Yahoo Finance using quantmod::getSymbols(), constructs log prices and daily log returns, and defines (i) a full-sample return series and (ii) a recent subsample from 2024 onward. The script first visualises both series with ggplot2. It then examines serial correlation via forecast::Acf() plots, Ljung–Box tests at lag 20, and robust automatic portmanteau tests (Auto.Q) that remain valid under conditional heteroskedasticity.
+Description: Examines SPY daily log returns in the 2000-2024 sample and in 2024 using saved adjusted prices. It reports autocorrelation diagnostics and heteroskedasticity-robust fixed-horizon variance-ratio tests. Non-rejection is not interpreted as proof of market efficiency.
 
-To assess linear predictability, the script fits AR(5) models of returns on their own lags in both samples and applies heteroskedasticity-robust Wald tests (lmtest::waldtest with sandwich::vcovHC) of the joint null that all lag coefficients are zero. For random-walk behaviour at multi-day horizons, it computes classical variance ratio statistics using vrtest::VR.minus.1 for holding periods k = 2, 5, 10, 20, standardises them with the rw1 asymptotic variance 2(2k−1)(k−1)/(3k), and reports two-sided p-values. Finally, it reports automatic variance ratio statistics (Auto.VR) that are robust to conditional heteroskedasticity, with commented code showing how to implement wild bootstrap refinements via AutoBoot.test(). Together, these tools provide a comprehensive empirical check of random-walk behaviour and weak-form efficiency for SPY at the daily frequency.
 
 Keywords: Econometrics, Time Series, Weak-Form EMH, Random Walk, SPY, Log Returns, ACF, Ljung–Box Test, Auto.Q, AR(5), Wald Test, Variance Ratio, VR.minus.1, Auto.VR, Quantmod, ggplot2, Forecast, lmtest, Sandwich, vrtest, R
 
@@ -20,3 +19,19 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "spy_emh_tests_random_walk_2000_2024_recent2024.R"
+```
+
+Keep these data files beside the script:
+
+- `SPY_adjusted_20000103_20241230.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/

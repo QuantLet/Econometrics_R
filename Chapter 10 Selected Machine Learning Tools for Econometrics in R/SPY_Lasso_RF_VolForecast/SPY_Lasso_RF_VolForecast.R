@@ -19,11 +19,14 @@ library(ranger)
 library(rugarch)
 library(ggplot2)
 
-## Download SPY prices from Yahoo Finance
-getSymbols("SPY", src = "yahoo", from = "2020-01-01", to = "2024-12-31", auto.assign = TRUE)
+## Read the supplied Yahoo Finance adjusted-price snapshot
+# The supplied CSV fixes the data vintage and includes 31 December 2024.
+spy_prices <- read.csv("SPY_adjusted_20200102_20241231.csv")
+SPY_adjusted <- xts(spy_prices$adjusted,
+                    order.by = as.Date(spy_prices$date))
 
 ## Daily log returns in percent
-ret_xts <- na.omit(diff(log(Ad(SPY)))) * 100
+ret_xts <- na.omit(diff(log(SPY_adjusted))) * 100
 
 ## Basic data frame: date, return, squared return, abs return, day-of-week
 df <- data.frame(
@@ -33,7 +36,7 @@ df <- data.frame(
   mutate(
     v    = r^2,                         # daily squared-return proxy
     absr = abs(r),
-    dow  = factor(wday(date, label = TRUE, week_start = 1))
+    dow  = factor(wday(date, week_start = 1), levels = 1:5)
   )
 
 ############################################################
@@ -62,10 +65,10 @@ df_lagged <- df %>%
 N <- nrow(df_lagged)
 cat("Usable observations after lagging:", N, "\n")
 
-## Design matrix for ML models.
-## Keep r in df_lagged for the GARCH benchmark, but exclude it from the
-## machine-learning design: y = r^2, so contemporaneous r would reveal the
-## response and create target leakage.
+## Leakage-safe design for ML models.  The contemporaneous return r_t is
+## retained in df_lagged only for the GARCH fit; it must not be used to
+## predict y_t = r_t^2.  All ML predictors are dated t-1 or earlier,
+## apart from the calendar dummy known before the return is observed.
 ml_dat <- df_lagged %>% select(-date, -r)
 X_all  <- model.matrix(y ~ ., data = ml_dat)[, -1]  # remove intercept column
 y_all  <- ml_dat$y
@@ -155,24 +158,26 @@ y_true   <- y_all[eval_idx]
 f_ar     <- numeric(n_eval)
 f_garch  <- numeric(n_eval)
 f_lasso  <- numeric(n_eval)
+lasso_nonzero <- integer(n_eval)
+f_mean <- numeric(n_eval)
 f_rf     <- numeric(n_eval)
 
 set.seed(456)  # for random forest
 
 for (j in seq_along(eval_idx)) {
   i <- eval_idx[j]
-  
+
   ## Rolling estimation window indices
   train_idx <- (i - T0):(i - 1)
   test_idx  <- i
-  
+
   ## -----------------------------
   ## 4.1 AR(1) on squared returns
   ## -----------------------------
   y_train <- y_all[train_idx]
   ar_fit  <- arima(y_train, order = c(1, 0, 0))
   f_ar[j] <- as.numeric(predict(ar_fit, n.ahead = 1)$pred)
-  
+
   ## -----------------------------
   ## 4.2 GARCH(1,1) on returns
   ## -----------------------------
@@ -183,30 +188,34 @@ for (j in seq_along(eval_idx)) {
   garch_sd   <- as.numeric(sigma(garch_fc))
   ## E(r_i^2 | F_{i-1}) = Var(r_i | F_{i-1}) + E(r_i | F_{i-1})^2.
   f_garch[j] <- garch_sd^2 + garch_mean^2
-  
+
   ## -----------------------------
   ## 4.3 Lasso (glmnet)
   ## -----------------------------
   X_train <- X_all[train_idx, ]
   X_test  <- X_all[test_idx, , drop = FALSE]
-  
+
   lasso_fit <- glmnet(
     x      = X_train,
     y      = y_all[train_idx],
     alpha  = 1,
     lambda = lambda_grid
   )
-  
+
   f_lasso[j] <- as.numeric(
     predict(lasso_fit, newx = X_test, s = lambda_opt)
   )
-  
+
+  lasso_nonzero[j] <- sum(as.numeric(coef(lasso_fit,
+                           s = lambda_opt))[-1] != 0)
+  f_mean[j] <- mean(y_train)
+
   ## -----------------------------
   ## 4.4 Random forest (ranger; pre-specified tuning values)
   ## -----------------------------
   rf_train_df <- ml_dat[train_idx, , drop = FALSE]
   rf_test_df  <- ml_dat[test_idx, , drop = FALSE]
-  
+
   rf_fit <- ranger(
     formula    = y ~ .,
     data       = rf_train_df,
@@ -217,11 +226,11 @@ for (j in seq_along(eval_idx)) {
     num.threads = 1,
     seed = 456 + j  # reproducible results across runs
   )
-  
+
   f_rf[j] <- as.numeric(
     predict(rf_fit, data = rf_test_df)$predictions
   )
-  
+
   if (j %% 50 == 0) cat("Finished", j, "of", n_eval, "forecasts\n")
 }
 
@@ -242,6 +251,11 @@ results <- data.frame(
 )
 
 print(results)
+cat("Evaluation dates:", as.character(df_lagged$date[min(eval_idx)]),
+    "to", as.character(df_lagged$date[max(eval_idx)]), "\n")
+print(table(lasso_nonzero))
+cat("Largest lasso/rolling-mean difference:",
+    max(abs(f_lasso - f_mean)), "\n")
 
 ############################################################
 ## 6. Optional: simple plot of realised vs forecasts
@@ -268,7 +282,7 @@ p_lasso <- ggplot(plot_df, aes(x = date)) +
     name   = NULL
   ) +
   labs(
-    title = "Daily squared return vs lasso forecast",
+    title = "Squared return and lasso-selected rolling mean",
     x     = "Date",
     y     = "Squared return / forecast"
   ) +
@@ -281,8 +295,9 @@ p_lasso <- ggplot(plot_df, aes(x = date)) +
 print(p_lasso)
 
 # Save to file: 6 x 4 inches, 300 dpi
+dir.create("figures", showWarnings=FALSE)
 ggsave(
-  filename = "realised_vs_lasso.png",
+  filename = "figures/realised_vs_lasso.pdf",
   plot     = p_lasso,
   width    = 6,
   height   = 4,

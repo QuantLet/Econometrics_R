@@ -148,14 +148,10 @@ ggsave("mpg_statistical.png", p_stat,
 p_coord <- ggplot(data = mpg, aes(x = displ, y = hwy)) +
   geom_point() +
   stat_smooth(method = lm, col = "firebrick") +
-  scale_y_continuous("Highway MPG",
-                     limits = c(10, 45),
-                     expand = c(0, 0)) +
-  scale_x_continuous("Engine Displacement (litres)",
-                     limits = c(1, 7),
-                     expand = c(0, 0)) +
-  coord_equal() +
-  labs(title = "Engine Size and Fuel Efficiency (Equal Scales)")
+  scale_y_continuous("Highway MPG", expand=c(0,0)) +
+  scale_x_continuous("Engine Displacement (litres)", expand=c(0,0)) +
+  coord_cartesian(xlim=c(1,7), ylim=c(10,45)) +
+  labs(title="Engine Size and Fuel Efficiency: Viewing Limits")
 
 ggsave("mpg_coordinates.png", p_coord,
        width = 7, height = 5, dpi = 300)

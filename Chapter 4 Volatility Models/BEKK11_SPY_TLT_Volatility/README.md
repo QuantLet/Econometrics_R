@@ -9,7 +9,8 @@ Name of Quantlet: BEKK11_SPY_TLT_Volatility
 
 Published in: Econometrics_R
 
-Description: This R script estimates a symmetric BEKK(1,1) multivariate volatility model for a bivariate system of daily stock and bond ETF returns. It downloads adjusted closing prices for SPY (S&P 500 ETF) and TLT (long-term U.S. Treasury ETF) from Yahoo Finance via quantmod::getSymbols() starting in 2015, constructs daily log returns (scaled by 100), and demeans each return series so that they resemble mean-zero innovations. Using the BEKKs package, the script specifies a default symmetric BEKK(1,1) model with bekk_spec(), fits it to the bivariate residual series via bekk_fit() with quasi-maximum likelihood (QML) and convergence controls, and then reports the estimated parameters and diagnostics using base::summary() to avoid masking. The fitted BEKK model captures time-varying variances and covariances between equity and bond returns, illustrating a standard tool for modeling multivariate financial volatility.
+Description: Fits a bivariate BEKK(1,1) model to SPY and TLT returns from the accompanying 2015-2024 adjusted-price data. The covariance recursion follows the BEKKs package convention.
+
 
 Keywords: Econometrics, Financial Econometrics, Multivariate GARCH, BEKK(1,1), Volatility, Covariance Dynamics, SPY, TLT, Quantmod, BEKKs, R
 
@@ -18,3 +19,19 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "bekk11_spy_tlt_volatility.R"
+```
+
+Keep these data files beside the script:
+
+- `ETF_adjusted_2015_2024.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/

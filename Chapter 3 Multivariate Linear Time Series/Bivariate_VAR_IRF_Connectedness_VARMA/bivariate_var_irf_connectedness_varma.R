@@ -5,45 +5,25 @@
 # install.packages(c("fredr", "vars", "ggplot2", "dplyr",
 #                    "lubridate", "MTS"))
 
-library(fredr)
 library(vars)
 library(ggplot2)
 library(dplyr)
 library(lubridate)
 library(MTS)      # for VARMA simulation
 
-# Set working directory (optional for RStudio users)
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# The accompanying CSV files were retrieved on 8 October 2026.
+# The observation window is fixed; FRED may revise historical values.
+start_date <- as.Date("2007-01-01")
+end_date <- as.Date("2025-08-01")
+read_snapshot <- function(id) {
+  d <- read.csv(paste0(id, ".csv"), na.strings = c(".", ""))
+  names(d) <- c("date", "value")
+  d$date <- as.Date(d$date)
+  d[d$date >= start_date & d$date <= end_date, ]
 }
+cons_raw <- read_snapshot("PCEC96")
+inc_raw <- read_snapshot("DSPIC96")
 
-# Set FRED API key
-fred_api_key <- Sys.getenv("FRED_API_KEY")
-if (!nzchar(fred_api_key)) {
-  stop("Please set the FRED_API_KEY environment variable before running this script.")
-}
-fredr_set_key(fred_api_key)
-
-## =====================================================
-## 2. Download bivariate macro data from FRED
-##    Example: real consumption (PCEC96) and
-##             real disposable income (DSPIC96)
-## =====================================================
-
-start_date <- as.Date("1960-01-01")
-end_date   <- Sys.Date()
-
-cons_raw <- fredr(
-  series_id         = "PCEC96",   # Real PCE
-  observation_start = start_date,
-  observation_end   = end_date
-)
-
-inc_raw <- fredr(
-  series_id         = "DSPIC96",  # Real DPI
-  observation_start = start_date,
-  observation_end   = end_date
-)
 
 df_raw <- inner_join(
   cons_raw %>% select(date, cons = value),
@@ -71,10 +51,11 @@ y_ts <- ts(
   start     = c(start_year, start_month),
   frequency = 12
 )
-colnames(y_ts) <- c("lcons", "linc")
+y_ts <- diff(y_ts)
+colnames(y_ts) <- c("gcons", "ginc")
 
 # Choose VAR lag order by information criteria
-lag_sel <- VARselect(y_ts, lag.max = 12, type = "const")
+lag_sel <- VARselect(y_ts, lag.max = 24, type = "const")
 lag_sel$selection
 
 p_opt <- as.numeric(lag_sel$selection["SC(n)"])
@@ -111,10 +92,11 @@ A_hat <- vars::Acoef(var1_fit)[[1]]
 # Innovation covariance from VAR(1) residuals
 Omega1_hat <- crossprod(resid(var1_fit)) / nrow(resid(var1_fit))
 
-# Build I_{n^2} and compute vec(Gamma(0)) via (I - A⊗A)^{-1} vec(Omega)
+# Build I_{n^2} and compute vec(Gamma(0)) via (I - A%x%A)^{-1} vec(Omega)
 n  <- ncol(y_ts)
 I2 <- diag(n^2)
 
+stopifnot(max(Mod(eigen(A_hat)$values)) < 1)
 Gamma0_vec <- solve(I2 - kronecker(A_hat, A_hat)) %*% as.vector(Omega1_hat)
 Gamma0_th  <- matrix(Gamma0_vec, nrow = n, ncol = n)
 
@@ -126,10 +108,11 @@ Gamma0_hat  # sample covariance for comparison
 ## =====================================================
 
 # 6.1 Standard (possibly orthogonalized) IRFs
+set.seed(20261008)
 irf_std <- irf(
   var_fit,
-  impulse    = "linc",
-  response   = "lcons",
+  impulse    = "ginc",
+  response   = "gcons",
   n.ahead    = 24,
   orth       = FALSE,  # set TRUE for Cholesky-orthogonalized
   boot       = TRUE,
@@ -145,7 +128,7 @@ get_Psi_array <- function(Phi_list, K) {
   n <- nrow(Phi_list[[1]])
   Psi <- array(0, dim = c(n, n, K + 1))
   Psi[, , 1] <- diag(n)  # Psi_0 = I_n
-  
+
   for (k in 1:K) {
     tmp <- matrix(0, n, n)
     for (i in 1:min(p, k)) {
@@ -177,7 +160,7 @@ irf_lcons_linc
 connectedness_d <- function(Psi_array, Omega, K) {
   n <- dim(Psi_array)[1]
   d_mat <- matrix(0, n, n)
-  
+
   for (i in 1:n) {
     for (j in 1:n) {
       num <- 0
@@ -185,7 +168,7 @@ connectedness_d <- function(Psi_array, Omega, K) {
       sigma_jj <- Omega[j, j]
       e_i <- rep(0, n); e_i[i] <- 1
       e_j <- rep(0, n); e_j[j] <- 1
-      
+
       for (k in 0:(K - 1)) {
         Psi_k <- Psi_array[, , k + 1]
         num <- num +

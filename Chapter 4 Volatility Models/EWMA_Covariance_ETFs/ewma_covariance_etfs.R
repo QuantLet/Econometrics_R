@@ -21,23 +21,11 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 symbols <- c("SPY", "QQQ", "EFA")  # S&P 500, Nasdaq 100, MSCI EAFE
 
 # Download daily prices from Yahoo
-getSymbols(
-  symbols,
-  src         = "yahoo",
-  from        = "2015-01-01",
-  auto.assign = TRUE
-)
+# Saved adjusted prices: 2015--2024, retrieved 8 October 2026.
+d <- read.csv("ETF_adjusted_2015_2024.csv")
+price_xts <- xts::xts(d[,symbols], order.by=as.Date(d$date))
+price_xts <- na.omit(price_xts)
 
-# Extract adjusted close prices and merge into one xts object
-price_xts <- na.omit(
-  cbind(
-    Ad(SPY),
-    Ad(QQQ),
-    Ad(EFA)
-  )
-)
-
-colnames(price_xts) <- symbols
 
 ## =====================================================
 ## 3. Compute log returns and residual matrix eps
@@ -62,7 +50,7 @@ k   <- ncol(eps)
 # Decay factor lambda: larger values = slower decay
 lambda <- 0.94
 
-# Initialize list to store Σ_t
+# Initialize list to store Sigma_t
 Sigma_list <- vector("list", T)
 Sigma_list[[1]] <- cov(eps)  # initial covariance (e.g. sample)
 
@@ -71,14 +59,14 @@ for (t in 2:T) {
   e_prev <- matrix(eps[t - 1, ], ncol = 1)
   Sigma_list[[t]] <-
     (1 - lambda) * (e_prev %*% t(e_prev)) +
-    lambda * Sigma_list[[t - 1]]
+      lambda * Sigma_list[[t - 1]]
 }
 
 ## =====================================================
 ## 5. Example: extract latest EWMA covariance & correlations
 ## =====================================================
 
-Sigma_last <- Sigma_list[[T]]        # Σ_T
+Sigma_last <- Sigma_list[[T]]        # Sigma_T
 Sigma_last
 
 # Corresponding EWMA correlations

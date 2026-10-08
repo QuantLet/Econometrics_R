@@ -9,7 +9,8 @@ Name of Quantlet: SPY_Lasso_RF_VolForecast
 
 Published in: Econometrics_R
 
-Description: Downloads daily SPY prices from Yahoo Finance, computes returns and a daily squared-return volatility proxy, and constructs a predictor set from lagged squared and absolute returns plus day-of-week dummies. The contemporaneous return is retained only for GARCH estimation and excluded from the machine-learning design because the target is its square. A custom expanding-window validation loop selects the lasso penalty using past-only fits; the random forest uses clearly pre-specified settings rather than claimed OOB tuning. The rolling evaluation re-estimates an AR(1), a GARCH(1,1), lasso, and random forest at each origin. The GARCH forecast targets the squared-return conditional expectation by adding the squared conditional-mean forecast to the variance forecast. The script compares RMSEs and plots observed daily squared returns against lasso forecasts.
+Description: Compares AR, GARCH, lasso and random-forest volatility forecasts using the accompanying 2020-2024 SPY adjusted-price data. It reports test-sample errors and plots realised volatility against the lasso forecast.
+
 
 Keywords: SPY, volatility, squared returns, GARCH, lasso, random forest, glmnet, rugarch, ranger, time-series cross-validation, machine learning, forecasting, R
 
@@ -21,3 +22,19 @@ Submitted: 27 November 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%2010%20Selected%20Machine%20Learning%20Tools%20for%20Econometrics%20in%20R/SPY_Lasso_RF_VolForecast/realised_vs_lasso.png" alt="Daily SPY squared returns and past-only-tuned lasso forecasts" />
 </div>
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "SPY_Lasso_RF_VolForecast.R"
+```
+
+Keep these data files beside the script:
+
+- `SPY_adjusted_20200102_20241231.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/

@@ -9,7 +9,8 @@ Name of Quantlet: FTSE_DAX_Multivariate_KDE
 
 Published in: Econometrics_R
 
-Description: This R script performs and visualises a bivariate kernel density estimation for joint daily returns of the FTSE 100 and DAX indices. It downloads recent FTSE (^FTSE) and DAX (^GDAXI) prices from Yahoo Finance using quantmod::getSymbols(), extracts closing prices, and computes daily log returns in percent via dailyReturn(). The two return series are merged by date into a clean data frame of matched observations, from which a 2-column matrix of FTSE and DAX returns is constructed. Using the ks package, the script calls ks::kde() explicitly to estimate the joint probability density of the bivariate return vector. The resulting multivariate kernel density estimate is visualised in two ways: (i) a 2D filled contour plot showing the joint density levels, and (ii) a 3D perspective plot illustrating the shape of the estimated surface. These plots provide an intuitive view of the dependence structure and joint distribution of FTSE and DAX daily returns over the sample period.
+Description: Aligns FTSE and DAX trading dates in 2024 and estimates their joint daily log-return density. The accompanying closing-price snapshots provide the inputs for contour and perspective plots.
+
 
 Keywords: Econometrics, Financial Econometrics, FTSE 100, DAX, Multivariate Kernel Density, KDE, Joint Distribution, Quantmod, ks, Yahoo Finance, R
 
@@ -18,3 +19,24 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "ftse_dax_multivariate_kde.R"
+```
+
+Keep these data files beside the script:
+
+- `DAX_close_2024.csv`
+- `FTSE_close_2015_2024.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/
+
+![Joint FTSE-DAX return density: contours](2d-density.png)
+
+![Joint FTSE-DAX return density: surface](3d-density.png)

@@ -41,12 +41,24 @@ getSymbols(symbol,
            output.size  = output_size,
            auto.assign  = TRUE)
 
-# Extract closing prices and drop missing values
-data_xts <- Cl(get(symbol))
-data_xts <- na.omit(data_xts)
-
-# Convert to a numeric price vector
+# Keep positive regular-session observations on one trading day.
+data_xts <- na.omit(Cl(get(symbol)))
+data_xts <- data_xts[order(index(data_xts))]
+data_xts <- data_xts[!duplicated(index(data_xts)) & as.numeric(data_xts)>0]
+# quantmod supplies the exchange timestamps; inspect their time zone.
+stamp <- index(data_xts)
+if (!nzchar(xts::tzone(data_xts))) stop("Set the exchange time zone first.")
+clock <- format(stamp,"%H:%M:%S",tz="America/New_York")
+data_xts <- data_xts[clock>="09:30:00" & clock<="16:00:00"]
+day <- as.Date(index(data_xts),tz="America/New_York")
+if (!length(day)) stop("No regular-session observations were returned.")
+data_xts <- data_xts[day==max(day)]
 priceX <- as.numeric(data_xts)
+if (length(priceX)<30) stop("Insufficient observations in the selected day.")
+if (any(abs(diff(log(priceX)))>.10)) {
+  stop("Inspect large intraday changes against the source before estimation.")
+}
+cat("Trading day:",as.character(max(day)),"prices:",length(priceX),"\n")
 
 # Define TSRV function (input: price vector and number of subsamples K)
 TSRV <- function(priceX, K) {

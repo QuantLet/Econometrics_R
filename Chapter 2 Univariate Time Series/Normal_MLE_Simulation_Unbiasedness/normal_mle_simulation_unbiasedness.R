@@ -33,7 +33,7 @@ for (i in 1:num_simulations) {
   sigma_mle_values[i] <- sqrt((n - 1) / n * var(sample))
 }
 
-# Check approximate unbiasedness
+# Compare the mean with E(sigma2_MLE) = (n-1) / n * sigma^2
 cat("Average of mu estimator:", mean(mu_mle_values), "\n")
 cat("Average of sigma^2 estimator:", mean(sigma_mle_values^2), "\n")
 
@@ -49,10 +49,10 @@ df_sigma <- data.frame(sigma_mle = sigma_mle_values)
 ## =====================================================
 
 p_mu <- ggplot(df_mu, aes(x = mu_mle)) +
-  geom_histogram(aes(y = ..density..),
+  geom_histogram(aes(y = after_stat(density)),
                  bins = 30, colour = "black", fill = "lightblue") +
   geom_density(colour = "red", linewidth = 1) +
-  labs(title = "Distribution of mu MLE", x = "mu MLE", y = "Density")  
+  labs(title = "Distribution of mu MLE", x = "mu MLE", y = "Density")
 
 ggsave("mu_mle_distribution.png", plot = p_mu, width = 6, height = 4, dpi = 300)
 
@@ -61,9 +61,9 @@ ggsave("mu_mle_distribution.png", plot = p_mu, width = 6, height = 4, dpi = 300)
 ## =====================================================
 
 p_sigma <- ggplot(df_sigma, aes(x = sigma_mle)) +
-  geom_histogram(aes(y = ..density..),
+  geom_histogram(aes(y = after_stat(density)),
                  bins = 30, colour = "black", fill = "lightblue") +
   geom_density(colour = "red", linewidth = 1) +
-  labs(title = "Distribution of sigma MLE", x = "sigma MLE", y = "Density")  
+  labs(title = "Distribution of sigma MLE", x = "sigma MLE", y = "Density")
 
 ggsave("sigma_mle_distribution.png", plot = p_sigma, width = 6, height = 4, dpi = 300)

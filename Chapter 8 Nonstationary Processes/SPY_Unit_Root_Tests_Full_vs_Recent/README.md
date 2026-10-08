@@ -9,7 +9,8 @@ Name of Quantlet: SPY_Unit_Root_Tests_Full_vs_Recent
 
 Published in: Econometrics_R
 
-Description: This R script performs and compares unit root and stationarity tests on SPY log prices and log returns over a long historical sample and a more recent subsample. It downloads daily SPY prices from Yahoo Finance via quantmod::getSymbols() starting in 2000, constructs a data frame with dates, adjusted closing prices, log prices, and log returns, and then partitions the data into a full sample and a recent sample beginning in 2024. A helper function run_unit_root_tests() is defined to run Augmented Dickey–Fuller (ADF) tests using urca::ur.df() and KPSS tests using urca::ur.kpss(), printing concise summaries of test statistics and critical values.
+Description: Applies ADF and KPSS tests to SPY log prices and log returns using the accompanying adjusted-price snapshot. It compares the 2000-2024 sample with 2024 alone and reports the deterministic specification and five-percent critical value for each test.
+
 
 Keywords: Econometrics, Time Series, Unit Root, Stationarity, Augmented Dickey–Fuller, ADF, KPSS, SPY, Log Prices, Log Returns, Quantmod, urca, R
 
@@ -18,3 +19,19 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "spy_unit_root_tests_full_vs_recent.R"
+```
+
+Keep these data files beside the script:
+
+- `SPY_adjusted_20000103_20241230.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/

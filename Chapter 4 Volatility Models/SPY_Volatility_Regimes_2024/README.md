@@ -9,7 +9,8 @@ Name of Quantlet: SPY_Volatility_Regimes_2024
 
 Published in: Econometrics_R
 
-Description: This R script analyzes daily SPY log returns in 2024 using a range of conditional volatility and regime-switching models. It first downloads SPY prices from Yahoo Finance via quantmod::getSymbols(), extracts adjusted closing prices, and computes daily log returns, removing the initial NA. An ARMA specification for the conditional mean is selected using forecast::auto.arima() with a non-seasonal, exhaustive search. The script then estimates several GARCH-family models for the conditional variance using rugarch: a standard GARCH(1,1), an EGARCH(1,1), a GJR-GARCH(1,1), and a threshold GARCH (TGARCH) implemented as an fGARCH submodel, all with an ARMA(0,0) mean and an included intercept. In addition, it fits a two-regime Markov-switching model for the return mean using MSwM::msmFit() with an intercept-only specification, allowing both regimes’ parameters and transition probabilities to vary. The fitted objects for the GARCH, EGARCH, GJR-GARCH, TGARCH, and Markov-switching models are printed to the console to facilitate comparison of parameter estimates, persistence, and regime characteristics.
+Description: Compares several conditional-volatility and Markov-switching specifications using the accompanying SPY adjusted-price snapshot. The observation dates are read from the saved data and the fitted parameters and regimes are reported.
+
 
 Keywords: Econometrics, Financial Econometrics, Volatility, GARCH, EGARCH, GJR-GARCH, TGARCH, Markov-Switching, Regime-Switching, SPY, Log Returns, Yahoo Finance, Quantmod, Rugarch, Forecast, MSwM, R
 
@@ -18,3 +19,19 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "spy_volatility_regimes_2024.R"
+```
+
+Keep these data files beside the script:
+
+- `SPY_adjusted_20240102_20251114.csv`
+
+These are the saved market-data observations used by the revised example. Dates and column names are retained in the CSV files.
+
+Book and companion materials: https://econometricsandtimeseries.com/

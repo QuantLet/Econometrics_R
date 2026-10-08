@@ -1,10 +1,6 @@
 ## =====================================================
 ## 1. Generate synthetic data with heteroskedasticity
 ## =====================================================
-# Optional: set working directory to current script location (RStudio)
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-}
 
 # Set the random seed for reproducibility
 set.seed(123456)
@@ -18,8 +14,8 @@ x <- seq(1, n) / n
 # Generate i.i.d. N(0, 1) disturbances
 e <- rnorm(n, mean = 0, sd = 1)
 
-# Reorder the disturbances so that larger ones are paired
-# with larger x-values (to induce heteroskedasticity)
+# Reassign the same draws so that larger absolute values
+# tend to be paired with larger x-values
 i <- order(runif(n, max = dnorm(e)))
 y <- 1 + 4 * x + e[rev(i)]
 
@@ -54,16 +50,17 @@ p1 <- ggplot(dat, aes(x = x, y = y)) +
 p2 <- ggplot(dat, aes(x = resid)) +
   geom_histogram(colour = "black", fill = "grey80") +
   labs(title = "Residuals",
-       x = "residuals(fit)", y = "Frequency")  
+       x = "residuals(fit)", y = "Frequency")
 
 # (c) Residuals vs predicted values
 p3 <- ggplot(dat, aes(x = fit, y = resid)) +
   geom_point(size = 1.2) +
-  labs(title = "Residuals vs. Predicted",
-       x = "predict(fit)", y = "residuals(fit)") 
+  labs(title = "Residual spread",
+       x = "predict(fit)", y = "residuals(fit)")
 
 # Arrange the three plots in one row
-heter_sim_plot <- p1 + p2 + p3 + plot_layout(nrow = 1)
+heter_sim_plot <- (p1 + p2 + p3 + plot_layout(nrow = 1)) &
+  theme(plot.title = element_text(size = 10))
 
 ## =====================================================
 ## 4. Save figure (6 x 4 inches, 300 dpi)

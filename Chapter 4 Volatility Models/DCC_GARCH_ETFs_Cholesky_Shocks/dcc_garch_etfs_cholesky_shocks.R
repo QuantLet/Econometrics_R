@@ -18,19 +18,11 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 # Example assets: S&P500, Nasdaq 100, MSCI EAFE
 symbols <- c("SPY", "QQQ", "EFA")
 
-getSymbols(
-  symbols,
-  src         = "yahoo",
-  from        = "2015-01-01",
-  to          = "2024-12-31",
-  auto.assign = TRUE
-)
+# Saved adjusted prices: 2015--2024, retrieved 8 October 2026.
+d <- read.csv("ETF_adjusted_2015_2024.csv")
+price_xts <- xts::xts(d[,symbols], order.by=as.Date(d$date))
+price_xts <- na.omit(price_xts)
 
-# Adjusted close prices, merged
-price_xts <- na.omit(
-  cbind(Ad(SPY), Ad(QQQ), Ad(EFA))
-)
-colnames(price_xts) <- symbols
 
 # Daily log returns (in %) and demean them => "innovations"
 ret_xts <- na.omit(diff(log(price_xts)) * 100)
@@ -63,20 +55,20 @@ z_mat <- sapply(1:k, function(j) residuals(u_fit@fit[[j]]) / sigma(u_fit@fit[[j]
 colnames(z_mat) <- symbols
 
 ## =====================================================
-## 3. Constant–correlation GARCH construction
+## 3. Constant-correlation GARCH construction
 ## =====================================================
 
 # Estimate a time-invariant correlation matrix from standardized residuals
 R_const <- cor(z_mat, use = "complete.obs")
 
-# For each t, build Σ_t = D_t R_const D_t
+# For each t, build Sigma_t = D_t R_const D_t
 Sigma_const_list <- vector("list", T)
 for (t in 1:T) {
   D_t <- diag(sigma_mat[t, ])
   Sigma_const_list[[t]] <- D_t %*% R_const %*% D_t
 }
 
-# Example: last constant–correlation covariance and correlation
+# Example: last constant-correlation covariance and correlation
 Sigma_const_last <- Sigma_const_list[[T]]
 R_const_last     <- cov2cor(Sigma_const_last)
 
@@ -84,7 +76,7 @@ Sigma_const_last
 R_const_last
 
 ## =====================================================
-## 4. DCC–GARCH(1,1): dynamic correlations
+## 4. DCC-GARCH(1,1): dynamic correlations
 ## =====================================================
 
 # DCC specification: univariate specs + DCC(1,1) correlation dynamics
@@ -113,12 +105,12 @@ R_dcc_last
 ## 5. Cholesky decomposition & orthogonal shocks
 ## =====================================================
 
-# Choose a time point (e.g. last one) and take Σ_T from DCC
+# Choose a time point (e.g. last one) and take Sigma_T from DCC
 Sigma_T <- Sigma_dcc_last
 
-# Cholesky factor: note that chol() returns upper-triangular U with Σ = U'U
+# Cholesky factor: note that chol() returns upper-triangular U with Sigma = U'U
 U_T <- chol(Sigma_T)
-L_T <- t(U_T)  # lower-triangular so that Σ_T = L_T L_T'
+L_T <- t(U_T)  # lower-triangular so that Sigma_T = L_T L_T'
 
 # Extract innovations from the fitted DCC mean models
 eps_dcc <- residuals(dcc_fit)

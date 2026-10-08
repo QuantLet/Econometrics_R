@@ -38,7 +38,7 @@ engel$u_hat2 <- engel$u_hat^2
 n <- nrow(engel)
 
 ## =====================================================
-## 2. Breusch–Pagan / Lagrange Multiplier test
+## 2. Breusch-Pagan / Lagrange Multiplier test
 ## =====================================================
 
 ## Here we choose z_{i2} = income and test H0: alpha_2 = 0.
@@ -52,7 +52,7 @@ df_BP <- 1                # one restriction
 p_BP  <- 1 - pchisq(LM_BP, df = df_BP)
 
 cat("========================================\n")
-cat("Breusch–Pagan LM test (foodexp ~ income)\n")
+cat("Breusch-Pagan LM test (foodexp ~ income)\n")
 cat("========================================\n")
 cat("LM statistic : ", LM_BP, "\n")
 cat("df           : ", df_BP, "\n")
@@ -117,13 +117,14 @@ engel$check_x2  <- sqrt(engel$income)
 fit_GLS_known <- lm(check_y ~ check_x1 + check_x2 - 1, data = engel)
 
 cat("========================================\n")
-cat("GLS with known variance Var(u_i|income_i) ∝ income_i\n")
+cat("GLS with known variance Var(u_i|income_i) proportional to income_i\n")
 cat("========================================\n")
 summary(fit_GLS_known)
 
 ## Coefficients and standard errors
 coef(fit_GLS_known)
 sqrt(diag(vcov(fit_GLS_known)))
+coeftest(fit_GLS_known, vcov. = vcovHC(fit_GLS_known, type = "HC1"))
 
 ## =====================================================
 ## 6. Feasible GLS with unknown variance function
@@ -142,12 +143,12 @@ cat("Auxiliary variance regression: log(e_i^2) on log(income_i)\n")
 cat("========================================\n")
 summary(aux_var)
 
-alpha_hat <- coef(aux_var)  # alpha_1 = log(sigma^2), alpha_2 = gamma_hat
+alpha_hat <- coef(aux_var)  # intercept includes the log-squared-error constant; slope = gamma_hat
 
 # Fitted variances sigma_hat_i^2
 sigma_hat_sq <- exp(alpha_hat[1] + alpha_hat[2] * z)
 
-## Step 2: GLS-type regression using weights w_i = 1 / sqrt(sigma_hat_i^2)
+## Step 2: multiply y and every regressor by the inverse estimated SD.
 
 w <- 1 / sqrt(sigma_hat_sq)
 
@@ -158,9 +159,10 @@ cat("========================================\n")
 cat("Feasible GLS with estimated variance function (Engel data)\n")
 cat("========================================\n")
 summary(fit_GLS_unknown)
+coeftest(fit_GLS_unknown, vcov. = vcovHC(fit_GLS_unknown, type = "HC1"))
 
 ## =====================================================
-## 7. Wage example: Goldfeld–Quandt and groupwise FGLS
+## 7. Wage example: Goldfeld-Quandt and groupwise FGLS
 ##    using CPS1985 data from AER
 ## =====================================================
 
@@ -185,10 +187,10 @@ cat("========================================\n")
 summary(fit_wage_OLS)
 
 ## -----------------------------------------------------
-## 7.2 Goldfeld–Quandt-type test: male vs female
+## 7.2 Goldfeld-Quandt-type test: male vs female
 ## -----------------------------------------------------
 
-## Implement the Goldfeld–Quandt idea by splitting the sample
+## Implement the Goldfeld-Quandt idea by splitting the sample
 ## into two groups (male vs female) and comparing residual variances.
 
 male_data   <- subset(CPS1985, gender == "male")
@@ -210,7 +212,7 @@ p_upper <- pf(F_GQ, df1 = df1, df2 = df2, lower.tail = FALSE)
 p_GQ    <- 2 * min(p_upper, 1 - p_upper)
 
 cat("========================================\n")
-cat("Goldfeld–Quandt-type test (male vs female, CPS1985)\n")
+cat("Goldfeld-Quandt-type test (male vs female, CPS1985)\n")
 cat("========================================\n")
 cat("F statistic = ", F_GQ, "\n")
 cat("df1        = ", df1,  "\n")

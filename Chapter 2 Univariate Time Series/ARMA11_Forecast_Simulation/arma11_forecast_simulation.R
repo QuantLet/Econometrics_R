@@ -14,7 +14,7 @@ library(forecast)
 library(ggplot2)
 
 ## =====================================================
-## 2. Simulate ARMA(1,1) data 
+## 2. Simulate ARMA(1,1) data
 ## =====================================================
 
 set.seed(123)   # For reproducibility
@@ -29,6 +29,6 @@ fit             <- Arima(simulated_data, order = c(1, 0, 1))
 forecast_result <- forecast(fit, h = 20)
 
 p_forecast <- autoplot(forecast_result) +
-  labs(title = "Forecast from ARMA(1,1) model", x = "Time", y = "Value")  
+  labs(title = "Forecast from an ARMA(1,1) model. Dark and light bands are pointwise 80% and 95% Gaussian plug-in prediction intervals", x = "Time", y = "Value")
 
 ggsave("forecast_result.png", plot = p_forecast, width = 6, height = 4, dpi = 300)

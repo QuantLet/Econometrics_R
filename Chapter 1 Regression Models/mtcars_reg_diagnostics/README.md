@@ -9,7 +9,8 @@ Name of Quantlet: mtcars_reg_diagnostics
 
 Published in: Econometrics_with_R
 
-Description: This R script uses the built-in 'mtcars' dataset to fit a multiple linear regression model with 'miles per gallon' (mpg) as the dependent variable and several predictors (weight, horsepower, displacement, rear axle ratio, quarter-mile time, number of cylinders, and transmission type). It then computes multicollinearity diagnostics (VIF/GVIF and the condition number of the scaled design matrix), performs heteroskedasticity tests (Breusch–Pagan, non-constant variance score test, and a White-like variant based on fitted values and their squares), reports HC3 robust standard errors via 'coeftest', runs a Ramsey RESET functional-form test, produces standard residual and influence plots (including Cook's distances), and prints the correlation matrix of the numeric variables.
+Description: Fits a multiple regression to the mtcars data and examines residual diagnostics, influence, collinearity and correlation among numerical predictors.
+
 
 Keywords: Econometrics, Multiple Regression, Regression Diagnostics, Multicollinearity, Heteroskedasticity, Robust Standard Errors, Ramsey RESET, Cook's Distance, Correlation Matrix, R, mtcars
 
@@ -18,3 +19,13 @@ Author: Jiajing Sun
 Submitted: 22 November 2025
 
 ```
+
+## Running this example
+
+Set the working directory to this folder and install the packages loaded at the start of the script. Then run:
+
+```sh
+Rscript "mtcars_regression_diagnostics.R"
+```
+
+Book and companion materials: https://econometricsandtimeseries.com/
