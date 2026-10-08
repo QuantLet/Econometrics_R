@@ -72,7 +72,11 @@ p_geom <- ggplot(data = mpg, aes(x = displ, y = hwy, col = class)) +
   geom_point() +
   labs(title = "Engine Size versus Highway Fuel Efficiency",
        x     = "Engine Displacement (litres)",
-       y     = "Highway MPG")
+       y     = "Highway MPG") +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE)) +
+  theme(legend.position = "bottom",
+        legend.box = "vertical",
+        plot.title = element_text(size = 12))
 
 ggsave("mpg_geom_1.png", p_geom,
        width = 7, height = 5, dpi = 300)
@@ -84,7 +88,11 @@ p_size <- ggplot(data = mpg, aes(x = displ, y = hwy, size = cty)) +
   geom_point() +
   labs(title = "Engine Size vs Highway Efficiency (Point Size = City MPG)",
        x     = "Engine Displacement (litres)",
-       y     = "Highway MPG")
+       y     = "Highway MPG") +
+  guides(size = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.box = "vertical",
+        plot.title = element_text(size = 12))
 
 ggsave("mpg_size.png", p_size,
        width = 7, height = 5, dpi = 300)
@@ -97,7 +105,12 @@ p_shape_color <- ggplot(
   geom_point() +
   labs(title = "Highway Efficiency by Class and Drive Type",
        x     = "Engine Displacement (litres)",
-       y     = "Highway MPG")
+       y     = "Highway MPG") +
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE),
+         shape = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.box = "vertical",
+        plot.title = element_text(size = 12))
 
 ggsave("mpg_shape_color.png", p_shape_color,
        width = 7, height = 5, dpi = 300)
@@ -128,10 +141,12 @@ ggsave("mpg_drv.png", p_drv,
 # Columns by vehicle class  --> mpg_class.png
 p_class <- p_base +
   facet_grid(. ~ class) +
-  labs(title = "Highway MPG vs Engine Size by Vehicle Class")
+  labs(title = "Highway MPG vs Engine Size by Vehicle Class") +
+  scale_x_continuous(breaks = c(2, 4, 6)) +
+  theme(plot.title = element_text(size = 12))
 
 ggsave("mpg_class.png", p_class,
-       width = 8, height = 5, dpi = 300)
+       width = 8, height = 3.5, dpi = 300)
 
 ## 7. Statistical layer: smoothing / regression line  --> mpg_statistical.png
 p_stat <- ggplot(data = mpg, aes(x = displ, y = hwy)) +
@@ -163,7 +178,11 @@ p_cartesian <- ggplot(data = mpg, aes(x = displ, y = hwy, col = drv)) +
   coord_cartesian(xlim = c(2, 5)) +
   labs(title = "Detailed View: Highway MPG vs Engine Size (2–5 litres)",
        x     = "Engine Displacement (litres)",
-       y     = "Highway MPG")
+       y     = "Highway MPG") +
+  guides(colour = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.box = "vertical",
+        plot.title = element_text(size = 12))
 
 ggsave("mpg_cartesian.png", p_cartesian,
        width = 7, height = 5, dpi = 300)

@@ -13,7 +13,6 @@ gdp_data <- WDI(country = "US",
                 end   = 2023,
                 extra = FALSE,    # optional
                 cache = NULL)     # optional
-
 # Apply the time-series filter in chronological order.
 gdp_data <- gdp_data[order(gdp_data$year), , drop = FALSE]
 
@@ -51,4 +50,4 @@ combined_plot <- arrangeGrob(p1, p2, ncol = 1)
 grid::grid.newpage()
 grid::grid.draw(combined_plot)
 ggsave("gdp-bk-fiter.png", plot = combined_plot,
-       width = 6, height = 8, dpi = 300)
+       width = 6, height = 5.5, dpi = 300)

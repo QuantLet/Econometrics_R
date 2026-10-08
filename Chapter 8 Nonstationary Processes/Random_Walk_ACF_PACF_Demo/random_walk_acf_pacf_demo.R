@@ -64,8 +64,10 @@ pacf_plot <- ggPacf(Y) +
   )
 
 # Combine ACF and PACF into a single figure
-acf_pacf_plot <- acf_plot + pacf_plot
+acf_pacf_plot <- (acf_plot + pacf_plot) &
+  theme(plot.title = element_text(size = 10),
+        axis.text = element_text(size = 9))
 
 # Save combined ACF/PACF plot as PNG
 ggsave("rw_acf_pacf_plot.png", acf_pacf_plot,
-       width = 12, height = 4, dpi = 300)
+       width = 7, height = 3.2, dpi = 300)

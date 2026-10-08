@@ -61,9 +61,20 @@ p_wold <- ggplot(df_wold, aes(x = Time)) +
     title = "AR(1) Series and Its Ten-Lag Wold Truncation",
     x     = "Time",
     y     = "Value",
-    colour = "Series",
-    linetype = "Series"
-  )  
+    colour = NULL,
+    linetype = NULL
+  ) +
+  guides(
+    colour = guide_legend(nrow = 1),
+    linetype = guide_legend(nrow = 1)
+  ) +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.key.width = grid::unit(1.1, "cm"),
+    legend.text = element_text(size = 10),
+    plot.title = element_text(size = 12)
+  )
 
-# Save the figure 
+# Save the figure
 ggsave(filename = "Wold_decomposition.png", plot = p_wold, width = 6, height = 4, dpi = 300)

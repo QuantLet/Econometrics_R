@@ -6,7 +6,6 @@ library(WDI)
 
 # Download GDP data from World Bank API
 gdp_data <- WDI(indicator = "NY.GDP.PCAP.KD", country = "US", start = 1960, end = 2023)
-
 # WDI commonly returns years in descending order; transformations must be
 # computed in chronological order.
 gdp_data <- gdp_data[order(gdp_data$year), , drop = FALSE]
@@ -51,4 +50,8 @@ p3 <- ggplot(gdp_data, aes(x = year, y = GDP_Log_Diff)) +
 ## 5. Arrange and Display Plots
 ## =====================================================
 # Arrange the plots vertically
-grid.arrange(p1, p2, p3, ncol = 1)
+combined_plot <- arrangeGrob(p1, p2, p3, ncol = 1)
+grid::grid.newpage()
+grid::grid.draw(combined_plot)
+ggsave("gdp_us_fd_filter.png", plot = combined_plot,
+       width = 6, height = 7.5, dpi = 300)

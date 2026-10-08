@@ -1,4 +1,3 @@
-
 # Optional: set working directory to current script location (RStudio)
 if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
   setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -36,7 +35,14 @@ ggplot(df, aes(x = Year)) +
   scale_linetype_manual(values = c("Original" = "solid",
                                    "12-month SMA" = "dashed"),
                         name = NULL) +
-  labs(title = "AirPassengers Data with 12-Month SMA", 
-       y = "Number of Passengers", x = "Year")  
+  labs(title = "AirPassengers Data with 12-Month SMA",
+       y = "Number of Passengers", x = "Year") +
+  guides(colour = guide_legend(nrow = 1),
+         linetype = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
-ggsave("sma_airpassenger.png", dpi = 300, width = 6, height = 4) 
+ggsave("sma_airpassenger.png", dpi = 300, width = 6, height = 4)

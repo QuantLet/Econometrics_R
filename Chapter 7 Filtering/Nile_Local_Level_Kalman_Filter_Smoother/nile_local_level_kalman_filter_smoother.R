@@ -68,7 +68,13 @@ p <- ggplot(plot_data, aes(x = Time, y = value, color = variable,
   ) +
   labs(title = "Nile River Flow: Kalman Filtering and Smoothing",
        y = "Flow (10^8 m^3)", x = "Year") +
-  theme(legend.title = element_blank())
+  guides(colour = guide_legend(nrow = 2, byrow = TRUE),
+         linetype = guide_legend(nrow = 2, byrow = TRUE)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 # Display the plot
 print(p)

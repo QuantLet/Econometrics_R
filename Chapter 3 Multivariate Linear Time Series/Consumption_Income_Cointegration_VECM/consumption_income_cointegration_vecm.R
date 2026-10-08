@@ -72,7 +72,14 @@ p_levels <- ggplot(df, aes(x = date)) +
     y      = "log(level)",
     colour = "",
     linetype = ""
-  )
+  ) +
+  guides(colour = guide_legend(nrow = 1),
+         linetype = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 print(p_levels)
 

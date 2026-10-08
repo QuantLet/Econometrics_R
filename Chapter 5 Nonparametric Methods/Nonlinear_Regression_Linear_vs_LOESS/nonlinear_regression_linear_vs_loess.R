@@ -1,12 +1,12 @@
 ## =====================================================
-## 1. Load required libraries for data visualization 
+## 1. Load required libraries for data visualization
 ##    and regression modeling
 ## =====================================================
 library(ggplot2)
 library(ggpubr)
 
 ## =====================================================
-## 2. Set random seed for reproducibility 
+## 2. Set random seed for reproducibility
 ## =====================================================
 set.seed(123)
 
@@ -55,25 +55,28 @@ plot1 <- ggplot(data, aes(x = x)) +
                                    "LOESS fit" = "solid"),
                         name = NULL) +
   labs(title = "Fitted Values", x = "x", y = "y") +
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank(), legend.position = "bottom")
 
 ## =====================================================
 ## 9. Plot 2: Residuals from linear regression
 ## =====================================================
 plot2 <- ggplot(data, aes(x = x)) +
   geom_point(aes(y = residuals_linear), color = "blue") +
-  labs(title = "Residuals of Linear Regression", x = "x", y = "Residuals")  
+  labs(title = "Linear residuals", x = "x", y = "Residuals")
 
 ## =====================================================
 ## 10. Plot 3: Residuals from LOESS
 ## =====================================================
 plot3 <- ggplot(data, aes(x = x)) +
   geom_point(aes(y = residuals_loess), color = "red") +
-  labs(title = "Residuals of LOESS", x = "x", y = "Residuals")  
+  labs(title = "LOESS residuals", x = "x", y = "Residuals")
 
 ## =====================================================
 ## 11. Arrange the three plots in a single row with three columns
 ## =====================================================
-combined_plot <- ggarrange(plot1, plot2, plot3, ncol = 3, nrow = 1)
+combined_plot <- ggarrange(
+  plot1, plot2, plot3, ncol = 3, nrow = 1,
+  common.legend = TRUE, legend = "bottom"
+)
 ggsave("linear-vs-nonparametric.png", plot = combined_plot,
-       width = 9, height = 3.5, dpi = 300)
+       width = 7.5, height = 3.5, dpi = 300, bg = "white")

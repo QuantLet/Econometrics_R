@@ -60,8 +60,14 @@ p_ar <- ggplot(df_ar, aes(x = Time, y = Value, colour = Series, linetype = Serie
                                    "Without Shock" = "dashed")) +
   labs(title = "AR(1) process with and without a negative shock",
        x = "Time",
-       y = "Series value") + 
-  theme(legend.title = element_blank())
+       y = "Series value") +
+  guides(colour = guide_legend(nrow = 1),
+         linetype = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 ggsave("ar1_comparison_plot.png", p_ar,
        width = 6, height = 4, dpi = 300)
@@ -109,7 +115,13 @@ p_rw <- ggplot(df_rw, aes(x = Time, y = Value, colour = Series, linetype = Serie
   labs(title = "Random walk with and without a negative shock",
        x = "Time",
        y = "Series value") +
-  theme(legend.title = element_blank())
+  guides(colour = guide_legend(nrow = 1),
+         linetype = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 ggsave("rw_comparison_plot.png", p_rw,
        width = 6, height = 4, dpi = 300)

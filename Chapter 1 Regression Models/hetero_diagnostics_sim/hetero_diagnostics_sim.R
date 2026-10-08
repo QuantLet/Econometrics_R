@@ -63,7 +63,7 @@ heter_sim_plot <- (p1 + p2 + p3 + plot_layout(nrow = 1)) &
   theme(plot.title = element_text(size = 10))
 
 ## =====================================================
-## 4. Save figure (6 x 4 inches, 300 dpi)
+## 4. Save figure (7 x 3.4 inches, 300 dpi)
 ## =====================================================
 
-ggsave("heter_sim.png", heter_sim_plot, width = 6, height = 4, dpi = 300)
+ggsave("heter_sim.png", heter_sim_plot, width = 7, height = 3.4, dpi = 300)

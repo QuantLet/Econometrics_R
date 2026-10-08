@@ -52,7 +52,14 @@ p <- ggplot(df_kernels, aes(x = x, y = y, color = kernel, linetype = kernel)) +
   geom_line(size = 1.2) +
   labs(title = "Kernel Functions", x = "x", y = "Density") +
   scale_color_manual(values = c("blue", "red", "darkgreen", "purple")) +
-  scale_linetype_manual(values = c("solid", "dashed", "dotdash", "dotted"))
+  scale_linetype_manual(values = c("solid", "dashed", "dotdash", "dotted")) +
+  guides(colour = guide_legend(nrow = 2),
+         linetype = guide_legend(nrow = 2)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 # Save the plot as a PNG file with the specified size and aspect ratio
 ggsave("kernel-functions.png", plot = p, width = 6, height = 4, dpi = 300)

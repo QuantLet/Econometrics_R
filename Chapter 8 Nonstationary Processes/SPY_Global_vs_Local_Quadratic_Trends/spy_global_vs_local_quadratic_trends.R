@@ -1,5 +1,5 @@
 ## =========================================================
-## 1. Prepare environment & set working directory 
+## 1. Prepare environment & set working directory
 ##    to the current script folder (optional for RStudio)
 ## =========================================================
 
@@ -48,9 +48,9 @@ summary(global_fit)
 # Fitted global trend on the log-price scale
 spy_df$trend_global_log <- fitted(global_fit)
 
-# Optional: back-transform from log scale to price scale 
-# with a simple bias correction for E(exp(ε))
-bc_factor_global <- mean(exp(residuals(global_fit)))  # sample approximation to E(exp(ε))
+# Optional: back-transform from log scale to price scale
+# with a simple bias correction for E(exp(epsilon))
+bc_factor_global <- mean(exp(residuals(global_fit)))  # sample approximation to E(exp(epsilon))
 spy_df$trend_global <- exp(spy_df$trend_global_log) * bc_factor_global
 
 # Time of the peak of the global quadratic curve (if it is a
@@ -61,8 +61,8 @@ if (b["I(t^2)"] < 0) {
   peak_index <- round(t_peak)
   if (is.finite(t_peak) && peak_index >= 1 && peak_index <= T_obs) {
     date_peak <- spy_df$date[peak_index]
-    message("Estimated peak (global quadratic) at t ≈ ",
-            round(t_peak, 1), ", date ≈ ", as.character(date_peak))
+    message("Estimated peak (global quadratic) at t approx ",
+            round(t_peak, 1), ", date approx ", as.character(date_peak))
   } else {
     message("The fitted quadratic vertex lies outside the observed sample.")
   }
@@ -70,7 +70,7 @@ if (b["I(t^2)"] < 0) {
 
 ## =========================================================
 ## 4. Rolling local quadratic trend (nonparametric / local)
-##    At each time, fit a quadratic using the most recent 
+##    At each time, fit a quadratic using the most recent
 ##    n_window observations (rolling window)
 ## =========================================================
 
@@ -82,19 +82,19 @@ trend_local      <- rep(NA_real_, T_obs)
 for (i in seq_len(T_obs)) {
   # Skip the first (n_window - 1) points where the window is incomplete
   if (i < n_window) next
-  
+
   idx_window <- (i - n_window + 1):i
   sub_dat    <- spy_df[idx_window, ]
-  
+
   # Local quadratic trend: log_price ~ t + t^2 within the window
   local_fit <- lm(log_price ~ t + I(t^2), data = sub_dat)
-  
+
   # Predicted local trend at time i on the log scale
   trend_local_log[i] <- predict(
     local_fit,
     newdata = data.frame(t = spy_df$t[i])
   )
-  
+
   # Optional: local bias correction (or reuse bc_factor_global)
   bc_factor_local <- mean(exp(residuals(local_fit)))
   trend_local[i]  <- exp(trend_local_log[i]) * bc_factor_local
@@ -117,7 +117,14 @@ p_log <- ggplot(spy_df, aes(x = date)) +
                         name = NULL) +
   labs(title = "Log SPY price with global and local quadratic trends",
        x = "Date",
-       y = "log(price)")  
+       y = "log(price)") +
+  guides(colour = guide_legend(nrow = 1),
+         linetype = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 print(p_log)
 
@@ -140,7 +147,14 @@ p_level <- ggplot(spy_df, aes(x = date)) +
                         name = NULL) +
   labs(title = "SPY price with global and rolling quadratic trend fits",
        x = "Date",
-       y = "Price")  
+       y = "Price") +
+  guides(colour = guide_legend(nrow = 1),
+         linetype = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.key.width = grid::unit(1.1, "cm"),
+        legend.title = element_blank(),
+        plot.title = element_text(size = 12))
 
 print(p_level)
 

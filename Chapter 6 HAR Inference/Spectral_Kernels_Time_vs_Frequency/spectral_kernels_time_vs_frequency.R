@@ -24,6 +24,7 @@ qs_kernel <- function(x) {
   z <- pi * x
   out <- numeric(length(z))
   small <- abs(z) < 1e-4
+  # Taylor limit: 1 - z^2 / 10 + z^4 / 280
   out[small] <- 1 - z[small]^2 / 10 + z[small]^4 / 280
   out[!small] <- 3 / z[!small]^2 *
     (sinc(z[!small]) - cos(z[!small]))
@@ -69,33 +70,41 @@ combined_plots <- lapply(names(kernels), function(name) {
     x = x_seq,
     y = sapply(x_seq, kernels[[name]])
   )
-  
+
   # Data for Fourier transform K(u)
   fourier_data <- data.frame(
     x = u_seq,
     y = sapply(u_seq, fourier_transforms[[name]])
   )
-  
+
   # Plot k(x)
   kernel_plot <- ggplot(kernel_data, aes(x, y)) +
     geom_line() +
     ggtitle(paste(name, "Kernel")) +
     xlab("x") +
-    ylab("k(x)")
-  
+    ylab("k(x)") +
+    theme(plot.title = element_text(size = 10),
+          axis.text = element_text(size = 8))
+
   # Plot K(u)
   fourier_plot <- ggplot(fourier_data, aes(x, y)) +
     geom_line() +
     ggtitle(paste(name, "Fourier Transform")) +
     xlab("u") +
-    ylab("K(u)")
-  
+    ylab("K(u)") +
+    theme(plot.title = element_text(size = 10),
+          axis.text = element_text(size = 8))
+
   # Put the two plots side by side
-  grid.arrange(kernel_plot, fourier_plot, ncol = 2)
+  arrangeGrob(kernel_plot, fourier_plot, ncol = 2)
 })
 
 ## =====================================================
 ## 5. Arrange all kernels in one figure
 ## =====================================================
 
-combined_grid <- do.call(grid.arrange, c(combined_plots, ncol = 1))
+combined_grid <- do.call(arrangeGrob, c(combined_plots, ncol = 1))
+grid::grid.newpage()
+grid::grid.draw(combined_grid)
+ggsave("kernels_and_fourier_transforms.png", combined_grid,
+       width = 7, height = 9, dpi = 300)
