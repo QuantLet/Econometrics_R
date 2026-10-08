@@ -14,14 +14,14 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 ## =====================================================
-## 2. Download price data from Yahoo Finance
+## 2. Read adjusted-price data
 ## =====================================================
 
 # Choose a small set of liquid ETFs/stocks
 symbols <- c("SPY", "QQQ", "EFA")  # S&P 500, Nasdaq 100, MSCI EAFE
 
-# Download daily prices from Yahoo
-# Saved adjusted prices: 2015--2024, retrieved 8 October 2026.
+# Read daily adjusted prices
+# Read the accompanying adjusted prices for 2015--2024.
 d <- read.csv("ETF_adjusted_2015_2024.csv")
 price_xts <- xts::xts(d[,symbols], order.by=as.Date(d$date))
 price_xts <- na.omit(price_xts)

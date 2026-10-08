@@ -11,8 +11,8 @@ library(ggplot2)
 library(dplyr)
 library(lubridate)
 
-# The accompanying CSV files were retrieved on 8 October 2026.
-# The observation window is fixed; FRED may revise historical values.
+# Read the accompanying monthly consumption and income CSV files.
+# Select the common monthly observation window.
 start_date <- as.Date("2007-01-01")
 end_date <- as.Date("2025-08-01")
 read_snapshot <- function(id) {

@@ -14,12 +14,12 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 ## =====================================================
-## 2. Download daily prices from Yahoo (SPY & TLT)
+## 2. Read adjusted prices for SPY and TLT
 ## =====================================================
 
 symbols <- c("SPY", "TLT")  # stock ETF + bond ETF
 
-# Saved adjusted prices: 2015--2024, retrieved 8 October 2026.
+# Read the accompanying adjusted prices for 2015--2024.
 d <- read.csv("ETF_adjusted_2015_2024.csv")
 price_xts <- xts::xts(d[,symbols], order.by=as.Date(d$date))
 price_xts <- na.omit(price_xts)
