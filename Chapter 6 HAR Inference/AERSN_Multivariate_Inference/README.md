@@ -17,9 +17,13 @@ Use this folder as the working directory and run, in order:
 ```r
 source("aersn_multivariate_inference.R")
 source("aersn_regression_targets.R")
+source("aersn_different_decisions.R")
+source("aersn_decision_simulation.R")
 ```
 
 The first script simulates 300 observations after a 500-observation burn-in, draws 10,000 Brownian reference statistics per method and saves the reference objects. The second reuses those objects because the target dimension and sample grid are unchanged. All data are simulated; no account, API key or data download is needed.
+
+The third script also runs independently: it recreates the original data, raises the first mean by 0.10, and draws 100,000 Brownian reference statistics per method. The fourth uses the saved reference objects for a comparison over 5,000 new samples, together with 5,000 independent null samples for size calibration. These two scripts take longer than the original illustration.
 
 ## Results
 
@@ -32,6 +36,37 @@ The increment-hull and quadratic statistics are approximately 1.808 and 30.093, 
 `simultaneous_intervals.csv` contains projections of the full joint region, all using the two-dimensional critical value. These are simultaneous intervals; separate scalar intervals would answer a different question. `method_comparison.csv` contains the two tests. The two CSV datasets are the exact simulated inputs used for the figures and regression example.
 
 The code also checks the quadratic statistic against its matrix formula, the two-dimensional gauge against supporting edges, the contrast intervals against projected ranges, the scalar reduction and the transformed polygon. The regression script independently forms the OLS influences. `validation.txt` and `regression_validation.txt` record the discrepancies. Package and R versions appear in `sessionInfo.txt`.
+
+## An example with different decisions
+
+Keep the original centred observations and change the population mean from `(0.12, -0.06)` to `(0.22, -0.06)`. Both tests still examine the joint null `(0, 0)`.
+
+| Method | Statistic | 5% critical value | Simulated p-value | Reject at 5%? |
+| --- | ---: | ---: | ---: | --- |
+| Adjusted range, increment hull | 2.9398 | 2.5516 | 0.02408 | Yes |
+| Shao, quadratic | 65.2147 | 105.3155 | 0.11810 | No |
+
+![Different decisions](aersn_different_decisions.png)
+
+The null lies outside the adjusted-range polygon but inside Shao's ellipse. Both methods are affine equivariant. Transforming the observations into their sum and difference, with a location shift, preserves their statistics and decisions when the null is transformed as well. The different decisions arise from the shape and calibration of the two regions.
+
+`aersn_different_decisions.R` contains the printed code, direct formula checks and plotting code for Figure 6.6. Its seed is 61009 for the original observations and 61012 for the larger reference simulations. The saved objects are in `decision_reference_draws.rds`, the shifted sample in `shifted_vector_series.csv`, and the results in `different_decisions.csv` and `decision_affine_check.csv`.
+
+## Rejection frequencies
+
+`aersn_decision_simulation.R` evaluates every replication at three fixed means. Both methods use the same observations, and all three means share the same innovations within each replication. All 5,000 evaluation replications are retained.
+
+| Population mean | Brownian: adjusted range | Brownian: Shao | VAR-calibrated: adjusted range | VAR-calibrated: Shao |
+| --- | ---: | ---: | ---: | ---: |
+| `(0, 0)` | 0.0552 | 0.0480 | 0.0488 | 0.0448 |
+| `(0.12, -0.06)` | 0.3570 | 0.2900 | 0.3354 | 0.2770 |
+| `(0.22, -0.06)` | 0.6646 | 0.5380 | 0.6436 | 0.5228 |
+
+The first row estimates size; the other rows estimate power. At the larger alternative, only the adjusted-range method rejects in 14.96% of samples, and only Shao's method rejects in 2.30%, using the Brownian references.
+
+The size-calibrated critical values (2.6103 and 108.8402) use 5,000 separate samples from the known zero-mean VAR, with seed 61013. Evaluation uses fresh samples with seed 61014. The larger alternative retains a power difference of 0.1208; its paired Monte Carlo standard error is 0.0056, conditional on the simulated critical values. The gain concerns this model and these mean directions, not every alternative.
+
+The complete results, critical values and individual replication statistics are in `decision_size_power.csv`, `decision_cutoffs.csv`, `decision_null_calibration.csv` and `decision_evaluation_statistics.csv`. The two-dimensional hull gauge is calculated from all supporting edges, without a direction grid approximation. Package comparisons and affine invariance checks are recorded in `decision_validation.txt` and `decision_simulation_validation.txt`.
 
 ## References
 

@@ -1,0 +1,6 @@
+All 5000 calibration and 5000 evaluation replications retained.
+Calibration seed 61013; independent evaluation seed 61014.
+All three prespecified means evaluated on every new dataset.
+Maximum direct-versus-package discrepancy: 2.34e-12
+Size-adjusted power uses separate VAR null simulations, not the evaluation data.
+Monte Carlo standard errors condition on the simulated critical values.

@@ -1,0 +1,5 @@
+Both direct formula checks passed.
+Centred influence paths agree before and after the fixed mean shift.
+Both affine-transformation checks passed.
+Direct hull discrepancy: 7.24e-13
+Direct quadratic discrepancy: 8.53e-14
