@@ -4,6 +4,18 @@ This example accompanies Chapter 6 of *Econometrics and Time Series Methods: The
 
 It constructs nominal 95% joint confidence regions for the mean of a bivariate VAR(1), using the increment-hull adjusted-range method and Shao's quadratic method. The same estimate and centred influence path are used for both methods, with a separate Brownian reference law for each. A second example estimates two regression slopes while retaining the effect of the estimated intercept in their influence contributions.
 
+## Code used in the book
+
+| Example | Complete script | Objects used by the printed excerpt |
+| --- | --- | --- |
+| Two dependent means | [aersn_multivariate_inference.R](aersn_multivariate_inference.R) | Creates its own data and reference draws. |
+| Changing coordinates | [aersn_multivariate_inference.R](aersn_multivariate_inference.R), `AFFINE CHECK` block | Continues from the preceding mean example. |
+| When the two tests disagree | [aersn_different_decisions.R](aersn_different_decisions.R), `DIFFERENT DECISIONS` block | The complete script recreates the original sample before applying the shift. |
+| Transforming the shifted sample | [aersn_different_decisions.R](aersn_different_decisions.R), `DECISION AFFINE CHECK` block | Continues from the preceding comparison. |
+| Selected regression coefficients | [aersn_regression_targets.R](aersn_regression_targets.R) | Reads `simulated_vector_series.csv` and `reference_draws.rds` produced by the first script. |
+
+The QR codes beside the book's R examples open the corresponding sections below. Each section links to the complete script, including the setup omitted from continuation excerpts.
+
 ## Run
 
 Install R 4.1 or later and `aersn` 0.2.3 or later:
@@ -29,6 +41,10 @@ The third script also runs independently: it recreates the original data, raises
 
 The increment-hull and quadratic statistics are approximately 1.808 and 30.093, with simulated p-values 0.177 and 0.299. Each statistic is compared with its own reference law. The gauge critical value is about 2.510; the quadratic critical value is about 101.223. They are matched-grid approximations, not finite-sample exact critical values for general dependent observations.
 
+## Changing coordinates
+
+[Open the complete R script](aersn_multivariate_inference.R). The `AFFINE CHECK` block continues from the mean example, using `Y`, `test_h`, `test_s`, `ref_h` and `ref_s`. It transforms both the data and the null, then checks equality of the original and transformed statistics.
+
 `aersn_joint_regions.pdf` and `.png` show the two confidence regions before and after an invertible transformation into sums and differences with a location shift. Both statistics are invariant. The polygon and ellipse cross, so neither contains the other in this realization.
 
 ![Joint confidence regions](aersn_joint_regions.png)
@@ -38,6 +54,8 @@ The increment-hull and quadratic statistics are approximately 1.808 and 30.093, 
 The code also checks the quadratic statistic against its matrix formula, the two-dimensional gauge against supporting edges, the contrast intervals against projected ranges, the scalar reduction and the transformed polygon. The regression script independently forms the OLS influences. `validation.txt` and `regression_validation.txt` record the discrepancies. Package and R versions appear in `sessionInfo.txt`.
 
 ## An example with different decisions
+
+[Open the complete R script](aersn_different_decisions.R). It recreates the original sample, so it can be run on its own from this directory. The printed comparison is marked `DIFFERENT DECISIONS`.
 
 Keep the original centred observations and change the population mean from `(0.12, -0.06)` to `(0.22, -0.06)`. Both tests still examine the joint null `(0, 0)`.
 
@@ -51,6 +69,14 @@ Keep the original centred observations and change the population mean from `(0.1
 The null lies outside the adjusted-range polygon but inside Shao's ellipse. Both methods are affine equivariant. Transforming the observations into their sum and difference, with a location shift, preserves their statistics and decisions when the null is transformed as well. The different decisions arise from the shape and calibration of the two regions.
 
 `aersn_different_decisions.R` contains the printed code, direct formula checks and plotting code for Figure 6.6. Its seed is 61009 for the original observations and 61012 for the larger reference simulations. The saved objects are in `decision_reference_draws.rds`, the shifted sample in `shifted_vector_series.csv`, and the results in `different_decisions.csv` and `decision_affine_check.csv`.
+
+## Transforming the shifted sample
+
+[Open the complete R script](aersn_different_decisions.R). The `DECISION AFFINE CHECK` block follows the two-test comparison in the same script. It uses `Y2`, the two fitted tests and their reference objects, and checks that transforming the data and null preserves both statistics and decisions. Results are saved in [decision_affine_check.csv](decision_affine_check.csv).
+
+## Selected regression coefficients
+
+[Open the complete R script](aersn_regression_targets.R). Run `aersn_multivariate_inference.R` first to create the simulated regressors and Brownian reference objects. The `REGRESSION` block fits an intercept and two slopes, tests the slopes jointly and constructs a simultaneous interval for their sum. The remaining code independently checks the OLS influence calculation. The simulated regression data are saved in [simulated_regression_data.csv](simulated_regression_data.csv).
 
 ## Rejection frequencies
 
