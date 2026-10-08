@@ -62,14 +62,14 @@ colnames(y_ts) <- c("lcons", "linc")
 
 # Plot log levels
 p_levels <- ggplot(df, aes(x = date)) +
-  geom_line(aes(y = lcons, colour = "log C", linetype = "log C")) +
-  geom_line(aes(y = linc, colour = "log Yd", linetype = "log Yd")) +
-  scale_linetype_manual(values = c("log C" = "solid",
-                                   "log Yd" = "dashed")) +
+  geom_line(aes(y = lcons, colour = "ln C", linetype = "ln C")) +
+  geom_line(aes(y = linc, colour = "ln Yd", linetype = "ln Yd")) +
+  scale_linetype_manual(values = c("ln C" = "solid",
+                                   "ln Yd" = "dashed")) +
   labs(
     title  = "Log real consumption and log real disposable income",
     x      = "Date",
-    y      = "log(level)",
+    y      = "ln(level)",
     colour = "",
     linetype = ""
   ) +
