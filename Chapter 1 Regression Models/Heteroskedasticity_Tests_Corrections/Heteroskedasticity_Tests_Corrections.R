@@ -49,7 +49,7 @@ aux_BP <- lm(u_hat2 ~ income, data = engel)
 R2_BP <- summary(aux_BP)$r.squared
 LM_BP <- n * R2_BP        # LM statistic
 df_BP <- 1                # one restriction
-p_BP  <- 1 - pchisq(LM_BP, df = df_BP)
+p_BP  <- pchisq(LM_BP, df = df_BP, lower.tail = FALSE)
 
 cat("========================================\n")
 cat("Breusch-Pagan LM test (foodexp ~ income)\n")
@@ -74,7 +74,7 @@ aux_White <- lm(u_hat2 ~ income + income_sq, data = engel)
 R2_White <- summary(aux_White)$r.squared
 LM_White <- n * R2_White   # White statistic
 df_White <- 2              # restrictions: income, income^2
-p_White  <- 1 - pchisq(LM_White, df = df_White)
+p_White  <- pchisq(LM_White, df = df_White, lower.tail = FALSE)
 
 cat("========================================\n")
 cat("White test (foodexp ~ income)\n")
@@ -124,6 +124,7 @@ summary(fit_GLS_known)
 ## Coefficients and standard errors
 coef(fit_GLS_known)
 sqrt(diag(vcov(fit_GLS_known)))
+cat("\nHC1 inference: known-form weighted regression\n")
 coeftest(fit_GLS_known, vcov. = vcovHC(fit_GLS_known, type = "HC1"))
 
 ## =====================================================
@@ -159,6 +160,7 @@ cat("========================================\n")
 cat("Feasible GLS with estimated variance function (Engel data)\n")
 cat("========================================\n")
 summary(fit_GLS_unknown)
+cat("\nHC1 inference: feasible GLS (Engel data)\n")
 coeftest(fit_GLS_unknown, vcov. = vcovHC(fit_GLS_unknown, type = "HC1"))
 
 ## =====================================================
@@ -246,5 +248,7 @@ coef(fit_wage_OLS)
 coef(fit_wage_FGLS)
 
 # HC1 standard errors for the wage regressions
+cat("\nHC1 inference: OLS wage equation\n")
 coeftest(fit_wage_OLS, vcov. = vcovHC(fit_wage_OLS, type = "HC1"))
+cat("\nHC1 inference: groupwise FGLS wage equation\n")
 coeftest(fit_wage_FGLS, vcov. = vcovHC(fit_wage_FGLS, type = "HC1"))

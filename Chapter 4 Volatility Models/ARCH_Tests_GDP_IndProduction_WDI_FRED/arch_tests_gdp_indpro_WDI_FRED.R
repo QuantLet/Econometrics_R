@@ -9,11 +9,7 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 
 # Load required packages
 # install.packages("WDI")
-# install.packages("quantmod")
-# install.packages("lmtest")
 library(WDI)
-library(quantmod)
-library(lmtest)
 
 arch_lm_test <- function(residuals, p) {
   z <- embed(residuals^2, p + 1)
@@ -34,7 +30,7 @@ mcleod_li_test <- function(residuals, p) {
 
 ## =====================================================
 ## 2. Annual U.S. GDP growth (WDI)
-##    LM and McLeod–Li tests
+##    LM and McLeod-Li tests
 ## =====================================================
 
 # WDI indicator: NY.GDP.MKTP.KD.ZG = GDP growth (annual %)
@@ -71,7 +67,7 @@ cat("GDP: LM test statistic for ARCH effects:", lm_stat_gdp, "\n")
 cat("GDP: Asymptotic reference: Chi-squared with", p_gdp, "df.\n")
 cat("GDP: LM p-value:", lm_gdp$p.value, "\n")
 
-# --- McLeod–Li test on annual GDP growth ---
+# --- McLeod-Li test on annual GDP growth ---
 
 ml_gdp <- mcleod_li_test(res_gdp, p_gdp)
 ml_stat_gdp <- unname(ml_gdp$statistic)
@@ -82,16 +78,20 @@ cat("GDP: McLeod-Li p-value:", ml_gdp$p.value, "\n")
 
 ## =====================================================
 ## 3. Monthly U.S. industrial production (FRED)
-##    LM and McLeod–Li tests
+##    LM and McLeod-Li tests
 ## =====================================================
 
-# INDPRO: Industrial Production Index (U.S.)
-getSymbols("INDPRO", src = "FRED",
-           from = "1960-01-01", to = "2023-12-31")
+# Read the accompanying FRED data and select the stated sample.
+ip_data <- read.csv("INDPRO.csv")
+ip_data$date <- as.Date(ip_data$observation_date)
+ip_data <- subset(ip_data,
+  date >= as.Date("1960-01-01") & date <= as.Date("2023-12-31"))
+ip_data <- ip_data[order(ip_data$date), ]
+stopifnot(nrow(ip_data) == 768L,
+          all(is.finite(ip_data$INDPRO)), all(ip_data$INDPRO > 0))
 
 # Monthly growth rate (log difference * 100)
-ip  <- na.omit(INDPRO)
-ip_g <- diff(log(ip)) * 100   # monthly IP growth in percent
+ip_g <- diff(log(ip_data$INDPRO)) * 100
 
 Y_ip <- as.numeric(ip_g)
 n_ip <- length(Y_ip)
@@ -115,7 +115,7 @@ cat("IP: LM test statistic for ARCH effects:", lm_stat_ip, "\n")
 cat("IP: Asymptotic reference: Chi-squared with", p_ip, "df.\n")
 cat("IP: LM p-value:", lm_ip$p.value, "\n")
 
-# --- McLeod–Li test on monthly IP growth ---
+# --- McLeod-Li test on monthly IP growth ---
 
 ml_ip <- mcleod_li_test(res_ip, p_ip)
 ml_stat_ip <- unname(ml_ip$statistic)
