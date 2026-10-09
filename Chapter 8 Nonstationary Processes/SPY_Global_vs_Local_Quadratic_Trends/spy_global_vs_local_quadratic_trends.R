@@ -8,8 +8,7 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 pkgs <- c("quantmod", "ggplot2", "dplyr")
-to_install <- setdiff(pkgs, rownames(installed.packages()))
-if (length(to_install) > 0) install.packages(to_install)
+# install.packages(pkgs)  # Run once if needed.
 
 library(quantmod)
 library(ggplot2)

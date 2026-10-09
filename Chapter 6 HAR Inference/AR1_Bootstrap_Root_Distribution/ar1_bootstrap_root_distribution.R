@@ -66,19 +66,19 @@ RT_star <- numeric(S)
 for (s in 1:S) {
   # Step 4: Resample residuals with replacement
   eps_star <- sample(res_centered, T, replace = TRUE)
-  
+
   # Step 5: Generate bootstrap series using phi_hat
   y_star      <- numeric(T)
   y_star[1]   <- 0
   for (t in 2:T) {
     y_star[t] <- phi_hat * y_star[t - 1] + eps_star[t]
   }
-  
+
   # Step 6: Estimate phi_star from bootstrap series
   y_star_lag     <- y_star[-T]
   y_star_current <- y_star[-1]
   phi_star <- sum(y_star_current * y_star_lag) / sum(y_star_lag^2)
-  
+
   # Step 7: Compute bootstrap root
   RT_star[s] <- sqrt(T) * (phi_star - phi_hat)
 }
@@ -108,7 +108,7 @@ q_low  <- RT_q025
 q_high <- RT_q975
 
 p_boot <- ggplot(df_boot, aes(x = RT_star)) +
-  geom_histogram(aes(y = ..density..),
+  geom_histogram(aes(y = after_stat(density)),
                  bins = 30,
                  fill = "lightblue",  # light blue bins
                  color = "black") +   # optional: black borders

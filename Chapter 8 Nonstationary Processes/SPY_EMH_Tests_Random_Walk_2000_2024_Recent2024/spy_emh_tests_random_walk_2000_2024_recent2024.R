@@ -5,8 +5,7 @@
 # Packages needed for this illustration
 pkgs <- c("quantmod", "dplyr", "ggplot2",
           "forecast", "lmtest", "sandwich", "vrtest")
-to_install <- setdiff(pkgs, rownames(installed.packages()))
-if (length(to_install) > 0) install.packages(to_install)
+# install.packages(pkgs)  # Run once if needed.
 
 library(quantmod)
 library(dplyr)
@@ -17,7 +16,7 @@ library(sandwich)
 library(vrtest)
 
 ## =====================================================
-## 2. Download SPY prices and construct log returns
+## 2. Read the saved SPY prices and construct log returns
 ## =====================================================
 
 # Saved adjusted-price snapshot: 3 January 2000--30 December 2024.

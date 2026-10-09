@@ -1,0 +1,6 @@
+S&P 500 index closing prices (Yahoo Finance symbol ^GSPC). Columns: date and close. The script reads this saved sample and computes simple returns between consecutive closing prices, so no API key or download is needed.
+
+File: GSPC_close_2000_2024.csv
+Sample: 2000-01-03 to 2024-12-30; 6288 price observations.
+Source: Yahoo Finance, retrieved 10 October 2026.
+Prices are a fixed teaching sample; later downloads may reflect further adjustments.

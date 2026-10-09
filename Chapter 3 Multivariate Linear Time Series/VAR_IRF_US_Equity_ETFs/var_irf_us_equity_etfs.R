@@ -5,7 +5,7 @@
 rm(list = ls())
 set.seed(123)
 
-library(quantmod)  # getSymbols() and price series from Yahoo
+library(xts)      # dated price and return series
 library(vars)      # VAR estimation and impulse responses
 
 # Set working directory (optional for RStudio users)
@@ -14,26 +14,17 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 }
 
 ## =====================================================
-## 2. Download daily ETF prices from Yahoo Finance
+## 2. Read the supplied adjusted-price sample
 ## =====================================================
 
 symbols <- c("SPY", "QQQ", "IWM", "EFA")
-
-getSymbols(
-  Symbols     = symbols,
-  src         = "yahoo",
-  from        = "2024-01-01",
-  to          = "2024-12-31",
-  auto.assign = TRUE
-)
-
-# Merge adjusted close prices into a single xts object
-prices <- na.omit(merge(
-  Ad(SPY), Ad(QQQ), Ad(IWM), Ad(EFA)
-))
-colnames(prices) <- symbols
+input <- read.csv("ETF_adjusted_2024.csv")
+prices <- xts(input[, symbols], order.by = as.Date(input$date))
+stopifnot(!anyNA(prices), nrow(prices) > 10)
 
 ## =====================================================
+
+
 ## 3. Compute logarithmic returns
 ##    r_t = log(P_t) - log(P_{t-1})
 ## =====================================================
@@ -54,6 +45,8 @@ lag_selection <- VARselect(
 )
 
 optimal_lag <- lag_selection$selection["AIC(n)"]
+print(lag_selection$selection)
+cat("Return observations:", nrow(returns), "\n")
 
 var_model <- VAR(
   returns,
@@ -69,20 +62,24 @@ var_model <- VAR(
 # Create an output folder for figures (if it does not exist)
 dir.create("figures", showWarnings = FALSE)
 
+impact <- irf(var_model, impulse = "SPY", ortho = TRUE,
+              n.ahead = 1, boot = FALSE)
+print(impact$irf$SPY)
+
 var_names <- colnames(returns)
 
 for (impulse_var in var_names) {
   for (response_var in var_names) {
-    
+
     # File name for each IRF plot
     file_name <- file.path(
       "figures",
       paste0("IRF_", impulse_var, "_to_", response_var, ".png")
     )
-    
+
     # Open a PNG device
     png(file_name, width = 400, height = 300)
-    
+
     # Plot the orthogonal IRF (Cholesky-based)
     plot(
       irf(
@@ -95,7 +92,7 @@ for (impulse_var in var_names) {
       ),
       main = paste(impulse_var, "to", response_var)
     )
-    
+
     # Close the device (saves the file)
     dev.off()
   }

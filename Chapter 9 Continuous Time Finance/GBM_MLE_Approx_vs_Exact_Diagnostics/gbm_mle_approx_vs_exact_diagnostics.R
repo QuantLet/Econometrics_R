@@ -43,7 +43,7 @@ sigma <- 0.2
 
 initial_value <- 10
 params_0 <- c(mu, sigma)
-time_step <- 1 / 252  # Weekly data: time_step = 1/52
+time_step <- 1 / 252  # daily data; use 1/52 for weekly data
 
 # Simulate a series from the GBM model instead of using actual data
 num_points <- 10000
@@ -57,8 +57,8 @@ random_noise <- rnorm(num_simulations)
 simulated_values <- numeric(num_simulations)
 simulated_values[1] <- initial_value
 for (i in 2:num_simulations) {
-  simulated_values[i] <- simulated_values[i - 1] + 
-    (mu * simulated_values[i - 1]) * delta + sigma * simulated_values[i - 1] * sqrt(delta) * random_noise[i]
+  simulated_values[i] <- simulated_values[i - 1] +
+  (mu * simulated_values[i - 1]) * delta + sigma * simulated_values[i - 1] * sqrt(delta) * random_noise[i]
 }
 
 x <- numeric(num_points)
@@ -78,11 +78,11 @@ for (i in 1:num_trials) {
     params[j] <- runif(1, args$nloptr$l[j], args$nloptr$u[j])
   }
   print(i)
-  
-  ## =====================================================  
-  ## 3. Estimate the MLE Parameters
-  ## =====================================================
-  
+
+## =====================================================
+## 3. Estimate the MLE Parameters
+## =====================================================
+
   output <- MLEMVD::mle(MLEMVD::ModelU2, x, time_step, params, args)
   estimated_params[i, ] <- output$solution
 }

@@ -244,3 +244,7 @@ summary(fit_wage_FGLS)
 ## Compare OLS and FGLS coefficients
 coef(fit_wage_OLS)
 coef(fit_wage_FGLS)
+
+# HC1 standard errors for the wage regressions
+coeftest(fit_wage_OLS, vcov. = vcovHC(fit_wage_OLS, type = "HC1"))
+coeftest(fit_wage_FGLS, vcov. = vcovHC(fit_wage_FGLS, type = "HC1"))

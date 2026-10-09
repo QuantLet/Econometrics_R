@@ -28,12 +28,10 @@ library(ggplot2)
 ## 3. Data: S&P 500 returns
 ## =====================================================
 
-# Get S&P 500 data (or use your own data)
-getSymbols("^GSPC", src = "yahoo",
-           from = "2000-01-01", to = "2024-12-31")
-
-returns <- dailyReturn(Cl(GSPC))  # daily returns
-returns <- na.omit(returns)
+# Read the supplied S&P 500 closing-price sample
+input <- read.csv("GSPC_close_2000_2024.csv")
+prices <- xts(input$close, order.by = as.Date(input$date))
+returns <- na.omit(prices / lag(prices) - 1)
 
 r <- as.numeric(returns)
 T <- length(r)
@@ -64,7 +62,7 @@ for (j in seq_len(n_sub)) {
 df_mean <- data.frame(R_mean = R_mean)
 
 p_sub_mean <- ggplot(df_mean, aes(x = R_mean)) +
-  geom_histogram(aes(y = ..density..),
+  geom_histogram(aes(y = after_stat(density)),
                  bins  = 40,
                  fill  = "lightblue",
                  color = "black") +
@@ -100,14 +98,14 @@ for (j in seq_len(n_sub)) {
 df_acf <- data.frame(R_acf = R_acf)
 
 p_sub_acf <- ggplot(df_acf, aes(x = R_acf)) +
-  geom_histogram(aes(y = ..density..),
+  geom_histogram(aes(y = after_stat(density)),
                  bins  = 40,
                  fill  = "lightblue",
                  color = "black") +
   geom_vline(xintercept = sqrt(T) * rho_hat,
              color = "red", linewidth = 1) +
   labs(
-    title = expression("Subsampling: " ~ sqrt(b) * (hat(rho)[sub] - hat(rho))),
+    title = expression("Subsampling: " ~ sqrt(b) * (hat(rho)[b](1) - hat(rho)[T](1))),
     x     = expression(R[b]^"*"),
     y     = "Density"
   ) +
@@ -128,7 +126,7 @@ block_bootstrap_mean <- function(r, b, S) {
   m <- ceiling(T / b)               # enough blocks for a length-T sample
   blocks <- embed(r, b)[, b:1]      # overlapping blocks
   B <- nrow(blocks)                 # number of available blocks
-  
+
   boot_stats <- numeric(S)
   for (s in 1:S) {
     indices     <- sample(1:B, m, replace = TRUE)
@@ -149,7 +147,7 @@ R_boot_mean <- block_bootstrap_mean(r, b = b_boot, S = S)
 df_boot_mean <- data.frame(R_boot_mean = R_boot_mean)
 
 p_boot_mean <- ggplot(df_boot_mean, aes(x = R_boot_mean)) +
-  geom_histogram(aes(y = ..density..),
+  geom_histogram(aes(y = after_stat(density)),
                  bins  = 40,
                  fill  = "lightblue",
                  color = "black") +
@@ -167,3 +165,8 @@ print(p_boot_mean)
 # Optional: save figure
  ggsave("block-bootstrap-mean.png", plot = p_boot_mean,
        width = 6, height = 4, dpi = 300)
+
+ print(c(n = T, mean = rbar, squared_return_acf1 = rho_hat))
+print(rbind(sub_mean = quantile(R_mean, c(.025, .975)),
+            sub_acf = quantile(R_acf, c(.025, .975)),
+            boot_mean = quantile(R_boot_mean, c(.025, .975))))

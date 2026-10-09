@@ -1,0 +1,6 @@
+ETF adjusted closing prices from Yahoo Finance for SPY, QQQ, IWM and EFA. The date column identifies trading days; adjusted prices account for distributions and splits. The script reads this saved sample and computes log returns, so no API key or download is needed.
+
+File: ETF_adjusted_2024.csv
+Sample: 2024-01-02 to 2024-12-30; 251 price observations.
+Source: Yahoo Finance, retrieved 10 October 2026.
+Prices are a fixed teaching sample; later downloads may reflect further adjustments.
