@@ -115,22 +115,29 @@ draw_decisions <- function() {
     s <- sweep(ellipse2, 2, shift)
     center <- colMeans(Y2) - shift
     all <- rbind(h, s, center, c(0, 0))
-    plot(all, type = "n", asp = 1, xlim = xlimits, ylim = ylimits,
+    plot(all, type = "n", asp = 1, xlim = xlimits,
+      ylim = ylimits,
       xlab = expression(mu[1]),
-      ylab = expression(mu[2]), main = title, cex.main = 0.9, bty = "l")
+      ylab = expression(mu[2]), main = title,
+      cex.main = 0.9, bty = "l")
     abline(h = 0, v = 0, col = "grey85", lwd = 0.7)
-    polygon(h, col = adjustcolor("#147D64", 0.14), border = "#147D64",
+    polygon(h, col = adjustcolor("#147D64", 0.14),
+      border = "#147D64",
       lwd = 1.8)
     lines(s, col = "#405D89", lty = 2, lwd = 1.8)
     points(center[1], center[2], pch = 19, cex = 0.75)
-    points(0, 0, pch = 5, cex = 1.2, lwd = 1.5, col = "#9D4438")
+    points(0, 0, pch = 5, cex = 1.2, lwd = 1.5,
+      col = "#9D4438")
   }
   panel(c(0.10, 0), "(a) First mean = 0.12")
   panel(c(0, 0), "(b) First mean = 0.22")
-  par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4), new = TRUE)
+  par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4),
+    new = TRUE)
   plot.new()
-  legend("bottom", inset = 0.012, bty = "n", ncol = 2, cex = 0.87,
-    legend = c("Adjusted-range region", "Shao's ellipse", "Estimate",
+  legend("bottom", inset = 0.012, bty = "n", ncol = 2,
+    cex = 0.87,
+    legend = c("Adjusted-range region", "Shao's ellipse",
+      "Estimate",
       "Null (0, 0)"),
     col = c("#147D64", "#405D89", "black", "#9D4438"),
     lty = c(1, 2, NA, NA), pch = c(NA, NA, 19, 5),
@@ -140,11 +147,13 @@ draw_decisions <- function() {
 ## =====================================================
 ## 3. Save the comparison figure
 ## =====================================================
-pdf("aersn_different_decisions.pdf", width = 7.2, height = 4.1,
+pdf("aersn_different_decisions.pdf", width = 7.2,
+  height = 4.1,
   pointsize = 12, useDingbats = FALSE)
 draw_decisions()
 dev.off()
-png("aersn_different_decisions.png", width = 2160, height = 1230,
+png("aersn_different_decisions.png", width = 2160,
+  height = 1230,
   res = 300, pointsize = 12)
 draw_decisions()
 dev.off()

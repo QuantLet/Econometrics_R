@@ -54,7 +54,8 @@ df_wold <- data.frame(
 p_wold <- ggplot(df_wold, aes(x = Time)) +
   geom_line(aes(y = Original, colour = "Original series",
     linetype = "Original series")) +
-  geom_line(aes(y = Truncated, colour = "Ten-lag Wold truncation",
+  geom_line(aes(y = Truncated,
+    colour = "Ten-lag Wold truncation",
     linetype = "Ten-lag Wold truncation")) +
   scale_linetype_manual(values = c("Original series" = "solid",
     "Ten-lag Wold truncation" = "dashed")) +
@@ -81,5 +82,6 @@ p_wold <- ggplot(df_wold, aes(x = Time)) +
   )
 
 # Save the figure
-ggsave(filename = "Wold_decomposition.png", plot = p_wold, width = 7,
+ggsave(filename = "Wold_decomposition.png", plot = p_wold,
+  width = 7,
   height = 3.8, dpi = 300)

@@ -1,16 +1,21 @@
-# ==============================================================
-# Daily maximum temperature: New York City and the contiguous US
-# ==============================================================
+# ============================================================
+# ==
+# Daily maximum temperature: New York City and the contiguous
+# US
+# ============================================================
+# ==
 
 ## =====================================================
 ## 1. Load packages and choose the year
 ## =====================================================
 rm(list = ls())
 
-# The GHCN inventory is large; allow enough time on slower connections.
+# The GHCN inventory is large; allow enough time on slower
+# connections.
 options(timeout = max(300, getOption("timeout")))
 
-# install.packages(c("dplyr", "ggplot2", "jsonlite", "maps", "viridis"))
+# install.packages(c("dplyr", "ggplot2", "jsonlite", "maps",
+# "viridis"))
 library(dplyr)
 library(ggplot2)
 library(jsonlite)
@@ -41,7 +46,8 @@ inventory_url <- paste0(
 download_lines <- function(url) {
   destination <- tempfile(fileext = ".txt")
   on.exit(unlink(destination), add = TRUE)
-  utils::download.file(url, destination, mode = "wb", quiet = TRUE)
+  utils::download.file(url, destination, mode = "wb",
+    quiet = TRUE)
   readLines(destination, warn = FALSE)
 }
 
@@ -72,9 +78,11 @@ tmax_inventory <- data.frame(
 ## =====================================================
 ## 3. Find candidate stations near each state capital
 ## =====================================================
-# Select candidate stations close to each state capital.  Alaska and
+# Select candidate stations close to each state capital.
+# Alaska and
 # Hawaii
-# are excluded because the map below covers the contiguous 48 states.
+# are excluded because the map below covers the contiguous 48
+# states.
 data("us.cities", package = "maps")
 contiguous_codes <- setdiff(state.abb, c("AK", "HI"))
 capitals <- us.cities %>%
@@ -99,8 +107,10 @@ haversine_km <- function(lat1, lon1, lat2, lon2) {
   6371 * 2 * atan2(sqrt(a), sqrt(1 - a))
 }
 
-# Retain the five closest candidates in each state, then use actual 2014
-# coverage to select a station.  This avoids relying on an unchecked,
+# Retain the five closest candidates in each state, then use
+# actual 2014
+# coverage to select a station.  This avoids relying on an
+# unchecked,
 # hand-written station-to-state table.
 candidate_stations <- capitals %>%
   inner_join(active_stations, by = "state_code") %>%
@@ -116,7 +126,8 @@ candidate_stations <- capitals %>%
 ## =====================================================
 ## 4. Download daily maximum temperatures
 ## =====================================================
-# NOAA's Daily Summaries service returns metric TMAX directly in degrees
+# NOAA's Daily Summaries service returns metric TMAX directly
+# in degrees
 # C.
 fetch_daily_summaries <- function(station_ids) {
   endpoint <- "https://www.ncei.noaa.gov/access/services/data/v1"
@@ -143,10 +154,12 @@ fetch_daily_summaries <- function(station_ids) {
     )
 }
 
-ids_to_download <- unique(c(candidate_stations$id, nyc_station))
+ids_to_download <- unique(c(candidate_stations$id,
+  nyc_station))
 id_batches <- split(ids_to_download,
   ceiling(seq_along(ids_to_download) / 10))
-daily_data <- bind_rows(lapply(id_batches, fetch_daily_summaries))
+daily_data <- bind_rows(lapply(id_batches,
+  fetch_daily_summaries))
 
 ## =====================================================
 ## 5. Check coverage and select representative stations
@@ -159,12 +172,15 @@ candidate_stations <- candidate_stations %>%
   left_join(coverage, by = "id") %>%
   mutate(n_tmax = ifelse(is.na(n_tmax), 0L, n_tmax))
 
-# Prefer the closest station with at least 300 valid daily observations.
-# If no candidate reaches that threshold, use the best-covered candidate.
+# Prefer the closest station with at least 300 valid daily
+# observations.
+# If no candidate reaches that threshold, use the best-covered
+# candidate.
 select_station <- function(state_candidates) {
   adequate <- state_candidates %>% filter(n_tmax >= 300L)
   if (nrow(adequate) > 0L) {
-    adequate %>% slice_min(distance_km, n = 1, with_ties = FALSE)
+    adequate %>% slice_min(distance_km, n = 1,
+      with_ties = FALSE)
   } else {
     state_candidates %>%
       arrange(desc(n_tmax), distance_km) %>%
@@ -176,7 +192,8 @@ representative_stations <- candidate_stations %>%
   group_by(state_code) %>%
   group_modify(~ select_station(.x)) %>%
   ungroup() %>%
-  mutate(state_name = state.name[match(state_code, state.abb)])
+  mutate(state_name = state.name[match(state_code,
+    state.abb)])
 
 if (nrow(representative_stations) != 48L) {
   stop("Could not select one representative station for every contiguous state.")
@@ -200,8 +217,10 @@ ny_plot <- ggplot(new_york_data, aes(x = date, y = tmax)) +
   theme_minimal(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold"),
-    plot.background = element_rect(fill = "white", colour = NA),
-    panel.background = element_rect(fill = "white", colour = NA)
+    plot.background = element_rect(fill = "white",
+      colour = NA),
+    panel.background = element_rect(fill = "white",
+      colour = NA)
   )
 
 ggsave(
@@ -212,7 +231,8 @@ ggsave(
 ## =====================================================
 ## 7. Calculate station averages and draw the state map
 ## =====================================================
-# Annual mean of daily TMAX for one representative station per state.
+# Annual mean of daily TMAX for one representative station per
+# state.
 station_averages <- daily_data %>%
   filter(id %in% representative_stations$id) %>%
   group_by(id) %>%
@@ -223,7 +243,8 @@ station_averages <- daily_data %>%
   ) %>%
   inner_join(
     representative_stations %>%
-      select(id, state_code, state_name, station_name, capital_name),
+      select(id, state_code, state_name, station_name,
+        capital_name),
     by = "id"
   )
 
@@ -236,7 +257,8 @@ us_map_plot <- ggplot(
   aes(x = long, y = lat, group = group, fill = mean_tmax_2014)
 ) +
   geom_polygon(colour = "white", linewidth = 0.2) +
-  coord_quickmap(xlim = c(-125, -66), ylim = c(24, 50), expand = FALSE) +
+  coord_quickmap(xlim = c(-125, -66), ylim = c(24, 50),
+    expand = FALSE) +
   scale_fill_viridis_c(
     option = "C",
     name = "Mean daily\nmaximum (degrees C)",
@@ -251,9 +273,12 @@ us_map_plot <- ggplot(
     legend.position = "bottom",
     plot.title = element_text(hjust = 0.5, face = "bold"),
     plot.subtitle = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "white", colour = NA),
-    panel.background = element_rect(fill = "white", colour = NA),
-    legend.background = element_rect(fill = "white", colour = NA)
+    plot.background = element_rect(fill = "white",
+      colour = NA),
+    panel.background = element_rect(fill = "white",
+      colour = NA),
+    legend.background = element_rect(fill = "white",
+      colour = NA)
   )
 
 ggsave(
@@ -266,6 +291,7 @@ ggsave(
 ## =====================================================
 print(
   representative_stations %>%
-    select(state_name, capital_name, id, station_name, distance_km,
+    select(state_name, capital_name, id, station_name,
+      distance_km,
       n_tmax)
 )

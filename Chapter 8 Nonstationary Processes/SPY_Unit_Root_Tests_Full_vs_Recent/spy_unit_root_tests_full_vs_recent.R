@@ -15,18 +15,23 @@ test_one <- function(x, sample, price = TRUE) {
   ans <- data.frame()
   for (kind in if (price) c("drift", "trend") else "none") {
     a <- ur.df(x, type = kind, lags = 1, selectlags = "AIC")
-    tau <- switch(kind, none = "tau1", drift = "tau2", trend = "tau3")
+    tau <- switch(kind, none = "tau1", drift = "tau2",
+      trend = "tau3")
     ans <- rbind(ans, data.frame(sample = sample,
-      series = if (price) "Log price" else "Return", n = length(x),
-      test = paste("ADF", kind), stat = unname(a@teststat[1, tau]),
+      series = if (price) "Log price" else "Return",
+      n = length(x),
+      test = paste("ADF", kind),
+      stat = unname(a@teststat[1, tau]),
       critical5 = unname(a@cval[tau, "5pct"]),
       reject5 = a@teststat[1, tau] < a@cval[tau, "5pct"]))
   }
   for (kind in if (price) c("mu", "tau") else "mu") {
     k <- ur.kpss(x, type = kind, lags = "short")
     ans <- rbind(ans, data.frame(sample = sample,
-      series = if (price) "Log price" else "Return", n = length(x),
-      test = paste("KPSS", kind), stat = as.numeric(k@teststat),
+      series = if (price) "Log price" else "Return",
+      n = length(x),
+      test = paste("KPSS", kind),
+      stat = as.numeric(k@teststat),
       critical5 = as.numeric(k@cval[1, "5pct"]),
       reject5 = k@teststat > k@cval[1, "5pct"]))
   }
@@ -42,4 +47,5 @@ results <- rbind(test_one(d$log_price, "2000--2024"),
   test_one(d$log_return, "2000--2024", FALSE),
   test_one(recent$log_return, "2024", FALSE))
 print(results, row.names = FALSE, digits = 6)
-write.csv(results, "unit_root_case_results.csv", row.names = FALSE)
+write.csv(results, "unit_root_case_results.csv",
+  row.names = FALSE)

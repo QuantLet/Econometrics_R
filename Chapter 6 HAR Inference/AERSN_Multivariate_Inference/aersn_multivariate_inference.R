@@ -25,7 +25,8 @@ Y <- sweep(x[(burn + 1L):(burn + n), ], 2, mu, "+")
 ## =====================================================
 fit <- aersn_mean(Y, names = c("mu1", "mu2"))
 
-# Reuse a separate reference for each method, on the sample grid.
+# Reuse a separate reference for each method, on the sample
+# grid.
 ref_h <- aersn_reference(fit, draws = 10000, seed = 61010,
   statistic = "hull_gauge")
 ref_s <- aersn_reference(fit, draws = 10000, seed = 61010,
@@ -41,7 +42,8 @@ print(test_s)
 ## 3. Construct joint regions and contrast intervals
 ## =====================================================
 region_h <- aersn_region(fit, reference = ref_h)
-region_s <- aersn_region(fit, method = "shao", reference = ref_s)
+region_s <- aersn_region(fit, method = "shao",
+  reference = ref_s)
 L <- rbind(mu1 = c(1, 0), mu2 = c(0, 1),
   difference = c(1, -1), average = c(0.5, 0.5))
 intervals <- aersn_contrast(fit, L, type = "simultaneous",
@@ -91,7 +93,8 @@ stopifnot(max(abs(intervals$upper - drop(L %*% colMeans(Y)) - half_width)) < 1e-
 ## =====================================================
 ## 1. Construct both regions and transform coordinates
 ## =====================================================
-G <- rbind(c(0, 0), apply(sweep(Y, 2, colMeans(Y)), 2, cumsum)) / sqrt(n)
+G <- rbind(c(0, 0),
+  apply(sweep(Y, 2, colMeans(Y)), 2, cumsum)) / sqrt(n)
 V <- crossprod(G) / n
 vertices_h <- aersn_vertices(region_h)
 transformed <- sweep(vertices_h %*% t(H), 2, b, "+")
@@ -112,28 +115,37 @@ draw_regions <- function() {
   on.exit(par(oldpar))
   par(mfrow = c(1, 2), mar = c(3.4, 3.4, 2.5, 0.7),
     oma = c(3.3, 0, 0, 0), mgp = c(2, 0.65, 0), tcl = -0.25)
-  panel <- function(h, s, center, truth, null, title, xlab, ylab) {
+  panel <- function(h, s, center, truth, null, title, xlab,
+    ylab) {
     all <- rbind(h, s, center, truth, null)
     plot(all, type = "n", asp = 1, xlab = xlab, ylab = ylab,
       main = title, cex.main = 0.95, bty = "l")
-    polygon(h, col = adjustcolor("#147D64", 0.15), border = "#147D64",
+    polygon(h, col = adjustcolor("#147D64", 0.15),
+      border = "#147D64",
       lwd = 1.8)
     lines(s, col = "#405D89", lty = 2, lwd = 1.8)
     points(center[1], center[2], pch = 19, cex = 0.7)
     points(truth[1], truth[2], pch = 3, cex = 0.9)
-    points(null[1], null[2], pch = 5, cex = 0.9, col = "#9D4438")
+    points(null[1], null[2], pch = 5, cex = 0.9,
+      col = "#9D4438")
   }
   panel(vertices_h, vertices_s, colMeans(Y), mu, c(0, 0),
-    "(a) Original parameters", expression(mu[1]), expression(mu[2]))
-  panel(transformed, vertices_s_new, drop(H %*% colMeans(Y)) + b,
+    "(a) Original parameters", expression(mu[1]),
+    expression(mu[2]))
+  panel(transformed, vertices_s_new,
+    drop(H %*% colMeans(Y)) + b,
     drop(H %*% mu) + b, b, "(b) Affine transformation",
-    expression(mu[1] + mu[2] + 0.4), expression(mu[1] - mu[2] - 0.2))
-  par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4), new = TRUE)
+    expression(mu[1] + mu[2] + 0.4),
+    expression(mu[1] - mu[2] - 0.2))
+  par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4),
+    new = TRUE)
   plot.new()
-  legend("bottom", inset = 0.012, bty = "n", ncol = 3, cex = 0.83,
+  legend("bottom", inset = 0.012, bty = "n", ncol = 3,
+    cex = 0.83,
     legend = c("Increment hull", "Shao's ellipse", "Estimate",
       "True mean", "Null"),
-    col = c("#147D64", "#405D89", "black", "black", "#9D4438"),
+    col = c("#147D64", "#405D89", "black", "black",
+      "#9D4438"),
     lty = c(1, 2, NA, NA, NA), pch = c(NA, NA, 19, 3, 5),
     lwd = c(1.8, 1.8, NA, NA, NA))
 }
@@ -141,11 +153,13 @@ draw_regions <- function() {
 ## =====================================================
 ## 3. Save the two-panel figure
 ## =====================================================
-pdf("aersn_joint_regions.pdf", width = 7.2, height = 4.1, pointsize = 12,
+pdf("aersn_joint_regions.pdf", width = 7.2, height = 4.1,
+  pointsize = 12,
   useDingbats = FALSE)
 draw_regions()
 dev.off()
-png("aersn_joint_regions.png", width = 2160, height = 1230, res = 300,
+png("aersn_joint_regions.png", width = 2160, height = 1230,
+  res = 300,
   pointsize = 12)
 draw_regions()
 dev.off()

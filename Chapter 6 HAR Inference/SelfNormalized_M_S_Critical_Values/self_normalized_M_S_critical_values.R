@@ -29,7 +29,8 @@ M_tail <- function(x) {
 ## 2. Invert the tails to obtain scalar critical values
 ## =====================================================
 # For squared statistics, use alpha / 2 in each signed tail.
-quant <- function(alpha, fun) uniroot(function(x) fun(x) - alpha,
+quant <- function(alpha,
+  fun) uniroot(function(x) fun(x) - alpha,
   c(.001, 50), tol = 1e-9)$root
 alpha <- c(.1, .05, .025, .01, .005, .001)
 scalar <- data.frame(alpha = alpha,
@@ -47,13 +48,16 @@ write.csv(scalar, "critical_scalar.csv", row.names = FALSE)
 rgrid <- seq(.15, 5, length.out = 60001)
 Fgrid <- range_cdf(rgrid)
 use <- !duplicated(Fgrid) & Fgrid > 0 & Fgrid < 1
-qrange <- approxfun(c(0, Fgrid[use], 1), c(0, rgrid[use], 8), rule = 2)
+qrange <- approxfun(c(0, Fgrid[use], 1),
+  c(0, rgrid[use], 8), rule = 2)
 
 ## =====================================================
 ## 4. Simulate the multivariate reference statistics
 ## =====================================================
-# B is the number of draws; K is the truncation; qmax is dimension.
-# Approximate the omitted bridge covariance by its expectation.
+# B is the number of draws; K is the truncation; qmax is
+# dimension.
+# Approximate the omitted bridge covariance by its
+# expectation.
 set.seed(61008)
 B <- 100000L
 K <- 512L
@@ -89,14 +93,16 @@ write.csv(Mcv, "critical_M2.csv")
 ## =====================================================
 # Twenty independent batches quantify simulation uncertainty.
 mcse <- function(z) {
-  arr <- sapply(split(seq_len(B), rep(1:20, each = B / 20)), function(ii)
-    as.vector(apply(z[ii, , drop = FALSE], 2, quantile,
-      probs = 1 - alpha, type = 8)))
+  arr <- sapply(split(seq_len(B), rep(1:20, each = B / 20)),
+    function(ii)
+      as.vector(apply(z[ii, , drop = FALSE], 2, quantile,
+        probs = 1 - alpha, type = 8)))
   matrix(apply(arr, 1, sd) / sqrt(20), length(alpha), qmax)
 }
 write.csv(mcse(U), "critical_U_mcse.csv")
 write.csv(mcse(M2), "critical_M2_mcse.csv")
-saveRDS(list(S = scalar, U = Ucv, M2 = Mcv, B = B, K = K, seed = 61008,
+saveRDS(list(S = scalar, U = Ucv, M2 = Mcv, B = B, K = K,
+  seed = 61008,
   scalar_MC = data.frame(alpha,
     S = quantile(sqrt(U[, 1]), 1 - 2 * alpha, type = 8),
     M = quantile(sqrt(M2[, 1]), 1 - 2 * alpha, type = 8))),
@@ -109,8 +115,10 @@ print(Mcv)
 ## =====================================================
 # Random signs recover the symmetric scalar distributions.
 sgn <- sample(c(-1, 1), B, replace = TRUE)
-ds <- density(sgn * sqrt(U[, 1]), from = -12, to = 12, n = 2048)
-dm <- density(sgn * sqrt(M2[, 1]), from = -12, to = 12, n = 2048)
+ds <- density(sgn * sqrt(U[, 1]), from = -12, to = 12,
+  n = 2048)
+dm <- density(sgn * sqrt(M2[, 1]), from = -12, to = 12,
+  n = 2048)
 draw_densities <- function() {
   oldpar <- par(no.readonly = TRUE)
   on.exit({
@@ -119,13 +127,15 @@ draw_densities <- function() {
   })
   layout(matrix(1:2, ncol = 1), heights = c(1, 0.16))
   par(mar = c(4.2, 4.2, 0.8, 0.8))
-  plot(dm, lwd = 2, col = "#184e77", xlab = "Statistic", main = "",
+  plot(dm, lwd = 2, col = "#184e77", xlab = "Statistic",
+    main = "",
     ylim = c(0, max(dm$y)))
   lines(ds, lwd = 2, col = "#9d4c3c")
   curve(dnorm(x), add = TRUE, lty = 2)
   par(mar = rep(0, 4))
   plot.new()
-  legend("center", c("Range M", "Self-normalised S", "Standard normal"),
+  legend("center",
+    c("Range M", "Self-normalised S", "Standard normal"),
     col = c("#184e77", "#9d4c3c", "black"), lty = c(1, 1, 2),
     lwd = c(2, 2, 1),
     bty = "n", horiz = TRUE, cex = 0.9, seg.len = 3)
@@ -133,6 +143,7 @@ draw_densities <- function() {
 pdf("figures/dist-m-hat.pdf", width = 7, height = 4.5)
 draw_densities()
 dev.off()
-png("figures/dist-m-hat.png", width = 2100, height = 1350, res = 300)
+png("figures/dist-m-hat.png", width = 2100, height = 1350,
+  res = 300)
 draw_densities()
 dev.off()

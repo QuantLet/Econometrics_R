@@ -49,7 +49,8 @@ pavx <- function(log_prices, theta = 0.8, psd = FALSE) {
   starts <- 0:(N - k + 1L)
   averaged <- matrix(0, length(starts), d)
   for (h in 1:(k - 1L))
-    averaged <- averaged + weights[h] * r[starts + h, , drop = FALSE]
+    averaged <- averaged + weights[h] * r[starts + h, ,
+      drop = FALSE]
 
   ## =====================================================
   ## 3. Apply the selected bias correction
