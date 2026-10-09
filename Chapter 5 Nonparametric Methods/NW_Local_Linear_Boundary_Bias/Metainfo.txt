@@ -1,0 +1,11 @@
+Name of Quantlet: NW_Local_Linear_Boundary_Bias
+
+Published in: Econometrics_R
+
+Description: 'Simulates Nadaraya-Watson and local linear regression at the left boundary. Compares the exact conditional biases with sampling distributions from 5,000 repetitions using the same predictor values, kernel and bandwidth. Reproduces Figure 5.6 of Econometrics and Time Series Methods.'
+
+Keywords: 'nonparametric regression, boundary bias, Nadaraya-Watson, local linear regression, Epanechnikov kernel, simulation'
+
+Author: Jiajing Sun
+
+Submitted: 9 October 2026
