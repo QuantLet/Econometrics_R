@@ -12,7 +12,7 @@ if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable())
 library(ggplot2)
 
 #========================================
-# Simulate a stationary AR(1) process
+# Simulate the AR(1) recursion from a zero initial value
 #========================================
 set.seed(123)           # For reproducibility
 

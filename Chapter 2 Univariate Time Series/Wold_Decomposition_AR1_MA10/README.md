@@ -9,7 +9,7 @@ Name of Quantlet: Wold_Decomposition_AR1_MA10
 
 Published in: Econometrics_R
 
-Description: This R script illustrates the Wold decomposition for a stationary AR(1) process using its known innovation representation. It simulates a length-1000 AR(1) series with coefficient phi = 0.9 and Gaussian white-noise innovations, then constructs the ten-lag truncation sum from j equals zero through ten of phi to the power j times the lagged innovation. This direct reconstruction is compared with the original AR(1) path in a ggplot2 line chart and saved as Wold_decomposition.png.
+Description: This R script illustrates the Wold representation of a stationary AR(1) model by comparing an AR(1) recursion with its direct ten-lag truncation. It generates 1,000 observations with phi = 0.9 and Gaussian white-noise innovations. Both paths start from a zero initial value, so the first observations have smaller variance than the stationary model; this initial effect decays geometrically. The reconstruction sums the known terms from lag zero through ten and does not estimate an MA model. In the stationary model, the omitted terms account for phi^22, approximately 9.85%, of the total variance. The chart is saved as Wold_decomposition.png.
 
 Keywords: Econometrics, Time Series, Wold Decomposition, AR(1), MA(10), Linear Processes, Forecast, ggplot2, R
 
