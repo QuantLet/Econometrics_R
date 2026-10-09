@@ -2,6 +2,9 @@
 # Daily maximum temperature: New York City and the contiguous US
 # ==============================================================
 
+## =====================================================
+## 1. Load packages and choose the year
+## =====================================================
 rm(list = ls())
 
 # The GHCN inventory is large; allow enough time on slower connections.
@@ -14,13 +17,17 @@ library(jsonlite)
 library(maps)
 library(viridis)
 
-if (requireNamespace("rstudioapi", quietly = TRUE) && rstudioapi::isAvailable()) {
+if (requireNamespace("rstudioapi",
+  quietly = TRUE) && rstudioapi::isAvailable()) {
   setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 }
 
 analysis_year <- 2014L
 nyc_station <- "USW00094728" # New York City Central Park
 
+## =====================================================
+## 2. Read station metadata and the temperature inventory
+## =====================================================
 # Official GHCN-Daily station metadata and inventory files.
 stations_url <- paste0(
   "https://www.ncei.noaa.gov/pub/data/ghcn/daily/",
@@ -62,7 +69,11 @@ tmax_inventory <- data.frame(
     last_year >= analysis_year
   )
 
-# Select candidate stations close to each state capital.  Alaska and Hawaii
+## =====================================================
+## 3. Find candidate stations near each state capital
+## =====================================================
+# Select candidate stations close to each state capital.  Alaska and
+# Hawaii
 # are excluded because the map below covers the contiguous 48 states.
 data("us.cities", package = "maps")
 contiguous_codes <- setdiff(state.abb, c("AK", "HI"))
@@ -102,7 +113,11 @@ candidate_stations <- capitals %>%
   slice_min(distance_km, n = 5, with_ties = FALSE) %>%
   ungroup()
 
-# NOAA's Daily Summaries service returns metric TMAX directly in degrees C.
+## =====================================================
+## 4. Download daily maximum temperatures
+## =====================================================
+# NOAA's Daily Summaries service returns metric TMAX directly in degrees
+# C.
 fetch_daily_summaries <- function(station_ids) {
   endpoint <- "https://www.ncei.noaa.gov/access/services/data/v1"
   query <- paste0(
@@ -129,9 +144,13 @@ fetch_daily_summaries <- function(station_ids) {
 }
 
 ids_to_download <- unique(c(candidate_stations$id, nyc_station))
-id_batches <- split(ids_to_download, ceiling(seq_along(ids_to_download) / 10))
+id_batches <- split(ids_to_download,
+  ceiling(seq_along(ids_to_download) / 10))
 daily_data <- bind_rows(lapply(id_batches, fetch_daily_summaries))
 
+## =====================================================
+## 5. Check coverage and select representative stations
+## =====================================================
 coverage <- daily_data %>%
   group_by(id) %>%
   summarise(n_tmax = sum(!is.na(tmax)), .groups = "drop")
@@ -163,6 +182,9 @@ if (nrow(representative_stations) != 48L) {
   stop("Could not select one representative station for every contiguous state.")
 }
 
+## =====================================================
+## 6. Plot the New York City temperature series
+## =====================================================
 # Daily maximum temperature at New York City Central Park.
 new_york_data <- daily_data %>%
   filter(id == nyc_station, !is.na(tmax))
@@ -187,6 +209,9 @@ ggsave(
   width = 8, height = 5, dpi = 300, bg = "white"
 )
 
+## =====================================================
+## 7. Calculate station averages and draw the state map
+## =====================================================
 # Annual mean of daily TMAX for one representative station per state.
 station_averages <- daily_data %>%
   filter(id %in% representative_stations$id) %>%
@@ -236,7 +261,11 @@ ggsave(
   width = 11, height = 6.5, dpi = 300, bg = "white"
 )
 
+## =====================================================
+## 8. Report the selected stations and their coverage
+## =====================================================
 print(
   representative_stations %>%
-    select(state_name, capital_name, id, station_name, distance_km, n_tmax)
+    select(state_name, capital_name, id, station_name, distance_km,
+      n_tmax)
 )

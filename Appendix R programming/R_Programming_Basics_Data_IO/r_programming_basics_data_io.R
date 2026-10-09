@@ -161,8 +161,14 @@ pnorm(1.96, mean = 0, sd = 1)
 qnorm(0.975, mean = 0, sd = 1)
 rnorm(5, mean = 0, sd = 1)
 
+## =====================================================
+## 1. Prepare the inverse-CDF simulation
+## =====================================================
 set.seed(123456789)
 
+## =====================================================
+## 2. Compute and check the standard normal CDF
+## =====================================================
 # c.d.f. of a standard normal distribution
 compute_phi <- function(z) {
   integrand <- function(t) {
@@ -177,6 +183,9 @@ z_val <- 1.96
 print(compute_phi(z_val))
 print(pnorm(z_val))
 
+## =====================================================
+## 3. Generate normal draws by inverting the CDF
+## =====================================================
 # First, sample from the continuous uniform distribution on [0, 1]
 sample_unif <- runif(1000)
 
@@ -192,6 +201,9 @@ inverse_phi <- function(phi_value) {
 # Sample from the standard normal distribution
 sample_norm <- as.numeric(lapply(sample_unif, inverse_phi))
 
+## =====================================================
+## 4. Plot the draws and their estimated density
+## =====================================================
 hist(sample_norm,
   probability = TRUE,
   main = "Histogram with Density Curve",

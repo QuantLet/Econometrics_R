@@ -1,7 +1,6 @@
-## ===================================================
-## Simulating a VAR(1) Model with Structural Impact
-## ===================================================
-
+## =====================================================
+## 1. Set the simulation parameters
+## =====================================================
 # Clear the environment and set a seed for reproducibility
 rm(list = ls())
 set.seed(123)
@@ -11,17 +10,20 @@ timeLength <- 500
 
 # VAR(1) coefficient matrix (3-dimensional system)
 CoeffMatrix <- matrix(c(0.25, 0.05, 0.20,
-                        0.10, 0.28, 0.22,
-                        0.65, 0.45, 0.28),
-                      nrow = 3, byrow = TRUE)
+  0.10, 0.28, 0.22,
+  0.65, 0.45, 0.28),
+nrow = 3, byrow = TRUE)
 
 # Structural impact matrix for contemporaneous shocks
 ImpactMatrix <- diag(1, 3)
 ImpactMatrix[lower.tri(ImpactMatrix)] <- c(-0.1, -0.06, 0.25)
 
+## =====================================================
+## 2. Simulate and plot the VAR process
+## =====================================================
 # Generate the time series data
 timeSeriesData <- matrix(rnorm(3 * (timeLength + 1), 0, 1),
-                         nrow = 3, ncol = timeLength + 1)
+  nrow = 3, ncol = timeLength + 1)
 for (i in 2:(timeLength + 1)) {
   timeSeriesData[, i] <- CoeffMatrix %*% timeSeriesData[, i - 1] +
     ImpactMatrix %*% rnorm(3, 0, 1)
@@ -32,11 +34,16 @@ colnames(timeSeriesData) <- c("Series1", "Series2", "Series3")
 # Plot the simulated series
 plot.ts(timeSeriesData, main = "Simulated Time Series Data")
 
+## =====================================================
+## 3. Estimate the reduced-form VAR
+## =====================================================
 # Estimate a reduced-form VAR(1)
 library(vars)
 varModelEstimate <- vars::VAR(timeSeriesData, p = 1, type = "none")
 
-## A-model: restrictions on A (contemporaneous relations)
+## =====================================================
+## 4. Estimate the structural A-model
+## =====================================================
 
 # A has a free diagonal; shock variances are normalized to one.
 A_matrix <- matrix(NA_real_, 3, 3)
@@ -52,7 +59,9 @@ SVAR_A_Model$Ase
 # Invert A to obtain the implied B matrix
 solve(SVAR_A_Model$A)
 
-## B-model: restrictions on B (impact matrix for orthogonal shocks)
+## =====================================================
+## 5. Estimate the structural B-model
+## =====================================================
 
 # B is lower triangular with free scale parameters.
 B_matrix <- matrix(NA_real_, 3, 3)

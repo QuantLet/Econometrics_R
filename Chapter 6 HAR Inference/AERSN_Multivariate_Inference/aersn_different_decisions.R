@@ -18,17 +18,24 @@ for (i in 2:nrow(x)) x[i, ] <- A %*% x[i - 1L, ] + e[i, ]
 Y <- sweep(x[(burn + 1L):(burn + n), ], 2, mu, "+")
 
 # BEGIN BOOK DIFFERENT DECISIONS
+## =====================================================
+## 1. Shift the first mean and calibrate both tests
+## =====================================================
 # Raise the first population mean from 0.12 to 0.22.
 Y2 <- sweep(Y, 2, c(0.10, 0), "+")
 fit2 <- aersn_mean(Y2, names = c("mu1", "mu2"))
 ref_h2 <- aersn_reference(fit2, draws = 100000, seed = 61012,
-                          statistic = "hull_gauge")
+  statistic = "hull_gauge")
 ref_s2 <- aersn_reference(fit2, draws = 100000, seed = 61012,
-                          statistic = "shao_sq2",
-                          args = list(integration = "calendar"))
+  statistic = "shao_sq2",
+  args = list(integration = "calendar"))
+## =====================================================
+## 2. Compare the two decisions at the same null
+## =====================================================
+
 h2 <- aersn_test(fit2, null = c(0, 0), reference = ref_h2)
 s2 <- aersn_test(fit2, null = c(0, 0), method = "shao",
-                 reference = ref_s2)
+  reference = ref_s2)
 comparison2 <- data.frame(
   method = c("Adjusted range", "Shao quadratic"),
   statistic = c(h2$statistic, s2$statistic),
@@ -75,7 +82,11 @@ base_h <- aersn_test(baseline, null = c(0, 0), reference = ref_h2)
 base_s <- aersn_test(baseline, null = c(0, 0), method = "shao", reference = ref_s2)
 stopifnot(!base_h$reject, !base_s$reject)
 # BEGIN BOOK DECISION PLOT
-G <- rbind(c(0, 0), apply(sweep(Y2, 2, colMeans(Y2)), 2, cumsum)) / sqrt(n)
+## =====================================================
+## 1. Construct the two confidence-region boundaries
+## =====================================================
+G <- rbind(c(0, 0),
+  apply(sweep(Y2, 2, colMeans(Y2)), 2, cumsum)) / sqrt(n)
 V <- crossprod(G) / n
 region2_h <- aersn_region(fit2, reference = ref_h2)
 polygon2 <- aersn_vertices(region2_h)
@@ -84,16 +95,19 @@ circle <- cbind(cos(phi), sin(phi))
 eg <- eigen(V, symmetric = TRUE)
 root <- eg$vectors %*% diag(sqrt(eg$values)) %*% t(eg$vectors)
 ellipse2 <- sweep(sqrt(as.numeric(s2$critical.value) / n) * circle %*% root,
-                  2, colMeans(Y2), "+")
+  2, colMeans(Y2), "+")
 
+## =====================================================
+## 2. Plot the regions before and after the mean shift
+## =====================================================
 draw_decisions <- function() {
   oldpar <- par(no.readonly = TRUE)
   on.exit(par(oldpar))
   par(mfrow = c(1, 2), mar = c(3.6, 3.5, 2.4, 0.7),
-      oma = c(2.9, 0, 0, 0), mgp = c(2, 0.65, 0), tcl = -0.25)
+    oma = c(2.9, 0, 0, 0), mgp = c(2, 0.65, 0), tcl = -0.25)
   both <- rbind(polygon2, ellipse2,
-                sweep(polygon2, 2, c(0.10, 0)),
-                sweep(ellipse2, 2, c(0.10, 0)), c(0, 0))
+    sweep(polygon2, 2, c(0.10, 0)),
+    sweep(ellipse2, 2, c(0.10, 0)), c(0, 0))
   xlimits <- range(both[, 1])
   ylimits <- range(both[, 2])
   panel <- function(shift, title) {
@@ -102,10 +116,11 @@ draw_decisions <- function() {
     center <- colMeans(Y2) - shift
     all <- rbind(h, s, center, c(0, 0))
     plot(all, type = "n", asp = 1, xlim = xlimits, ylim = ylimits,
-         xlab = expression(mu[1]),
-         ylab = expression(mu[2]), main = title, cex.main = 0.9, bty = "l")
+      xlab = expression(mu[1]),
+      ylab = expression(mu[2]), main = title, cex.main = 0.9, bty = "l")
     abline(h = 0, v = 0, col = "grey85", lwd = 0.7)
-    polygon(h, col = adjustcolor("#147D64", 0.14), border = "#147D64", lwd = 1.8)
+    polygon(h, col = adjustcolor("#147D64", 0.14), border = "#147D64",
+      lwd = 1.8)
     lines(s, col = "#405D89", lty = 2, lwd = 1.8)
     points(center[1], center[2], pch = 19, cex = 0.75)
     points(0, 0, pch = 5, cex = 1.2, lwd = 1.5, col = "#9D4438")
@@ -115,17 +130,24 @@ draw_decisions <- function() {
   par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4), new = TRUE)
   plot.new()
   legend("bottom", inset = 0.012, bty = "n", ncol = 2, cex = 0.87,
-         legend = c("Adjusted-range region", "Shao's ellipse", "Estimate", "Null (0, 0)"),
-         col = c("#147D64", "#405D89", "black", "#9D4438"),
-         lty = c(1, 2, NA, NA), pch = c(NA, NA, 19, 5),
-         lwd = c(1.8, 1.8, NA, NA))
+    legend = c("Adjusted-range region", "Shao's ellipse", "Estimate",
+      "Null (0, 0)"),
+    col = c("#147D64", "#405D89", "black", "#9D4438"),
+    lty = c(1, 2, NA, NA), pch = c(NA, NA, 19, 5),
+    lwd = c(1.8, 1.8, NA, NA))
 }
+
+## =====================================================
+## 3. Save the comparison figure
+## =====================================================
 pdf("aersn_different_decisions.pdf", width = 7.2, height = 4.1,
-    pointsize = 12, useDingbats = FALSE)
-draw_decisions(); dev.off()
+  pointsize = 12, useDingbats = FALSE)
+draw_decisions()
+dev.off()
 png("aersn_different_decisions.png", width = 2160, height = 1230,
-    res = 300, pointsize = 12)
-draw_decisions(); dev.off()
+  res = 300, pointsize = 12)
+draw_decisions()
+dev.off()
 # END BOOK DECISION PLOT
 
 write.csv(comparison2, "different_decisions.csv", row.names = FALSE)

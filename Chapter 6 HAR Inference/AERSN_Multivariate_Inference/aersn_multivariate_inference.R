@@ -6,6 +6,9 @@ library(aersn)
 stopifnot(packageVersion("aersn") >= "0.2.3")
 
 # BEGIN BOOK EXAMPLE
+## =====================================================
+## 1. Generate the bivariate sample
+## =====================================================
 set.seed(61009)
 n <- 300L
 burn <- 500L
@@ -16,25 +19,33 @@ x <- matrix(0, n + burn, 2)
 e <- matrix(rnorm(2 * (n + burn)), n + burn, 2) %*% t(C)
 for (i in 2:nrow(x)) x[i, ] <- A %*% x[i - 1L, ] + e[i, ]
 Y <- sweep(x[(burn + 1L):(burn + n), ], 2, mu, "+")
+
+## =====================================================
+## 2. Fit the mean and test the joint zero-mean null
+## =====================================================
 fit <- aersn_mean(Y, names = c("mu1", "mu2"))
 
 # Reuse a separate reference for each method, on the sample grid.
 ref_h <- aersn_reference(fit, draws = 10000, seed = 61010,
-                         statistic = "hull_gauge")
+  statistic = "hull_gauge")
 ref_s <- aersn_reference(fit, draws = 10000, seed = 61010,
-                         statistic = "shao_sq2",
-                         args = list(integration = "calendar"))
+  statistic = "shao_sq2",
+  args = list(integration = "calendar"))
 test_h <- aersn_test(fit, null = c(0, 0), reference = ref_h)
 test_s <- aersn_test(fit, null = c(0, 0), method = "shao",
-                     reference = ref_s)
+  reference = ref_s)
 print(test_h)
 print(test_s)
+
+## =====================================================
+## 3. Construct joint regions and contrast intervals
+## =====================================================
 region_h <- aersn_region(fit, reference = ref_h)
 region_s <- aersn_region(fit, method = "shao", reference = ref_s)
 L <- rbind(mu1 = c(1, 0), mu2 = c(0, 1),
-           difference = c(1, -1), average = c(0.5, 0.5))
+  difference = c(1, -1), average = c(0.5, 0.5))
 intervals <- aersn_contrast(fit, L, type = "simultaneous",
-                           reference = ref_h)
+  reference = ref_h)
 print(intervals)
 # END BOOK EXAMPLE
 
@@ -77,6 +88,9 @@ half_width <- crit / sqrt(n) * apply(G %*% t(L), 2, function(v) diff(range(v)))
 stopifnot(max(abs(intervals$upper - drop(L %*% colMeans(Y)) - half_width)) < 1e-8)
 
 # BEGIN BOOK REGION PLOT
+## =====================================================
+## 1. Construct both regions and transform coordinates
+## =====================================================
 G <- rbind(c(0, 0), apply(sweep(Y, 2, colMeans(Y)), 2, cumsum)) / sqrt(n)
 V <- crossprod(G) / n
 vertices_h <- aersn_vertices(region_h)
@@ -87,43 +101,54 @@ circle <- cbind(cos(phi), sin(phi))
 eig <- eigen(V, symmetric = TRUE)
 root <- eig$vectors %*% diag(sqrt(eig$values)) %*% t(eig$vectors)
 vertices_s <- sweep(sqrt(as.numeric(region_s$critical.value) / n) *
-                      circle %*% root, 2, colMeans(Y), "+")
+  circle %*% root, 2, colMeans(Y), "+")
 vertices_s_new <- sweep(vertices_s %*% t(H), 2, b, "+")
 
+## =====================================================
+## 2. Draw the original and transformed regions
+## =====================================================
 draw_regions <- function() {
   oldpar <- par(no.readonly = TRUE)
   on.exit(par(oldpar))
   par(mfrow = c(1, 2), mar = c(3.4, 3.4, 2.5, 0.7),
-      oma = c(3.3, 0, 0, 0), mgp = c(2, 0.65, 0), tcl = -0.25)
+    oma = c(3.3, 0, 0, 0), mgp = c(2, 0.65, 0), tcl = -0.25)
   panel <- function(h, s, center, truth, null, title, xlab, ylab) {
     all <- rbind(h, s, center, truth, null)
     plot(all, type = "n", asp = 1, xlab = xlab, ylab = ylab,
-         main = title, cex.main = 0.95, bty = "l")
-    polygon(h, col = adjustcolor("#147D64", 0.15), border = "#147D64", lwd = 1.8)
+      main = title, cex.main = 0.95, bty = "l")
+    polygon(h, col = adjustcolor("#147D64", 0.15), border = "#147D64",
+      lwd = 1.8)
     lines(s, col = "#405D89", lty = 2, lwd = 1.8)
     points(center[1], center[2], pch = 19, cex = 0.7)
     points(truth[1], truth[2], pch = 3, cex = 0.9)
     points(null[1], null[2], pch = 5, cex = 0.9, col = "#9D4438")
   }
   panel(vertices_h, vertices_s, colMeans(Y), mu, c(0, 0),
-        "(a) Original parameters", expression(mu[1]), expression(mu[2]))
+    "(a) Original parameters", expression(mu[1]), expression(mu[2]))
   panel(transformed, vertices_s_new, drop(H %*% colMeans(Y)) + b,
-        drop(H %*% mu) + b, b, "(b) Affine transformation",
-        expression(mu[1] + mu[2] + 0.4), expression(mu[1] - mu[2] - 0.2))
+    drop(H %*% mu) + b, b, "(b) Affine transformation",
+    expression(mu[1] + mu[2] + 0.4), expression(mu[1] - mu[2] - 0.2))
   par(fig = c(0, 1, 0, 1), mar = rep(0, 4), oma = rep(0, 4), new = TRUE)
   plot.new()
   legend("bottom", inset = 0.012, bty = "n", ncol = 3, cex = 0.83,
-         legend = c("Increment hull", "Shao's ellipse", "Estimate", "True mean", "Null"),
-         col = c("#147D64", "#405D89", "black", "black", "#9D4438"),
-         lty = c(1, 2, NA, NA, NA), pch = c(NA, NA, 19, 3, 5),
-         lwd = c(1.8, 1.8, NA, NA, NA))
+    legend = c("Increment hull", "Shao's ellipse", "Estimate",
+      "True mean", "Null"),
+    col = c("#147D64", "#405D89", "black", "black", "#9D4438"),
+    lty = c(1, 2, NA, NA, NA), pch = c(NA, NA, 19, 3, 5),
+    lwd = c(1.8, 1.8, NA, NA, NA))
 }
+
+## =====================================================
+## 3. Save the two-panel figure
+## =====================================================
 pdf("aersn_joint_regions.pdf", width = 7.2, height = 4.1, pointsize = 12,
-    useDingbats = FALSE)
-draw_regions(); dev.off()
+  useDingbats = FALSE)
+draw_regions()
+dev.off()
 png("aersn_joint_regions.png", width = 2160, height = 1230, res = 300,
-    pointsize = 12)
-draw_regions(); dev.off()
+  pointsize = 12)
+draw_regions()
+dev.off()
 # END BOOK REGION PLOT
 
 new_vertices <- aersn_vertices(aersn_region(fit_new, reference = ref_h))

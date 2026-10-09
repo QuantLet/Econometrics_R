@@ -210,6 +210,9 @@ ggplot(data = mpg, aes(x = displ, y = cty)) +
 ## 11. Various plot types with ggplot2
 # (Again, no LaTeX figure references for these specific names, so saving is optional.)
 
+## =====================================================
+## 11.1. Compare univariate distributions
+## =====================================================
 # Histogram of highway MPG
 ggplot(mpg, aes(x = hwy)) +
   geom_histogram(binwidth = 1, fill = "blue", color = "black") +
@@ -223,6 +226,9 @@ ggplot(mpg, aes(x = class, y = hwy)) +
        x     = "Vehicle Class",
        y     = "Highway MPG")
 
+## =====================================================
+## 11.2. Display counts and shares by vehicle class
+## =====================================================
 # Bar plot: counts by vehicle class
 ggplot(mpg, aes(x = class)) +
   geom_bar(fill = "green", color = "black") +
@@ -237,6 +243,9 @@ ggplot(mpg, aes(x = factor(1), fill = class)) +
   labs(title = "Pie Chart of Vehicle Class Composition",
        x     = NULL, y = NULL)
 
+## =====================================================
+## 11.3. Examine density and normal-quantile plots
+## =====================================================
 # Density plot of highway MPG
 ggplot(mpg, aes(x = hwy)) +
   geom_density(fill = "magenta") +
@@ -249,6 +258,9 @@ ggplot(mpg, aes(sample = hwy)) +
   stat_qq_line() +
   labs(title = "QQ-Plot of Highway Miles-per-Gallon")
 
+## =====================================================
+## 11.4. Show the joint distribution with density contours
+## =====================================================
 # 2D density contour plot: engine size vs highway MPG
 # install.packages("viridis")
 library(viridis)
@@ -289,9 +301,15 @@ plot_obj
 # install.packages("WDI")
 library(WDI)
 
+## =====================================================
+## 1. Find the World Bank indicators
+## =====================================================
 # Search for indicators related to GDP per capita
 WDIsearch("gdp per capita") |> head()
 
+## =====================================================
+## 2. Download and arrange the country-year data
+## =====================================================
 # Download GDP per capita and population for selected countries, 1990–2022
 wb <- WDI(
   country   = c("CN", "GB", "US"),
@@ -303,6 +321,9 @@ wb <- WDI(
   as_tibble() |>
   arrange(country, year)
 
+## =====================================================
+## 3. Compare GDP per capita over time
+## =====================================================
 # Plot GDP per capita over time (optional save)
 p_wb <- ggplot(wb, aes(x = year, y = gdppc, color = country)) +
   geom_line() +

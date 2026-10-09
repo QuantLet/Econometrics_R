@@ -7,9 +7,15 @@ library(WDI)
 library(dplyr)
 library(ggplot2)
 
+## =====================================================
+## 1. Find the World Bank indicators
+## =====================================================
 # Search for indicators related to GDP per capita
 WDIsearch("gdp per capita") |> head()
 
+## =====================================================
+## 2. Download the country-year data
+## =====================================================
 # Download GDP per capita and population for selected countries, 1990-2022
 wdi_data <- WDI(
   country = c("US", "GB", "CN"),
@@ -21,6 +27,9 @@ wdi_data <- WDI(
   end   = 2022
 )
 
+## =====================================================
+## 3. Compare GDP per capita over time
+## =====================================================
 # Plot GDP per capita over time
 ggplot(wdi_data, aes(x = year, y = gdp_pc, color = country)) +
   geom_line() +
