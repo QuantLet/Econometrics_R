@@ -95,7 +95,9 @@ par(mfrow = c(1, 1))
 # Top 5 Cook's distances
 cat("\n--- Top 5 Cook's distances ---\n")
 cd <- cooks.distance(fit)
-print(head(sort(cd, decreasing = TRUE), 5))
+top_cd <- head(sort(cd, decreasing = TRUE), 5)
+print(data.frame(Car = names(top_cd),
+                 Cooks_distance = unname(top_cd)), row.names = FALSE)
 
 ## =====================================================
 ## 8. Correlation matrix (numeric predictors)
