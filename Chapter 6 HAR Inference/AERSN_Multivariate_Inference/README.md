@@ -102,3 +102,11 @@ The complete results, critical values and individual replication statistics are 
 - [aersn package documentation](https://cran.r-universe.dev/aersn).
 
 The componentwise multivariate critical values in the neighbouring `SelfNormalized_M_S_Critical_Values` example are for a different statistic. They are not the increment-hull gauge critical values used here.
+
+## Drawing the joint regions
+
+The book prints the complete `REGION PLOT` block from [aersn_multivariate_inference.R](aersn_multivariate_inference.R). It continues from the mean and affine-transformation examples, using `Y`, `mu`, `n`, `region_h`, `region_s`, `H` and `b`. The block constructs both boundaries, transforms their vertices, and saves Figure 6.5 as PDF and PNG.
+
+## Drawing the two decisions
+
+The book prints the complete `DECISION PLOT` block from [aersn_different_decisions.R](aersn_different_decisions.R). It uses the preceding `Y2`, `fit2`, `ref_h2`, `s2` and `n`. The two panels share the 100,000-draw reference distributions and axis limits. The block saves Figure 6.6 as PDF and PNG.

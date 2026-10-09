@@ -13,3 +13,5 @@ The example uses analytic functions and fixed plotting coordinates. No downloade
 Companion website: https://econometricsandtimeseries.com/
 
 ![Figure](figures/probability_densities.png)
+
+The book prints the full R script for Figure 1.1, including its plotting commands. The code box links to this directory.

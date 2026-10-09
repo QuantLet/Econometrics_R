@@ -47,3 +47,5 @@ The script verifies the weight identities and checks the local linear intercept 
 - `simulation_design.csv`: sample size, bandwidth, error standard deviation, seed and window size.
 
 Running the script also writes `session_info.txt` with package versions.
+
+The book prints the full R script for Figure 5.6, including its plotting commands. The code box links to this directory.

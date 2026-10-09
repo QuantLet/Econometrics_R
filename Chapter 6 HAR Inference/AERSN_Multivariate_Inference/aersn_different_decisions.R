@@ -74,6 +74,9 @@ baseline <- aersn_mean(Y)
 base_h <- aersn_test(baseline, null = c(0, 0), reference = ref_h2)
 base_s <- aersn_test(baseline, null = c(0, 0), method = "shao", reference = ref_s2)
 stopifnot(!base_h$reject, !base_s$reject)
+# BEGIN BOOK DECISION PLOT
+G <- rbind(c(0, 0), apply(sweep(Y2, 2, colMeans(Y2)), 2, cumsum)) / sqrt(n)
+V <- crossprod(G) / n
 region2_h <- aersn_region(fit2, reference = ref_h2)
 polygon2 <- aersn_vertices(region2_h)
 phi <- seq(0, 2 * pi, length.out = 501)
@@ -123,6 +126,8 @@ draw_decisions(); dev.off()
 png("aersn_different_decisions.png", width = 2160, height = 1230,
     res = 300, pointsize = 12)
 draw_decisions(); dev.off()
+# END BOOK DECISION PLOT
+
 write.csv(comparison2, "different_decisions.csv", row.names = FALSE)
 write.csv(Y2, "shifted_vector_series.csv", row.names = FALSE)
 write.csv(data.frame(method = comparison2$method,

@@ -76,17 +76,11 @@ crit <- as.numeric(region_h$critical.value)
 half_width <- crit / sqrt(n) * apply(G %*% t(L), 2, function(v) diff(range(v)))
 stopifnot(max(abs(intervals$upper - drop(L %*% colMeans(Y)) - half_width)) < 1e-8)
 
+# BEGIN BOOK REGION PLOT
+G <- rbind(c(0, 0), apply(sweep(Y, 2, colMeans(Y)), 2, cumsum)) / sqrt(n)
+V <- crossprod(G) / n
 vertices_h <- aersn_vertices(region_h)
 transformed <- sweep(vertices_h %*% t(H), 2, b, "+")
-new_vertices <- aersn_vertices(aersn_region(fit_new, reference = ref_h))
-hausdorff_vertices <- max(vapply(seq_len(nrow(transformed)), function(j)
-  min(sqrt(rowSums(sweep(new_vertices, 2, transformed[j, ])^2))), numeric(1)))
-stopifnot(hausdorff_vertices < 1e-8)
-# Scalar reduction to the absolute adjusted-range statistic.
-one <- aersn_mean(Y[, 1])
-test_one <- aersn_test(one, null = 0, reference = "continuous")
-scalar_direct <- abs(sqrt(n) * mean(Y[, 1])) / diff(range(G[, 1]))
-stopifnot(abs(as.numeric(test_one$statistic) - scalar_direct) < 1e-8)
 
 phi <- seq(0, 2 * pi, length.out = 401)
 circle <- cbind(cos(phi), sin(phi))
@@ -130,6 +124,18 @@ draw_regions(); dev.off()
 png("aersn_joint_regions.png", width = 2160, height = 1230, res = 300,
     pointsize = 12)
 draw_regions(); dev.off()
+# END BOOK REGION PLOT
+
+new_vertices <- aersn_vertices(aersn_region(fit_new, reference = ref_h))
+hausdorff_vertices <- max(vapply(seq_len(nrow(transformed)), function(j)
+  min(sqrt(rowSums(sweep(new_vertices, 2, transformed[j, ])^2))), numeric(1)))
+stopifnot(hausdorff_vertices < 1e-8)
+# Scalar reduction to the absolute adjusted-range statistic.
+one <- aersn_mean(Y[, 1])
+test_one <- aersn_test(one, null = 0, reference = "continuous")
+scalar_direct <- abs(sqrt(n) * mean(Y[, 1])) / diff(range(G[, 1]))
+stopifnot(abs(as.numeric(test_one$statistic) - scalar_direct) < 1e-8)
+
 comparison <- data.frame(method = c("Increment hull", "Shao quadratic"),
   statistic = c(test_h$statistic, test_s$statistic),
   critical_value = c(region_h$critical.value, region_s$critical.value),
