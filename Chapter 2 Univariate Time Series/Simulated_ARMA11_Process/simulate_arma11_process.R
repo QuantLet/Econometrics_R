@@ -34,6 +34,9 @@ df_arma11 <- data.frame(
 
 p_arma11 <- ggplot(df_arma11, aes(x = time, y = value)) +
   geom_line() +
-  labs(title = "Simulated ARMA(1,1) process", x = "Time", y = "Value") 
+  labs(title = "Simulated ARMA(1,1) process", x = "Time", y = "Value") +
+  theme_gray(base_size = 12) +
+  theme(plot.title = element_text(size = 12),
+        axis.text = element_text(size = 10))
 
-ggsave("simulated-arma11.png", plot = p_arma11, width = 6, height = 4, dpi = 300) 
+ggsave("simulated-arma11.png", plot = p_arma11, width = 7, height = 3.5, dpi = 300)

@@ -29,6 +29,9 @@ fit             <- Arima(simulated_data, order = c(1, 0, 1))
 forecast_result <- forecast(fit, h = 20)
 
 p_forecast <- autoplot(forecast_result) +
-  labs(title = "Forecast from an ARMA(1,1) model. Dark and light bands are pointwise 80% and 95% Gaussian plug-in prediction intervals", x = "Time", y = "Value")
+  labs(title = "Forecast from an ARMA(1,1) model", x = "Time", y = "Value") +
+  theme_gray(base_size = 12) +
+  theme(plot.title = element_text(size = 12),
+        axis.text = element_text(size = 10))
 
-ggsave("forecast_result.png", plot = p_forecast, width = 6, height = 4, dpi = 300)
+ggsave("forecast_result.png", plot = p_forecast, width = 7, height = 3.5, dpi = 300)

@@ -64,6 +64,9 @@ p_wold <- ggplot(df_wold, aes(x = Time)) +
     colour = NULL,
     linetype = NULL
   ) +
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
   guides(
     colour = guide_legend(nrow = 1),
     linetype = guide_legend(nrow = 1)
@@ -77,4 +80,4 @@ p_wold <- ggplot(df_wold, aes(x = Time)) +
   )
 
 # Save the figure
-ggsave(filename = "Wold_decomposition.png", plot = p_wold, width = 6, height = 4, dpi = 300)
+ggsave(filename = "Wold_decomposition.png", plot = p_wold, width = 7, height = 3.8, dpi = 300)

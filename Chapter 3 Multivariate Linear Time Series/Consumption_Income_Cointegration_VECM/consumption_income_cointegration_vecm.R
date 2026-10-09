@@ -73,6 +73,9 @@ p_levels <- ggplot(df, aes(x = date)) +
     colour = "",
     linetype = ""
   ) +
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
   guides(colour = guide_legend(nrow = 1),
          linetype = guide_legend(nrow = 1)) +
   theme(legend.position = "bottom",
@@ -83,7 +86,7 @@ p_levels <- ggplot(df, aes(x = date)) +
 
 print(p_levels)
 
-ggsave(filename = "log-consumption-income.png", plot = p_levels, width = 6,  height = 4,
+ggsave(filename = "log-consumption-income.png", plot = p_levels, width = 7, height = 3.8,
        dpi = 300)
 
 ## =====================================================

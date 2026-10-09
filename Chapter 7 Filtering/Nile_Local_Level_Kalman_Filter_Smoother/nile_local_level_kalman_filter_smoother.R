@@ -68,6 +68,9 @@ p <- ggplot(plot_data, aes(x = Time, y = value, color = variable,
   ) +
   labs(title = "Nile River Flow: Kalman Filtering and Smoothing",
        y = "Flow (10^8 m^3)", x = "Year") +
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
   guides(colour = guide_legend(nrow = 2, byrow = TRUE),
          linetype = guide_legend(nrow = 2, byrow = TRUE)) +
   theme(legend.position = "bottom",
@@ -80,7 +83,7 @@ p <- ggplot(plot_data, aes(x = Time, y = value, color = variable,
 print(p)
 
 # Save the plot as PNG
-ggsave(filename = "nile_kalman_plot.png", plot = p, width = 6, height = 4, dpi = 300)
+ggsave(filename = "nile_kalman_plot.png", plot = p, width = 7, height = 3.8, dpi = 300)
 
 # Display the plot
 print(p)

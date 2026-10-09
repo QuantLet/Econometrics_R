@@ -47,6 +47,9 @@ df_ma2 <- data.frame(
 
 p_ma2 <- ggplot(df_ma2, aes(x = time, y = value)) +
   geom_line() +
-  labs(title = "Simulated MA(2) process", x = "Time", y = "Value")
+  labs(title = "Simulated MA(2) process", x = "Time", y = "Value") +
+  theme_gray(base_size = 12) +
+  theme(plot.title = element_text(size = 12),
+        axis.text = element_text(size = 10))
 
-ggsave("simulated-ma2.png", plot = p_ma2, width = 6, height = 4, dpi = 300)
+ggsave("simulated-ma2.png", plot = p_ma2, width = 7, height = 3.5, dpi = 300)

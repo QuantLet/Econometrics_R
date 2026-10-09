@@ -61,6 +61,9 @@ p_ar <- ggplot(df_ar, aes(x = Time, y = Value, colour = Series, linetype = Serie
   labs(title = "AR(1) process with and without a negative shock",
        x = "Time",
        y = "Series value") +
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
   guides(colour = guide_legend(nrow = 1),
          linetype = guide_legend(nrow = 1)) +
   theme(legend.position = "bottom",
@@ -70,7 +73,7 @@ p_ar <- ggplot(df_ar, aes(x = Time, y = Value, colour = Series, linetype = Serie
         plot.title = element_text(size = 12))
 
 ggsave("ar1_comparison_plot.png", p_ar,
-       width = 6, height = 4, dpi = 300)
+       width = 7, height = 3.8, dpi = 300)
 
 ## =====================================================
 ## 4. Simulate random walk with and without a shock
@@ -115,6 +118,9 @@ p_rw <- ggplot(df_rw, aes(x = Time, y = Value, colour = Series, linetype = Serie
   labs(title = "Random walk with and without a negative shock",
        x = "Time",
        y = "Series value") +
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
   guides(colour = guide_legend(nrow = 1),
          linetype = guide_legend(nrow = 1)) +
   theme(legend.position = "bottom",
@@ -124,4 +130,4 @@ p_rw <- ggplot(df_rw, aes(x = Time, y = Value, colour = Series, linetype = Serie
         plot.title = element_text(size = 12))
 
 ggsave("rw_comparison_plot.png", p_rw,
-       width = 6, height = 4, dpi = 300)
+       width = 7, height = 3.8, dpi = 300)

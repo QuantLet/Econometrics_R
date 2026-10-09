@@ -111,10 +111,13 @@ p1 <- ggplot(plot_data_main,
   ) +
   labs(title = "Local Level Model: Kalman Filter and Smoother",
        y = "Value", x = "Time") +
-  theme_minimal(base_size = 11) +
-  theme(legend.position = "bottom",
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
+  theme(legend.key.width = grid::unit(1.1, "cm"),
+        legend.position = "bottom",
         legend.title = element_blank(),
-        plot.title = element_text(size = 13)) +
+        plot.title = element_text(size = 12)) +
   guides(colour = guide_legend(nrow = 2, byrow = TRUE),
          linetype = guide_legend(nrow = 2, byrow = TRUE))
 
@@ -124,7 +127,7 @@ p1 <- p1 + geom_vline(xintercept = missing_indices,
 
 print(p1)
 ggsave(filename = "local_level_kalman_main.png",
-       plot = p1, width = 6, height = 4, dpi = 300)
+       plot = p1, width = 7, height = 3.8, dpi = 300)
 
 # =====================================================
 ## 8. Plot 2: Comparison of filtered (diffuse vs finite_prior)
@@ -147,14 +150,17 @@ p2 <- ggplot(plot_data_filter_zoom,
   ) +
   labs(title = "Initialization: First 20 Periods",
        y = "Filtered State", x = "Time") +
-  theme_minimal(base_size = 11) +
-  theme(legend.position = "bottom",
+  theme_gray(base_size = 12) +
+  theme(axis.text = element_text(size = 10),
+        legend.text = element_text(size = 10)) +
+  theme(legend.key.width = grid::unit(1.1, "cm"),
+        legend.position = "bottom",
         legend.title = element_blank(),
-        plot.title = element_text(size = 13))
+        plot.title = element_text(size = 12))
 
 print(p2)
 ggsave(filename = "local_level_kalman_filters.png",
-       plot = p2, width = 6, height = 4, dpi = 300)
+       plot = p2, width = 7, height = 3.8, dpi = 300)
 
 # =====================================================
 ## 9. Numeric Comparison Between Initialization Methods
