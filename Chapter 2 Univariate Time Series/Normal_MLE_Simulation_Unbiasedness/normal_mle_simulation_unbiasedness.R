@@ -48,13 +48,19 @@ df_sigma <- data.frame(sigma_mle = sigma_mle_values)
 ## 4. Plot and save distribution of mu MLE
 ## =====================================================
 
+mle_theme <- theme_bw(base_size = 11) +
+  theme(panel.grid.minor = element_blank())
+
 p_mu <- ggplot(df_mu, aes(x = mu_mle)) +
   geom_histogram(aes(y = after_stat(density)),
-                 bins = 30, colour = "black", fill = "lightblue") +
-  geom_density(colour = "red", linewidth = 1) +
-  labs(title = "Distribution of mu MLE", x = "mu MLE", y = "Density")
+                 bins = 30, colour = "black", fill = "lightblue",
+                 linewidth = 0.25) +
+  geom_density(colour = "red", linewidth = 0.7) +
+  labs(x = expression(hat(mu)), y = "Density") +
+  mle_theme
 
-ggsave("mu_mle_distribution.png", plot = p_mu, width = 6, height = 4, dpi = 300)
+ggsave("mu_mle_distribution.png", plot = p_mu,
+       width = 3.5, height = 3.2, dpi = 300)
 
 ## =====================================================
 ## 5. Plot and save distribution of sigma MLE
@@ -62,8 +68,11 @@ ggsave("mu_mle_distribution.png", plot = p_mu, width = 6, height = 4, dpi = 300)
 
 p_sigma <- ggplot(df_sigma, aes(x = sigma_mle)) +
   geom_histogram(aes(y = after_stat(density)),
-                 bins = 30, colour = "black", fill = "lightblue") +
-  geom_density(colour = "red", linewidth = 1) +
-  labs(title = "Distribution of sigma MLE", x = "sigma MLE", y = "Density")
+                 bins = 30, colour = "black", fill = "lightblue",
+                 linewidth = 0.25) +
+  geom_density(colour = "red", linewidth = 0.7) +
+  labs(x = expression(hat(sigma)), y = "Density") +
+  mle_theme
 
-ggsave("sigma_mle_distribution.png", plot = p_sigma, width = 6, height = 4, dpi = 300)
+ggsave("sigma_mle_distribution.png", plot = p_sigma,
+       width = 3.5, height = 3.2, dpi = 300)
