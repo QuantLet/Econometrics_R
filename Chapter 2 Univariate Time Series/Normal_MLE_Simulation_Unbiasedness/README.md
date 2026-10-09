@@ -20,8 +20,11 @@ Submitted: 22 November 2025
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/Normal_MLE_Simulation_Unbiasedness/mu_mle_distribution.png" alt="Sampling distribution of the mean MLE" width="48%" />
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/Normal_MLE_Simulation_Unbiasedness/sigma_mle_distribution.png" alt="Sampling distribution of the standard-deviation MLE" width="48%" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/Normal_MLE_Simulation_Unbiasedness/mu_mle_distribution.png" alt="Image" />
+</div>
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/Normal_MLE_Simulation_Unbiasedness/sigma_mle_distribution.png" alt="Image" />
 </div>
 
 ## Running this example
