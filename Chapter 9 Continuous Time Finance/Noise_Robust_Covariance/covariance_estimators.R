@@ -1,3 +1,23 @@
+## Two-scale and pre-averaging covariance on a common grid
+
+# N counts return intervals; the input has N + 1 log prices.
+tsx_cov <- function(log_prices, K, J = 1L, endpoint = FALSE) {
+  x <- as.matrix(log_prices)
+  N <- nrow(x) - 1L
+  stopifnot(all(is.finite(x)), J == as.integer(J),
+    K == as.integer(K), 1L <= J, J < K, K <= N)
+  variation <- function(h) {
+    z <- x[(h + 1L):(N + 1L), , drop = FALSE] -
+         x[1L:(N + 1L - h), , drop = FALSE]
+    crossprod(z) / h
+  }
+  nK <- (N - K + 1) / K
+  nJ <- (N - J + 1) / J
+  rho <- nK / nJ
+  factor <- if (endpoint) N / ((K - J) * nK) else 1 / (1 - rho)
+  factor * (variation(K) - rho * variation(J))
+}
+
 # Bias-corrected PAVX, or its positive-semidefinite version.
 pavx <- function(log_prices, theta = 0.8, psd = FALSE) {
   r <- diff(as.matrix(log_prices))

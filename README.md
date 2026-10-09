@@ -25,7 +25,7 @@ Open an example folder and follow its README. Run the R script with that folder 
 
 The Chapter 4 [news impact curves](Chapter%204%20Volatility%20Models/News_Impact_Curves/) reproduce Figure 4.1, comparing symmetric ARCH/GARCH and asymmetric EGARCH responses with the lagged variance held fixed.
 
-The Chapter 9 [pre-averaging example](Chapter%209%20Continuous%20Time%20Finance/Preaveraging_Covariance/) contains the explicit noise-bias correction for covariance estimation. The [TSRV example](Chapter%209%20Continuous%20Time%20Finance/Intraday_Fixed_Sample/) uses a bundled public trade sample from `highfrequency`: 43,581 trades in three assets on 17 September 2014. Both this fixed-sample example and the simulated intraday illustration run without an API key.
+The Chapter 9 [covariance examples](Chapter%209%20Continuous%20Time%20Finance/Noise_Robust_Covariance/) implement two-scale covariance with a common finite-sample correction, and both bias-corrected and positive-semidefinite pre-averaging. The [TSRV example](Chapter%209%20Continuous%20Time%20Finance/Intraday_Fixed_Sample/) uses a bundled public trade sample from `highfrequency`: 43,581 trades in three assets on 17 September 2014. Both examples run without an API key.
 
 The Chapter 6 [aersn example](Chapter%206%20HAR%20Inference/AERSN_Multivariate_Inference/) compares multivariate adjusted-range and quadratic self-normalization, with joint confidence regions, simultaneous contrast intervals and selected regression coefficients.
 

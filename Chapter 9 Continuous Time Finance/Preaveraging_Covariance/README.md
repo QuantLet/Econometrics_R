@@ -22,6 +22,10 @@ Set the working directory to this folder and install the packages loaded at the 
 Rscript "preaveraging_covariance.R"
 ```
 
-The script defines `pavx(log_prices, theta = 0.8)`. Supply a finite matrix of synchronised log prices, with time in rows and assets in columns, to obtain the covariance estimate.
+The script defines `pavx(log_prices, theta = 0.8, psd = FALSE)`. Supply a finite matrix of synchronised log prices, with time in rows and assets in columns, to obtain the covariance estimate.
 
 Book and companion materials: https://econometricsandtimeseries.com/
+
+With `psd = TRUE`, the function uses the wider window `floor(theta * N^0.6)` and omits the noise subtraction, giving a positive-semidefinite sum of outer products. The default bias-corrected result is unchanged. Neither branch projects eigenvalues.
+
+The [common-grid covariance examples](../Noise_Robust_Covariance/) include the matching TSX function, both pre-averaging versions and a complete simulated demonstration.
