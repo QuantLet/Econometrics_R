@@ -70,7 +70,7 @@ for (p in 1:p_max) {
 }
 
 ## =====================================================
-## 5. Select best p, refit model, Ljung–Box test
+## 5. Select p, refit the model and summarise residual dependence
 ## =====================================================
 
 best_p_aic <- which.min(aic_values)
@@ -87,6 +87,18 @@ best_spec <- ugarchspec(
 best_fit <- ugarchfit(best_spec, data = eps)
 show(best_fit)
 
-ljung_box_test <- Box.test(best_fit@fit$residuals / best_fit@fit$sigma,
-                           lag = 10, type = "Ljung-Box")
-print(ljung_box_test)
+z_hat <- as.numeric(best_fit@fit$residuals / best_fit@fit$sigma)
+z_hat <- z_hat[is.finite(z_hat)]
+
+# Q summaries for mean dynamics and variance dynamics.
+# The default Box.test p-values are not used for fitted ARCH residuals.
+q_summary <- function(x, max_lag = 10L) {
+  unname(Box.test(x, lag = max_lag, type = "Ljung-Box")$statistic)
+}
+
+diagnostics <- data.frame(
+  sequence = c("Standardised residuals", "Squared standardised residuals"),
+  lag = 10L,
+  Q = c(q_summary(z_hat), q_summary(z_hat^2 - 1))
+)
+print(diagnostics, row.names = FALSE)
