@@ -25,3 +25,8 @@ Submitted: 1 May 2025
 <div align="center">
 <img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Temperature%20Data%20with%20US%20Map/US_Temperature_Map_2014.png" alt="Image" />
 </div>
+
+
+## Saved observations
+
+The [2014 data snapshot](data_2014_snapshot/) contains the temperature observations, station choices and source metadata. It includes instructions for running the plotting sections without repeating the API downloads. The original online R script is unchanged.

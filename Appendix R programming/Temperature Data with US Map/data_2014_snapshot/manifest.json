@@ -1,0 +1,38 @@
+{
+  "retrieved_on": "2026-10-10",
+  "year": 2014,
+  "variable": "TMAX",
+  "units": "degrees Celsius",
+  "rows": 77752,
+  "stations": 222,
+  "candidates": 240,
+  "selected_states": 48,
+  "nyc_rows": 365,
+  "temperature_range_celsius": [
+    -25.0,
+    46.7
+  ],
+  "daily_endpoint": "https://www.ncei.noaa.gov/access/services/data/v1",
+  "daily_query": {
+    "dataset": "daily-summaries",
+    "startDate": "2014-01-01",
+    "endDate": "2014-12-31",
+    "format": "json",
+    "units": "metric",
+    "dataTypes": "TMAX",
+    "includeAttributes": "false",
+    "includeStationName": "true"
+  },
+  "metadata_urls": [
+    "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
+    "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt"
+  ],
+  "sha256": {
+    "daily_tmax_2014.csv": "2f4627608dbbc04e74884b397aeb1261ba8bd037b68a52832a1aaaade5dd93e3",
+    "representative_stations_2014.csv": "15cb104c7a868720066408fd9e8900d612db0c475beea66ee5a50d866038979f",
+    "candidate_stations_2014.csv": "8e2903b95c9ef5d02ebb3ae5b5d0f6afb3fde2c1f3e6b09c460f2564d4ddc2f4",
+    "nyc_daily_tmax_2014.csv": "e2b54160c038101a76f4e9b914632345a206a5799c0ec88b5594d049b0741aae",
+    "ghcnd-stations.txt.gz": "a76cc59109b51859f77c160e878469f0dcc77a0fbce65b1890495f043cde8629",
+    "ghcnd-inventory.txt.gz": "324771bc32e68f13783677dcd1d5a68843a3769e74ef313d51306e8c1d796413"
+  }
+}
