@@ -9,13 +9,16 @@ Name of Quantlet: Temperature Data with US Map
 
 Published in: Econometrics_R
 
-Description: This R script downloads official GHCN-Daily station metadata and inventory files, then retrieves 2014 daily maximum temperature (TMAX) observations in metric units from NOAA's NCEI Daily Summaries service. For each of the 48 contiguous states, it identifies active stations near the state capital, checks actual 2014 coverage, and selects one representative station. It plots daily TMAX for New York City Central Park and maps the annual mean of daily TMAX at each selected representative station using state polygons from the maps package. The mapped values are representative-station means, not statewide spatial averages.
+Description: Plot 2014 daily maximum temperatures for New York City and map annual means at representative stations near state capitals. Each map value describes one station rather than a statewide spatial average.
+
 
 Keywords: Climate Data, GHCN-Daily, NOAA, NCEI, Daily Summaries API, TMAX, Temperature, Weather, Representative Stations, State Capitals, Contiguous United States, ggplot2, maps, Spatial Visualization, R
 
 Author: Jiajing Sun
 
 Submitted: 1 May 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

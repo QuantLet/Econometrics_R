@@ -9,7 +9,8 @@ Name of Quantlet: EWMA_Covariance_ETFs
 
 Published in: Econometrics_R
 
-Description: Computes an exponentially weighted covariance matrix for SPY, QQQ and EFA returns using the accompanying 2015-2024 adjusted-price data. It also reports the corresponding final correlation matrix.
+Description: Estimate a time-varying covariance matrix with an exponentially weighted recursion. Follow how variances and covariances respond to recent return observations.
+
 
 
 Keywords: Econometrics, Financial Econometrics, EWMA, Covariance Matrix, Correlation Matrix, Volatility, Risk Management, SPY, QQQ, EFA, Quantmod, Yahoo Finance, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Financial Econometrics, EWMA, Covariance Matrix, Correla
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

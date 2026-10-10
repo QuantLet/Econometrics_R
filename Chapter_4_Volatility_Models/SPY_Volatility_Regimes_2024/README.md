@@ -9,7 +9,8 @@ Name of Quantlet: SPY_Volatility_Regimes_2024
 
 Published in: Econometrics_R
 
-Description: Compares several conditional-volatility and Markov-switching specifications using the accompanying SPY adjusted-price snapshot. The observation dates are read from the saved data and the fitted parameters and regimes are reported.
+Description: Use the supplied SPY prices to compare conditional-volatility and regime-switching descriptions of returns. Examine changes in return magnitudes alongside fitted volatility and regime probabilities.
+
 
 
 Keywords: Econometrics, Financial Econometrics, Volatility, GARCH, EGARCH, GJR-GARCH, TGARCH, Markov-Switching, Regime-Switching, SPY, Log Returns, Yahoo Finance, Quantmod, Rugarch, Forecast, MSwM, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Financial Econometrics, Volatility, GARCH, EGARCH, GJR-G
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

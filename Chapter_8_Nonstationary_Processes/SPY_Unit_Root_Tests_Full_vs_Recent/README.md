@@ -9,7 +9,8 @@ Name of Quantlet: SPY_Unit_Root_Tests_Full_vs_Recent
 
 Published in: Econometrics_R
 
-Description: Applies ADF and KPSS tests to SPY log prices and log returns using the accompanying adjusted-price snapshot. It compares the 2000-2024 sample with 2024 alone and reports the deterministic specification and five-percent critical value for each test.
+Description: Apply ADF and KPSS tests to log prices and log returns in the full sample and in 2024. Compare hypotheses, deterministic terms and reference values before interpreting the different results.
+
 
 
 Keywords: Econometrics, Time Series, Unit Root, Stationarity, Augmented Dickeyâ€“Fuller, ADF, KPSS, SPY, Log Prices, Log Returns, Quantmod, urca, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Time Series, Unit Root, Stationarity, Augmented Dickeyâ€
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

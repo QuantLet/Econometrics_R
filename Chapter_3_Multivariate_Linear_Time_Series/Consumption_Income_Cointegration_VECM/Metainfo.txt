@@ -2,7 +2,8 @@ Name of Quantlet: Consumption_Income_Cointegration_VECM
 
 Published in: Econometrics_R
 
-Description: Analyses monthly US real consumption and real disposable income from January 2007 to August 2025 using saved FRED observations. The script applies level and difference unit-root tests, residual-based cointegration tests and Johansen tests, estimates a rank-one VECM, and compares deterministic specifications.
+Description: Compare level and difference unit-root tests, residual-based cointegration tests and Johansen rank tests for consumption and income. Examine how deterministic terms affect the evidence before interpreting a rank-one VECM.
+
 
 
 Keywords: Econometrics, Time Series, Cointegration, Engle–Granger, Phillips–Ouliaris, Johansen, VECM, ADF Test, VAR, FRED, Real Consumption, Real Disposable Income, R
@@ -10,3 +11,5 @@ Keywords: Econometrics, Time Series, Cointegration, Engle–Granger, Phillips–
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

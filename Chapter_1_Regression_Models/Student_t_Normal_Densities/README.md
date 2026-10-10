@@ -15,3 +15,9 @@ Companion website: https://econometricsandtimeseries.com/
 ![Figure](figures/probability_densities.png)
 
 The book prints the full R script for Figure 1.1, including its plotting commands. The code box links to this directory.
+
+## About this example
+
+Compare the standard normal density with Student t densities at 1, 5 and 30 degrees of freedom. The curves show how heavier tails affect the reference distribution used for inference.
+
+Notes updated: 11 October 2026.

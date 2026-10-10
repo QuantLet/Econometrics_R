@@ -2,10 +2,13 @@ Name of Quantlet: AirPassengers_SMA_12Month
 
 Published in: Econometrics_R
 
-Description: Plots monthly international airline passenger totals, in thousands, together with a 12-month simple moving average. Equal weights and sides = 2 in stats::filter() give a two-sided filter; with an even window length, it uses one more future observation than past observation. The blue line shows the monthly totals and the red dashed line follows their upward trend while smoothing seasonal variation. Observations with missing filtered values at the endpoints are omitted. The figure is saved at 7 by 3.8 inches and 300 dpi.
+Description: Smooth monthly passenger totals with a twelve-month moving average and compare it with the original series. The two-sided filter uses future observations and loses values at the ends of the sample.
+
 
 Keywords: Time Series, Smoothing, Simple Moving Average, SMA, AirPassengers, Seasonal Data, Trend Extraction, ggplot2, R
 
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

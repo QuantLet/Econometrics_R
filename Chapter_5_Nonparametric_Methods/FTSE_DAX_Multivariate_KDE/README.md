@@ -9,7 +9,8 @@ Name of Quantlet: FTSE_DAX_Multivariate_KDE
 
 Published in: Econometrics_R
 
-Description: Aligns FTSE and DAX trading dates in 2024 and estimates their joint daily log-return density. The accompanying closing-price snapshots provide the inputs for contour and perspective plots.
+Description: Estimate a bivariate kernel density for matched FTSE and DAX returns. Compare the joint distribution with the marginal behaviour of each index and examine the role of smoothing.
+
 
 
 Keywords: Econometrics, Financial Econometrics, FTSE 100, DAX, Multivariate Kernel Density, KDE, Joint Distribution, Quantmod, ks, Yahoo Finance, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Financial Econometrics, FTSE 100, DAX, Multivariate Kern
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

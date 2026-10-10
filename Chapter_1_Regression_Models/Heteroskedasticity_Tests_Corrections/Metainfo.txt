@@ -2,7 +2,8 @@ Name of Quantlet: Heteroskedasticity_Tests_Corrections
 
 Published in: Econometrics_R
 
-Description: Illustrates heteroskedasticity tests, HC covariance estimates, weighted least squares and feasible GLS with the Engel and CPS1985 data. Robust standard errors are also reported for the transformed regressions, and variance-regression coefficients are interpreted on the log-squared-error scale.
+Description: Apply heteroskedasticity tests and compare OLS, HC standard errors, weighted least squares and feasible GLS. The Engel and wage examples show how modelling the variance differs from correcting standard errors.
+
 
 
 Keywords: Econometrics, Heteroskedasticity, Breusch-Pagan test, White test, Robust Standard Errors, GLS, Feasible GLS, Goldfeld-Quandt test, Groupwise FGLS, R, lmtest, sandwich, quantreg, carData
@@ -10,3 +11,5 @@ Keywords: Econometrics, Heteroskedasticity, Breusch-Pagan test, White test, Robu
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

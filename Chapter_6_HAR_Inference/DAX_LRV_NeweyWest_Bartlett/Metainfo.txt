@@ -2,7 +2,8 @@ Name of Quantlet: DAX_LRV_NeweyWest_Bartlett
 
 Published in: Econometrics_R
 
-Description: Estimates the long-run variance of DAX log returns using a Newey-West estimator. A separate function constructs Bartlett-kernel long-run covariance estimates. The sample-size scaling follows the long-run variance of the sample mean multiplied by its sample size.
+Description: Estimate the long-run variance of DAX log returns with Newey–West weights. A separate function implements Bartlett-kernel long-run covariance estimation and makes the sample-size scaling explicit.
+
 
 
 Keywords: Econometrics, Time Series, Long-Run Variance, Newey–West, Bartlett Kernel, Fixed-b, DAX, Log Returns, Quantmod, Sandwich, R
@@ -10,3 +11,5 @@ Keywords: Econometrics, Time Series, Long-Run Variance, Newey–West, Bartlett K
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

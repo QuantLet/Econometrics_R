@@ -2,7 +2,8 @@ Name of Quantlet: hetero_diagnostics_sim
 
 Published in: Econometrics_R
 
-Description: Constructs an example in which reordering a normal sample across predictor values changes conditional behaviour while preserving the pooled sample histogram. The plots distinguish the simulated errors from fitted regression residuals.
+Description: Reorder the same normal sample across predictor values and compare the resulting conditional patterns. The pooled histogram is unchanged, but it cannot establish conditional normality or constant conditional variance.
+
 
 
 Keywords: Econometrics, Heteroskedasticity, Linear Regression, OLS, Regression Diagnostics, Simulation, R, ggplot2, patchwork
@@ -10,3 +11,5 @@ Keywords: Econometrics, Heteroskedasticity, Linear Regression, OLS, Regression D
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

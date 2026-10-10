@@ -9,7 +9,8 @@ Name of Quantlet: ARMA11_Forecast_Simulation
 
 Published in: Econometrics_R
 
-Description: Simulates and fits an ARMA(1,1) model and plots twenty-step forecasts. The shaded bands are pointwise 80% and 95% Gaussian plug-in prediction intervals.
+Description: Fit an ARMA(1,1) to simulated observations and construct twenty-step forecasts. The plot includes pointwise 80% and 95% Gaussian plug-in prediction intervals.
+
 
 
 Keywords: Econometrics, Time Series, ARMA(1,1), Forecasting, Simulation, Forecast, ggplot2, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Time Series, ARMA(1,1), Forecasting, Simulation, Forecas
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

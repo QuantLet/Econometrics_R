@@ -2,7 +2,8 @@ Name of Quantlet: SPY_EMH_Tests_Random_Walk_2000_2024_Recent2024
 
 Published in: Econometrics_R
 
-Description: Examines SPY daily log returns in the 2000-2024 sample and in 2024 using saved adjusted prices. It reports autocorrelation diagnostics and heteroskedasticity-robust fixed-horizon variance-ratio tests. Non-rejection is not interpreted as proof of market efficiency.
+Description: Examine SPY log-return autocorrelations and heteroskedasticity-robust variance-ratio tests in long and recent samples. These tests address particular restrictions on returns rather than establish market efficiency on their own.
+
 
 
 Keywords: Econometrics, Time Series, Weak-Form EMH, Random Walk, SPY, Log Returns, ACF, Ljung–Box Test, Auto.Q, AR(5), Wald Test, Variance Ratio, VR.minus.1, Auto.VR, Quantmod, ggplot2, Forecast, lmtest, Sandwich, vrtest, R
@@ -10,3 +11,5 @@ Keywords: Econometrics, Time Series, Weak-Form EMH, Random Walk, SPY, Log Return
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

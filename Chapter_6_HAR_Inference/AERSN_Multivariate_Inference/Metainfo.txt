@@ -2,10 +2,13 @@ Name of Quantlet: AERSN_Multivariate_Inference
 
 Published in: Econometrics_R
 
-Description: Computes joint confidence regions and simultaneous contrast intervals for a vector time-series mean with the aersn package. Compares the affine-equivariant increment-hull adjusted-range method with Shao's quadratic self-normalization, verifies invariance under an invertible affine transformation, and illustrates joint inference on selected regression slopes. A fixed shift of the mean gives an example in which the adjusted-range test rejects and Shao's test does not. A 5,000-replication comparison reports size and power, including independent null calibration. Includes reproducible simulated inputs, figures, replication statistics and independent formula checks.
+Description: Construct joint confidence regions and simultaneous contrast intervals with aersn, and compare them with Shao’s quadratic self-normalisation. Further examples examine regression slopes, different rejection decisions and repeated-sample size and power.
+
 
 Keywords: Econometrics, Time Series, Self-Normalization, Adjusted Range, Affine Equivariance, Confidence Region, Simultaneous Inference, Brownian Bridge, aersn, R
 
 Author: Jiajing Sun
 
 Submitted: 9 October 2026
+
+Updated: 11 October 2026

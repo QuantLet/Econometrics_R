@@ -2,7 +2,8 @@ Name of Quantlet: RF_Volatility_Forecast_SPY
 
 Published in: Econometrics_R
 
-Description: Uses saved SPY adjusted prices to forecast next-day absolute log returns with a random forest. The script keeps the training sample before the test sample, reports permutation importance and test RMSE, and compares the forest with a constant forecast.
+Description: Forecast next-day absolute SPY log returns with a random forest. Compare test RMSE with a constant forecast and inspect permutation importance using a chronological train/test split.
+
 
 
 Keywords: econometrics, volatility forecasting, random forest, machine learning, squared returns, SPY, quantmod, ranger, R
@@ -10,5 +11,7 @@ Keywords: econometrics, volatility forecasting, random forest, machine learning,
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
  

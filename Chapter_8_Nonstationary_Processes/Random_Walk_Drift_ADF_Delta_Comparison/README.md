@@ -9,13 +9,16 @@ Name of Quantlet: Random_Walk_Drift_ADF_Delta_Comparison
 
 Published in: Econometrics_R
 
-Description: This R script studies the effect of different drift magnitudes on random walk behaviour and unit-root test outcomes. It simulates Y_1 through Y_n from Y_0 = 0 under Y_t = Y_{t−1} + δ + ε_t, including all n Gaussian innovations, and generates series of length 500 for three drift values δ ∈ {0.5, 0.1, 0.05}. For each drift, it performs an Augmented Dickey–Fuller (ADF) test with drift using urca::ur.df() (type = "drift", lags = 1, lag selection by AIC) and prints the test statistics (τ₂ and ϕ₁) along with their critical values. In parallel, the script produces a ggplot2 time-series plot for each simulated random walk and saves them as individual PNG files: "unit_root_delta05.png", "unit_root_delta01.png", and "unit_root_delta005.png". The illustration helps distinguish the τ₂ unit-root test from the ϕ₁ joint test of a unit root and zero drift.
+Description: Simulate random walks with different drift values and compare ADF output. Distinguish the tau unit-root statistic from the phi statistic that jointly restricts the unit root and drift.
+
 
 Keywords: Econometrics, Time Series, Random Walk, Drift, Unit Root, Augmented Dickey–Fuller Test, ADF, urca, Simulation, ggplot2, R
 
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

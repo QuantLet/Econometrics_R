@@ -9,7 +9,8 @@ Name of Quantlet: BEKK11_SPY_TLT_Volatility
 
 Published in: Econometrics_R
 
-Description: Fits a bivariate BEKK(1,1) model to SPY and TLT returns from the accompanying 2015-2024 adjusted-price data. The covariance recursion follows the BEKKs package convention.
+Description: Estimate a bivariate BEKK model for SPY and TLT returns. Examine the fitted variances and covariance as a joint description of changing portfolio risk.
+
 
 
 Keywords: Econometrics, Financial Econometrics, Multivariate GARCH, BEKK(1,1), Volatility, Covariance Dynamics, SPY, TLT, Quantmod, BEKKs, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Financial Econometrics, Multivariate GARCH, BEKK(1,1), V
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

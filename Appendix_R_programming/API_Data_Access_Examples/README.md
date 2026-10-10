@@ -9,11 +9,14 @@ Name of Quantlet: API_Data_Access_Examples
 
 Published in: Econometrics_R
 
-Description: This R script consolidates the appendix examples on accessing data through APIs and API wrapper packages. It demonstrates World Bank data access with WDI, financial price downloads from Yahoo Finance via quantmod, FRED access through fredr using the FRED_API_KEY environment variable, and simple OECD and Eurostat package calls. The script is intended as a companion to the appendix section on reproducible external data access in R.
+Description: Use R packages to request World Bank, market, FRED, OECD and Eurostat data. The FRED example reads the key from FRED_API_KEY; these examples deliberately demonstrate live data access.
+
 
 Keywords: R Programming, API, WDI, World Bank, FRED, fredr, OECD, Eurostat, quantmod, Yahoo Finance, Data Access
 
 Author: Jiajing Sun
 
 Submitted: 1 May 2026
+
+Updated: 11 October 2026
 ```

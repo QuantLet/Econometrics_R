@@ -9,7 +9,8 @@ Name of Quantlet: Local_Level_Kalman_Filter_Smoother_Missing
 
 Published in: Econometrics_R
 
-Description: Simulates a local-level model with missing observations, estimates its noise variances, and compares filtered and smoothed state estimates. Missing values are filled using the full-sample smoother. Diffuse and finite-prior initialisations are compared separately.
+Description: Simulate a local-level model with missing measurements and estimate its noise variances. Compare filtered and smoothed states, fill missing values with the full-sample smoother, and examine initialisation choices.
+
 
 
 Keywords: Econometrics, State-Space Model, Local Level Model, Kalman Filter, Kalman Smoother, Missing Data, Initialization, DLM, dlm, ggplot2, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, State-Space Model, Local Level Model, Kalman Filter, Kal
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

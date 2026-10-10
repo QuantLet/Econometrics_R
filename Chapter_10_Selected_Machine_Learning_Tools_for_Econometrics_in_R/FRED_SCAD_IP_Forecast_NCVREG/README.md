@@ -9,13 +9,16 @@ Name of Quantlet: FRED_SCAD_IP_Forecast_NCVREG
 
 Published in: Econometrics_R
 
-Description: This R script demonstrates pseudo-out-of-sample forecasting of U.S. industrial production growth using nonconvex regularization and the accompanying monthly FRED data through December 2024. It transforms industrial production, unemployment, CPI, and the federal funds rate and uses 12 lags of each series, excluding contemporaneous releases. Following a chronological training-test split, a custom expanding-window loop selects the SCAD and lasso penalties with past-only validation. The script reports selected variables and compares SCAD, lasso, and a historical-mean benchmark on the untouched test period. A real-time study would additionally require publication-date alignment and historical data vintages.
+Description: Compare SCAD, lasso and a historical-mean forecast using lagged macroeconomic predictors. Penalty selection uses past-only validation before evaluation on the held-out period.
+
 
 Keywords: Econometrics, Forecasting, SCAD, Lasso, Regularization, Industrial Production, Macroeconomic Data, FRED, ncvreg, High-dimensional Regression, R
 
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 Datafile: INDPRO.csv, UNRATE.csv, CPIAUCSL.csv, FEDFUNDS.csv
 

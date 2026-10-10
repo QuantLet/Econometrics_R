@@ -2,7 +2,8 @@ Name of Quantlet: DCC_GARCH_ETFs_Cholesky_Shocks
 
 Published in: Econometrics_R
 
-Description: Fits univariate GARCH models and a DCC specification to SPY, QQQ and EFA returns from the accompanying 2015-2024 data. It compares constant and dynamic conditional correlations and illustrates Cholesky orthogonalisation of the final covariance matrix.
+Description: Fit marginal volatility models and dynamic conditional correlations for ETF returns. Use Cholesky factors to transform innovations and examine the resulting shock series.
+
 
 
 Keywords: Econometrics, Financial Econometrics, Multivariate GARCH, DCC-GARCH, Constant-Correlation GARCH, Covariance Matrix, Correlation Matrix, Cholesky Decomposition, Orthogonal Shocks, SPY, QQQ, EFA, rmgarch, Quantmod, R
@@ -10,3 +11,5 @@ Keywords: Econometrics, Financial Econometrics, Multivariate GARCH, DCC-GARCH, C
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026

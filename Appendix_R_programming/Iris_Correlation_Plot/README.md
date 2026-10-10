@@ -13,3 +13,9 @@ The example uses built-in R data. No downloaded data or API key is required. Fig
 Companion website: https://econometricsandtimeseries.com/
 
 ![Figure](figures/correlation-iris.png)
+
+## About this example
+
+Display Pearson correlations among the four numeric iris measurements. Circle size indicates magnitude, while colour distinguishes positive and negative correlations.
+
+Notes updated: 11 October 2026.

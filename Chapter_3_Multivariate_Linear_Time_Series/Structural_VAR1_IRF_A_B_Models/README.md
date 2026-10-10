@@ -9,7 +9,8 @@ Name of Quantlet: Structural_VAR1_IRF_A_B_Models
 
 Published in: Econometrics_R
 
-Description: Simulates a three-variable VAR(1) and fits recursive structural A and B models. Structural shocks have identity covariance, while the diagonal entries of the triangular A matrix are estimated. The script reports the estimated structural matrices and their standard errors.
+Description: Fit structural VAR specifications with restrictions on contemporaneous relations and shock covariance. Compare impulse responses under the identification assumptions imposed in each model.
+
 
 
 Keywords: Econometrics, Time Series, Structural VAR, SVAR, VAR(1), A-Model, B-Model, Contemporaneous Restrictions, Impact Matrix, Identification, Impulse Response Functions, Simulation, vars, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Time Series, Structural VAR, SVAR, VAR(1), A-Model, B-Mo
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

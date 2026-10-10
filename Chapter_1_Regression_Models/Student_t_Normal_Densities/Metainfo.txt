@@ -2,10 +2,13 @@ Name of Quantlet: Student_t_Normal_Densities
 
 Published in: Econometrics_R
 
-Description: Compares the analytic standard normal density with Student t densities at 1, 5 and 30 degrees of freedom. A two-row legend below the axes identifies every curve by colour and line type.
+Description: Compare the standard normal density with Student t densities at 1, 5 and 30 degrees of freedom. The curves show how heavier tails affect the reference distribution used for inference.
+
 
 Keywords: Econometrics, R, Statistical Graphics
 
 Author: Jiajing Sun
 
 Submitted: 9 October 2026
+
+Updated: 11 October 2026

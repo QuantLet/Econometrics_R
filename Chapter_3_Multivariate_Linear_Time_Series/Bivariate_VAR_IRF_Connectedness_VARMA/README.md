@@ -9,7 +9,8 @@ Name of Quantlet: Bivariate_VAR_IRF_Connectedness_VARMA
 
 Published in: Econometrics_R
 
-Description: Fits a bivariate VAR to consumption and income growth rates computed from saved FRED observations for January 2007-August 2025. It studies impulse responses and connectedness and illustrates a VARMA model and its finite-order VAR approximation.
+Description: Model consumption and income growth using a bivariate VAR, then examine impulse responses and connectedness. Further calculations connect VARMA dynamics with a finite-order VAR approximation.
+
 
 
 Keywords: Econometrics, Time Series, VAR, VARMA, VMA, Impulse Response Functions, Diebold–Yilmaz Connectedness, Innovation Covariance, FRED, Real Consumption, Real Disposable Income, MTS, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Time Series, VAR, VARMA, VMA, Impulse Response Functions
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

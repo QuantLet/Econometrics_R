@@ -9,7 +9,8 @@ Name of Quantlet: Nile_Local_Level_Kalman_Filter_Smoother
 
 Published in: Econometrics_R
 
-Description: Fits a local-level model to the built-in Nile data and plots filtered and smoothed states. The example distinguishes full-sample smoothing from filtering and compares diffuse and finite-prior initialisations.
+Description: Fit a local-level model to annual Nile flows and compare filtered and smoothed estimates. Examine diffuse and finite-prior initialisation separately.
+
 
 
 Keywords: Econometrics, Time Series, State-Space Model, Local Level Model, Kalman Filter, Kalman Smoother, Initialization, DLM, Nile River Flow, dlm, ggplot2, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Time Series, State-Space Model, Local Level Model, Kalma
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

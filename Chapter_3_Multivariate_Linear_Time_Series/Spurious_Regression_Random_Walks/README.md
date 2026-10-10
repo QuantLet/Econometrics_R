@@ -9,12 +9,15 @@ Name of Quantlet: Spurious_Regression_Random_Walks
 
 Published in: Econometrics_R
 
-Description: This R script demonstrates spurious regression arising from regressing one non-stationary random walk on another. It simulates two independent length-100 random walks by cumulatively summing independent standard normal innovations and then runs an OLS regression of RW1 on RW2 using lm(). The regression summary is printed to the console, typically showing seemingly significant coefficients and high R² despite the underlying series being independent. To visualise the spurious relationship, the script constructs a scatter plot of RW1 against RW2 with a fitted OLS line overlaid via ggplot2, and saves the resulting figure as a 6 x 4 inch PNG file ("rw1-rw2.png") at 300 dpi.
+Description: Regress one independent random walk on another and inspect the fitted relationship and conventional test output. Trending paths can produce apparently strong regression evidence without an underlying relation.
+
 
 Keywords: Econometrics, Time Series, Spurious Regression, Random Walk, Non-stationarity, OLS, Simulation, ggplot2, R
 
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```

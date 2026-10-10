@@ -49,3 +49,9 @@ The script verifies the weight identities and checks the local linear intercept 
 Running the script also writes `session_info.txt` with package versions.
 
 The book prints the full R script for Figure 5.6, including its plotting commands. The code box links to this directory.
+
+## About this example
+
+Compare Nadaraya–Watson and local linear estimates near a support boundary using a known regression function. Repeated simulations distinguish systematic bias from variation in an individual fitted curve.
+
+Notes updated: 11 October 2026.

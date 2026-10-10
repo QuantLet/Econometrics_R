@@ -9,7 +9,8 @@ Name of Quantlet: CCAPM_GMM_Estimation_FRED_SP500
 
 Published in: Econometrics_R
 
-Description: Estimates a consumption-based asset-pricing model from the accompanying monthly data. It profiles the discount factor, compares unrestricted and bounded parameter estimates, and computes HAC standard errors and a Stock-Wright S profile with a parameter-dependent moment covariance.
+Description: Estimate a consumption-based asset-pricing model and compare unrestricted and bounded parameter estimates. Profile the discount factor and examine HAC inference and a Stock–Wright S profile with parameter-dependent moment covariance.
+
 
 
 Keywords: Econometrics, Asset Pricing, C-CAPM, GMM, Euler Equation, Over-Identifying Restrictions, J-Statistic, FRED, Real Consumption, Risk-Free Rate, S&P 500, Quantmod, gmm, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Asset Pricing, C-CAPM, GMM, Euler Equation, Over-Identif
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

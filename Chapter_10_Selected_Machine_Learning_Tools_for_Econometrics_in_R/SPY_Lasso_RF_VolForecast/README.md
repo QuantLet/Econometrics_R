@@ -9,7 +9,8 @@ Name of Quantlet: SPY_Lasso_RF_VolForecast
 
 Published in: Econometrics_R
 
-Description: Compares AR, GARCH, lasso and random-forest volatility forecasts using the accompanying 2020-2024 SPY adjusted-price data. It reports test-sample errors and plots realised volatility against the lasso forecast.
+Description: Compare AR, GARCH, lasso and random-forest forecasts on the same SPY sample. Evaluate errors on a later test period and compare the lasso forecasts with observed return magnitudes.
+
 
 
 Keywords: SPY, volatility, squared returns, GARCH, lasso, random forest, glmnet, rugarch, ranger, time-series cross-validation, machine learning, forecasting, R
@@ -17,6 +18,8 @@ Keywords: SPY, volatility, squared returns, GARCH, lasso, random forest, glmnet,
 Author: Jiajing Sun
 
 Submitted: 27 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

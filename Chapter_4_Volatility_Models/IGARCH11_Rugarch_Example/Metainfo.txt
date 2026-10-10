@@ -2,7 +2,8 @@ Name of Quantlet: IGARCH11_Rugarch_Example
 
 Published in: Econometrics_R
 
-Description: Fits an IGARCH(1,1) specification to simulated data with rugarch and reports the fitted conditional-volatility model.
+Description: Fit an integrated GARCH specification in rugarch and examine its variance recursion. Distinguish persistence of conditional variance from the existence of an unconditional second moment.
+
 
 
 Keywords: Econometrics, Financial Econometrics, Volatility, IGARCH, GARCH, rugarch, Time Series, R
@@ -10,3 +11,5 @@ Keywords: Econometrics, Financial Econometrics, Volatility, IGARCH, GARCH, rugar
 Author: Jiajing Sun
 
 Submitted: 1 May 2026
+
+Updated: 11 October 2026

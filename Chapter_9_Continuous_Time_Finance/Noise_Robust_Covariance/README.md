@@ -50,3 +50,9 @@ References:
 - Christensen, Kinnebrock and Podolskij (2010), Pre-averaging estimators of the
   ex-post covariance matrix in noisy diffusion models with non-synchronous data,
   https://doi.org/10.1016/j.jeconom.2010.05.001
+
+## About this example
+
+Compare two-scale and pre-averaging covariance estimates from simulated noisy log prices. Use the same finite-sample correction for TSX variances and covariances, and inspect eigenvalues before forming portfolio weights.
+
+Notes updated: 11 October 2026.

@@ -2,10 +2,13 @@ Name of Quantlet: R_Programming_Basics_Data_IO
 
 Published in: Econometrics_R
 
-Description: This consolidated R script collects the appendix's introductory R programming examples. It covers arithmetic, loops, apply-family functions, user-defined functions, common data structures, local file import patterns, subsetting, aggregation, object saving, CSV export, simple graphics with built-in datasets such as co2, mtcars, mdeaths, and iris, and probability-distribution simulation examples including the inverse c.d.f. method. File-dependent examples are kept as commented templates so the script remains directly runnable.
+Description: Work through the appendix examples on arithmetic, functions, simulation, data structures and data input. File-dependent commands are commented templates so that the remaining examples can run directly.
+
 
 Keywords: R Programming, Arithmetic, Loops, Functions, Data Structures, Data Import, Aggregation, Graphics, Probability Distributions, Inverse CDF, Reproducibility
 
 Author: Jiajing Sun
 
 Submitted: 1 May 2026
+
+Updated: 11 October 2026

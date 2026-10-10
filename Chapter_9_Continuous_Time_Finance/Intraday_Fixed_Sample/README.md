@@ -43,3 +43,9 @@ variance is unknown, so their difference is not an observed estimation error.
 The bundled `tsrv_result.txt` records the script's output.
 
 Book resources: https://econometricsandtimeseries.com/
+
+## About this example
+
+Read 43,581 trades in three assets from a public highfrequency sample. Synchronise prices on a ten-second grid and compare realised variance with two-scale realised variance for asset AAA.
+
+Notes updated: 11 October 2026.

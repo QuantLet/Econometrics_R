@@ -5,13 +5,16 @@ Name of Quantlet: Preaveraging_Covariance
 
 Published in: Econometrics_R
 
-Description: Implements the bias-corrected pre-averaging covariance estimator for synchronised log prices, using triangular weights and an explicit noise correction. Rows of the input matrix are observation times and columns are assets. The number of returns is one less than the number of price observations.
+Description: Implement pre-averaging with triangular weights and an explicit noise correction for synchronised log prices. Keep the number of returns distinct from the number of price observations.
+
 
 Keywords: Econometrics, R, Pre-averaging, Covariance, Microstructure Noise
 
 Author: Jiajing Sun
 
 Submitted: 9 October 2026
+
+Updated: 11 October 2026
 ```
 
 ## Running this example

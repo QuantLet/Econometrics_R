@@ -9,7 +9,8 @@ Name of Quantlet: mtcars_reg_diagnostics
 
 Published in: Econometrics_with_R
 
-Description: Fits a multiple regression to the mtcars data and examines residual diagnostics, influence, collinearity and correlation among numerical predictors.
+Description: Fit a multiple regression for fuel economy and examine functional form, heteroskedasticity, collinearity and influential observations. Compare what residual plots, formal tests and influence measures reveal about the same fitted model.
+
 
 
 Keywords: Econometrics, Multiple Regression, Regression Diagnostics, Multicollinearity, Heteroskedasticity, Robust Standard Errors, Ramsey RESET, Cook's Distance, Correlation Matrix, R, mtcars
@@ -17,6 +18,8 @@ Keywords: Econometrics, Multiple Regression, Regression Diagnostics, Multicollin
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 

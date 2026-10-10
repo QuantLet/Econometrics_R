@@ -112,3 +112,9 @@ The book prints the complete `REGION PLOT` block from [aersn_multivariate_infere
 ## Drawing the two decisions
 
 The book prints the complete `DECISION PLOT` block from [aersn_different_decisions.R](aersn_different_decisions.R). It uses the preceding `Y2`, `fit2`, `ref_h2`, `s2` and `n`. The two panels share the 100,000-draw reference distributions and axis limits. The block saves Figure 6.6 as PDF and PNG.
+
+## About this example
+
+Construct joint confidence regions and simultaneous contrast intervals with aersn, and compare them with Shao’s quadratic self-normalisation. Further examples examine regression slopes, different rejection decisions and repeated-sample size and power.
+
+Notes updated: 11 October 2026.

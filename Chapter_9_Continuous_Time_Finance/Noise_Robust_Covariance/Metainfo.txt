@@ -1,6 +1,9 @@
 Name of Quantlet: Noise_Robust_Covariance
 Published in: Econometrics_R
-Description: Implements common-grid two-scale realised covariance with one finite-sample factor for all entries, and bias-corrected and positive-semidefinite pre-averaging. Simulated examples verify algebraic properties and distinguish noise correction, positive semidefiniteness and invertibility.
+Description: Compare two-scale and pre-averaging covariance estimates from simulated noisy log prices. Use the same finite-sample correction for TSX variances and covariances, and inspect eigenvalues before forming portfolio weights.
+
 Keywords: realised covariance, TSX, pre-averaging, positive semidefiniteness, microstructure noise, portfolio allocation, R
 Author: Jiajing Sun
 See also: Intraday_Fixed_Sample, Preaveraging_Covariance
+
+Updated: 11 October 2026

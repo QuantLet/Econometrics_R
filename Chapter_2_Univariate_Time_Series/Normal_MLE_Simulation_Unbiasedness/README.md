@@ -9,7 +9,8 @@ Name of Quantlet: Normal_MLE_Simulation_Unbiasedness
 
 Published in: Econometrics_R
 
-Description: Simulates normal samples and examines the sampling distributions of the mean and standard-deviation maximum likelihood estimators. The variance MLE is compared with its finite-sample expectation, (n-1)/n times the population variance.
+Description: Repeat normal-sample estimation to examine the sampling distributions of the mean and standard-deviation MLEs. Compare the variance MLE with its finite-sample expectation, (n−1)/n times the population variance.
+
 
 
 Keywords: Econometrics, Maximum Likelihood, Normal Distribution, MLE, Unbiasedness, Monte Carlo Simulation, Sampling Distribution, ggplot2, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Maximum Likelihood, Normal Distribution, MLE, Unbiasedne
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

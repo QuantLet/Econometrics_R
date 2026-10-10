@@ -9,13 +9,16 @@ Name of Quantlet: Engel_FoodIncome_OLS
 
 Published in: Econometrics_R
 
-Description: This R script loads the Engel data set (household income and food expenditure), fits a simple OLS regression of food expenditure on household income, and displays the regression summary. It then uses ggplot2 to produce a scatter plot of food expenditure versus income with the fitted regression line overlaid, and saves the resulting figure as a 6 x 4 inch PNG file ("foodincome.png").
+Description: Estimate the relationship between household income and food expenditure by OLS. Read the fitted slope alongside the scatter plot to see how expenditure and its dispersion change with income.
+
 
 Keywords: Econometrics, Engel Curve, Linear Regression, OLS, Data Visualization, R, ggplot2, Food Expenditure, Income
 
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

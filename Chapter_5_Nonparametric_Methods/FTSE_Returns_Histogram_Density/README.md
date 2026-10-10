@@ -9,7 +9,8 @@ Name of Quantlet: FTSE_Returns_Histogram_Density
 
 Published in: Econometrics_R
 
-Description: Plots a histogram and kernel density estimate of daily FTSE log returns from the accompanying 2015-2024 closing-price snapshot. Missing differences are removed after returns have been calculated.
+Description: Compare a histogram and kernel density estimate of daily FTSE returns. Examine tail shape and bandwidth sensitivity rather than imposing a normal distribution.
+
 
 
 Keywords: Econometrics, Financial Econometrics, FTSE 100, Log Returns, Histogram, Kernel Density, Quantmod, ggplot2, Yahoo Finance, R
@@ -17,6 +18,8 @@ Keywords: Econometrics, Financial Econometrics, FTSE 100, Log Returns, Histogram
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">

@@ -2,7 +2,8 @@ Name of Quantlet: FRED_Lasso_IP_Forecast
 
 Published in: Econometrics_R
 
-Description: Forecasts monthly industrial-production growth using its own lags and lags of unemployment, inflation and the federal funds rate. Lasso and ridge penalties are selected with expanding-window validation. The accompanying FRED snapshots replace live API requests.
+Description: Forecast industrial-production growth from lagged macroeconomic predictors. Select penalties with expanding-window validation and compare forecasts on a later test sample.
+
 
 
 Keywords: Econometrics, Forecasting, Lasso, Ridge, Regularization, Industrial Production, Macroeconomic Data, FRED, glmnet, R
@@ -11,4 +12,6 @@ Author: Jiajing Sun
 
 Submitted: 22 November 2025
 
-Datafile: Monthly macroeconomic series retrieved via the FRED API
+Updated: 11 October 2026
+
+Datafile: Supplied INDPRO, UNRATE, CPIAUCSL and FEDFUNDS observations

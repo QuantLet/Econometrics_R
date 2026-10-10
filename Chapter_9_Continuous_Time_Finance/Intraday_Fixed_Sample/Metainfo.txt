@@ -1,7 +1,10 @@
 Name of Quantlet: Intraday_Fixed_Sample
 Published in: Econometrics_R
-Description: Reads a fixed public three-asset trade sample from highfrequency, synchronises prices on a ten-second grid and computes realised variance and the two-scale realised volatility estimator for asset AAA. Uses base R and needs no API key.
+Description: Read 43,581 trades in three assets from a public highfrequency sample. Synchronise prices on a ten-second grid and compare realised variance with two-scale realised variance for asset AAA.
+
 Keywords: high-frequency data, realised variance, TSRV, microstructure noise, preceding-trade interpolation, R
 Author: Jiajing Sun
 Datafile: sample_trades_20140917.csv, sample_trades_20140917.rds
-See also: HF_Realized_Volatility_AlphaVantage, TSRV_AlphaVantage
+See also: Noise_Robust_Covariance, Preaveraging_Covariance
+
+Updated: 11 October 2026

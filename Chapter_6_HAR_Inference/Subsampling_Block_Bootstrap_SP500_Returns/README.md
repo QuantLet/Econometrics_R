@@ -9,13 +9,16 @@ Name of Quantlet: Subsampling_Block_Bootstrap_SP500_Returns
 
 Published in: Econometrics_R
 
-Description: This R script illustrates subsampling and block bootstrap methods for inference on moments of S&P 500 daily returns. It reads GSPC_close_2000_2024.csv, a saved sample of Yahoo Finance closing prices for the S&P 500 index (^GSPC), and computes 6,287 simple daily returns. The two statistics are the mean return and the lag-1 autocorrelation of squared returns. The script prints the full-sample statistics and the resampling quantiles. For subsampling, it uses all T − b_sub + 1 overlapping windows of length b_sub, computes the statistic within each window, and forms the centered root √b_sub (stat_sub − stat_full). For the moving-block bootstrap, it draws enough blocks and truncates the concatenated series to exactly T observations, keeping the bootstrap root and sample length consistent. Histograms are produced with ggplot2, with the full-sample root √T · stat_full indicated as a vertical red line.
+Description: Estimate uncertainty for a mean return and the lag-one autocorrelation of squared returns. Compare overlapping subsamples with a moving-block bootstrap, keeping centring and sample-length scaling explicit.
+
 
 Keywords: Econometrics, Time Series, Subsampling, Block Bootstrap, Moving Blocks, Mean Return, Autocorrelation of Squared Returns, S&P 500, Daily Returns, Quantmod, ggplot2, R
 
 Author: Jiajing Sun
 
 Submitted: 22 November 2025
+
+Updated: 11 October 2026
 
 ```
 <div align="center">
