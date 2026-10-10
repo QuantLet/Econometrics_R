@@ -80,6 +80,8 @@ The null lies outside the adjusted-range polygon but inside Shao's ellipse. Both
 
 ## Rejection frequencies
 
+[Open the complete R script](aersn_decision_simulation.R). The book prints steps 1–6 immediately before the rejection-frequency table; step 7 in the downloadable script saves the results. The code reuses `ref_h2` and `ref_s2` from the preceding comparison. In a fresh session, run `aersn_different_decisions.R` first: the simulation then reads `decision_reference_draws.rds`. No new Brownian reference simulation is needed when those saved draws are available.
+
 `aersn_decision_simulation.R` evaluates every replication at three fixed means. Both methods use the same observations, and all three means share the same innovations within each replication. All 5,000 evaluation replications are retained.
 
 | Population mean | Brownian: adjusted range | Brownian: Shao | VAR-calibrated: adjusted range | VAR-calibrated: Shao |
