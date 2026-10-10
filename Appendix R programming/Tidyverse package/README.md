@@ -32,7 +32,7 @@ Submitted: 22 November 2025
 </div>
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Tidyverse%20package/mpg_coordinates.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Tidyverse%20package/mpg_coordinates.png" alt="Scatter plot of highway fuel efficiency against engine displacement in the mpg dataset. The horizontal axis spans 1 to 7 litres and the vertical axis 10 to 45 miles per gallon. Black points show individual vehicles. A red fitted straight line with a grey confidence band slopes downward, from about 30 miles per gallon for smaller engines to about 11 for the largest engines. The displayed coordinate limits focus the view on this range." />
 </div>
 
 <div align="center">

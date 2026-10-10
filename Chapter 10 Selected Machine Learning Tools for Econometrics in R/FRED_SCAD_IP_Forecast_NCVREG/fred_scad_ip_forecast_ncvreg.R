@@ -2,10 +2,9 @@
 ## 1. Prepare environment & (optionally) set working dir
 ## =====================================================
 
-# install.packages(c("fredr", "dplyr", "tidyr", "lubridate",
-#                    "purrr", "glmnet"))  # if needed
+# install.packages(c("dplyr", "tidyr", "lubridate",
+#                    "purrr", "glmnet", "ncvreg"))  # if needed
 
-library(fredr)
 library(dplyr)
 library(tidyr)
 library(lubridate)
@@ -14,15 +13,8 @@ library(glmnet)
 library(ncvreg)
 
 ## =====================================================
-## 2. Set up FRED API key and download macro series
+## 2. Read the accompanying FRED series
 ## =====================================================
-
-## Put your key in an environment variable FRED_API_KEY.
-fred_api_key <- Sys.getenv("FRED_API_KEY")
-if (!nzchar(fred_api_key)) {
-  stop("Please set the FRED_API_KEY environment variable before running this script.")
-}
-fredr_set_key(fred_api_key)
 
 ## We will forecast industrial production growth (INDPRO)
 ## using its own lags and lags of unemployment, inflation,
@@ -36,12 +28,10 @@ series_ids <- c(
 )
 
 get_series <- function(id, start_date = "1980-01-01", end_date = "2024-12-31") {
-  out <- fredr(
-    series_id         = id,
-    observation_start = as.Date(start_date),
-    observation_end   = as.Date(end_date)
-  ) %>%
-    select(date, value)
+  raw <- read.csv(paste0(id,".csv"),na.strings=c(".",""))
+  out <- data.frame(date=as.Date(raw[[1]]),value=raw[[2]])
+  out <- out[out$date >= as.Date(start_date) &
+             out$date <= as.Date(end_date), ]
   names(out)[names(out) == "value"] <- id
   out
 }
@@ -60,6 +50,7 @@ macro_raw <- purrr::reduce(
   by = "date"
 ) %>%
   dplyr::arrange(date)
+
 
 ## =====================================================
 ## 3. Construct growth rates and first differences

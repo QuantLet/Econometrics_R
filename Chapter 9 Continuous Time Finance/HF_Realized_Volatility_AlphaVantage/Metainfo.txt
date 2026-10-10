@@ -2,7 +2,7 @@ Name of Quantlet: HF_Realized_Volatility_AlphaVantage
 
 Published in: Econometrics_R
 
-Description: Simulates one trading day of latent log prices, measurement noise and an isolated bad quote. The figures compare observed returns and realised variance. All prices in this example are simulated; no market-data account is required.
+Description: Simulates one trading day of latent log prices, measurement noise and a single quote error of 0.12 log points, about 12.75% of the price. The figures show the two opposite return spikes caused by this error and compare realised variance across sampling intervals. The example uses simulated prices and needs no market-data account.
 
 
 Keywords: high-frequency data, realized volatility, log-returns, aggregation, market microstructure, simulation, R

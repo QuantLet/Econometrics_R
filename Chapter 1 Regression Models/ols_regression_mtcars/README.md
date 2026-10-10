@@ -17,5 +17,5 @@ Author: Jiajing Sun
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%201%20Regression%20Models/ols_regression_mtcars/ols-mtcars.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%201%20Regression%20Models/ols_regression_mtcars/ols-mtcars.png" alt="Scatter plot of the mtcars data, with car weight in thousands of pounds on the horizontal axis and miles per gallon on the vertical axis. Black dots represent individual cars. A blue fitted ordinary least squares regression line slopes downward, showing that miles per gallon tends to decrease as weight increases." />
 </div>

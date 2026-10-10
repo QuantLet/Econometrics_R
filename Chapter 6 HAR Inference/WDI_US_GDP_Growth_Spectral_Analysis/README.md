@@ -19,7 +19,7 @@ Submitted: 22 November 2025
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%206%20HAR%20Inference/WDI_US_GDP_Growth_Spectral_Analysis/wdi_annual_gdp_growth_spectrum.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%206%20HAR%20Inference/WDI_US_GDP_Growth_Spectral_Analysis/wdi_annual_gdp_growth_spectrum.png" alt="Line plot of the smoothed spectral density of US annual real GDP growth, with frequency in cycles per year on the horizontal axis. The orange-red curve has its largest peak near 0.172 cycles per year, a period of approximately 5.82 years. Smaller peaks and substantial spectral power extend across the rest of the frequency range." />
 </div>
 
 <div align="center">

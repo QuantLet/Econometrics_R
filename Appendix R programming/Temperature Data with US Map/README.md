@@ -23,7 +23,7 @@ Submitted: 1 May 2025
 </div>
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Temperature%20Data%20with%20US%20Map/US_Temperature_Map_2014.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Appendix%20R%20programming/Temperature%20Data%20with%20US%20Map/US_Temperature_Map_2014.png" alt="Map of the contiguous United States showing the 2014 annual mean of daily maximum temperature at one station near each state capital. Each state is coloured using its selected station’s value. White lines mark state boundaries. The colour scale below the map runs from dark purple for cooler values through magenta and orange to yellow for warmer values, from the low teens to just above 30 degrees Celsius. Northern states are generally cooler, southern states warmer, and Arizona has one of the highest values." />
 </div>
 
 

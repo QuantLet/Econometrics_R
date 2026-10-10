@@ -20,7 +20,7 @@ Submitted: 22 November 2025
 
 ```
 <div align="center">
-<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/ARMA11_Forecast_Simulation/forecast_result.png" alt="Image" />
+<img src="https://raw.githubusercontent.com/QuantLet/Econometrics_R/main/Chapter%202%20Univariate%20Time%20Series/ARMA11_Forecast_Simulation/forecast_result.png" alt="Forecasts from an ARMA(1,1) model, with time on the horizontal axis and the series value on the vertical axis. The black line shows 200 observations fluctuating around zero. The blue forecast mean quickly approaches zero over the next 20 periods. Dark-blue and light-blue shading show the pointwise 80% and 95% prediction intervals, respectively. Their widths settle rapidly as the forecast horizon increases." />
 </div>
 
 ## Running this example
